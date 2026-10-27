@@ -1,0 +1,56 @@
+services:
+  mongo:
+    image: mongo:8.3.13
+    container_name: ens-mongo
+    command: ["--replSet", "rs0", "--bind_ip_all"]
+    environment:
+      TZ: America/Cuiaba
+    ports:
+      - "27017:27017"
+    volumes:
+      - ens-mongo-data:/data/db
+    healthcheck:
+      test: >
+        mongosh --quiet --eval
+        "try { rs.status().ok } catch (e) { rs.initiate({_id:'rs0',members:[{_id:0,host:'mongo:27017'}]}).ok }"
+      interval: 5s
+      timeout: 10s
+      retries: 20
+      start_period: 5s
+    networks:
+      - containers
+
+  backend:
+    build:
+      context: ./backend
+    container_name: ens-backend
+    environment:
+      TZ: America/Cuiaba
+      MONGODB_URI: mongodb://mongo:27017/ens?replicaSet=rs0
+    ports:
+      - "8080:8080"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - containers
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: ens-frontend
+    environment:
+      TZ: America/Cuiaba
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    networks:
+      - containers
+
+volumes:
+  ens-mongo-data:
+
+networks:
+  containers:
+    external: true

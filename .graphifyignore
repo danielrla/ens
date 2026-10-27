@@ -1,0 +1,26 @@
+# Privacidade e Uso Pessoal
+anotacoes.txt
+*.personal
+*.secret
+
+# Dependências e Artefatos de Compilação
+backend/target/
+**/target/**
+frontend/node_modules/
+**/node_modules/**
+frontend/dist/
+**/dist/**
+frontend/.angular/
+**/.angular/**
+.npm/
+
+# Controle de Versão, Agentes e Metadados
+.git/
+.agents/
+graphify-out/
+.graphify/
+202[0-9]-*/
+
+# Logs e Arquivos do Sistema Operacional
+*.log
+.DS_Store

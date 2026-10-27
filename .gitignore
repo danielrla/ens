@@ -1,0 +1,64 @@
+# Arquivos Pessoais e Segredos
+anotacoes.txt
+*.personal
+*.secret
+.env
+.env.local
+.env.*.local
+
+# Sistema Operacional
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+
+# IDEs e Editores
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+*.swp
+*.swo
+*~
+
+# Logs, Dumps e Diagnósticos
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.dump
+*.hprof
+hs_err_pid*
+
+# Dependências e Cache Global
+.npm/
+.pnpm-store/
+.yarn/cache/
+
+# Backend (Java / Maven / Spring Boot)
+backend/target/
+**/target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Frontend (Angular / Node)
+frontend/node_modules/
+**/node_modules/
+frontend/dist/
+**/dist/
+frontend/.angular/
+**/.angular/
+.angular-config.json
+
+# Graphify e Artefatos Gerados
+graphify-out/
+.graphify/
+202[0-9]-*/

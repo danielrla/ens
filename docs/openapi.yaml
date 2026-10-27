@@ -1,0 +1,1071 @@
+openapi: 3.0.3
+info:
+  title: API ENS - Gestão das Equipes de Nossa Senhora
+  version: 0.1.0
+servers:
+  - url: /api
+security:
+  - bearerAuth: []
+tags:
+  - name: auth
+  - name: estrutura
+  - name: equipes
+  - name: casais
+  - name: sce
+  - name: mandatos
+  - name: vida-equipe
+paths:
+  /auth/login:
+    post:
+      tags: [auth]
+      security: []
+      summary: Autentica e retorna access e refresh token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/LoginRequest' }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TokenResponse' }
+  /auth/refresh:
+    post:
+      tags: [auth]
+      security: []
+      summary: Renova o access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refreshToken]
+              properties:
+                refreshToken: { type: string }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TokenResponse' }
+  /auth/me:
+    get:
+      tags: [auth]
+      summary: Usuário logado e escopo territorial
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UsuarioLogado' }
+  /estrutura:
+    post:
+      tags: [estrutura]
+      summary: Cria nó na estrutura hierárquica territorial
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/NoEstruturaRequest' }
+      responses:
+        '201':
+          description: Criado com sucesso
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/NoEstrutura' }
+  /estrutura/detalhe/{id}:
+    get:
+      tags: [estrutura]
+      summary: Consulta detalhes de um nó por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/NoEstrutura' }
+  /estrutura/{id}:
+    put:
+      tags: [estrutura]
+      summary: Atualiza um nó existente na estrutura hierárquica
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/NoEstruturaRequest' }
+      responses:
+        '200':
+          description: Atualizado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/NoEstrutura' }
+    delete:
+      tags: [estrutura]
+      summary: Exclui um nó da estrutura (bloqueado se houver filhos ou equipes subordinadas)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '204':
+          description: Excluído com sucesso
+  /estrutura/{nivel}:
+    get:
+      tags: [estrutura]
+      summary: Lista nós de um nível, filtrados pelo pai (cascata) e pelo escopo do usuário
+      parameters:
+        - name: nivel
+          in: path
+          required: true
+          schema: { $ref: '#/components/schemas/NivelEstrutura' }
+        - name: paiId
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/NoEstrutura' }
+  /estrutura/arvore:
+    get:
+      tags: [estrutura]
+      summary: Árvore expansível (Tree View) dentro do escopo do usuário
+      parameters:
+        - name: raizId
+          in: query
+          schema: { type: string }
+        - name: nivel
+          in: query
+          schema: { $ref: '#/components/schemas/NivelEstrutura' }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/NoArvore' }
+  /equipes:
+    get:
+      tags: [equipes]
+      summary: Lista equipes com filtros estruturais em cascata
+      parameters:
+        - { name: superRegiaoId, in: query, schema: { type: string } }
+        - { name: provinciaId, in: query, schema: { type: string } }
+        - { name: regiaoId, in: query, schema: { type: string } }
+        - { name: setorId, in: query, schema: { type: string } }
+        - { name: equipeId, in: query, schema: { type: string } }
+        - { name: status, in: query, schema: { $ref: '#/components/schemas/StatusEquipe' } }
+        - { name: situacaoMandato, in: query, schema: { $ref: '#/components/schemas/SituacaoMandato' } }
+        - { name: casalLigacaoId, in: query, schema: { type: string } }
+        - { name: sce, in: query, description: Nome do SCE, schema: { type: string } }
+        - { name: page, in: query, schema: { type: integer, default: 0 } }
+        - { name: size, in: query, schema: { type: integer, default: 20 } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PageEquipeResumo' }
+    post:
+      tags: [equipes]
+      summary: Cria equipe
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EquipeRequest' }
+      responses:
+        '201':
+          description: Criada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EquipeDetalhe' }
+  /equipes/{id}:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string } }
+    get:
+      tags: [equipes]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EquipeDetalhe' }
+    put:
+      tags: [equipes]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EquipeRequest' }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EquipeDetalhe' }
+  /equipes/{id}/arquivar:
+    post:
+      tags: [equipes]
+      summary: Arquiva equipe inativa preservando histórico
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '204': { description: Arquivada }
+  /equipes/{id}/vinculos:
+    put:
+      tags: [equipes]
+      summary: Atualiza casais vinculados e papéis
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items: { $ref: '#/components/schemas/VinculoRequest' }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EquipeDetalhe' }
+  /casais:
+    get:
+      tags: [casais]
+      parameters:
+        - { name: busca, in: query, description: Nome ou telefone, schema: { type: string } }
+        - { name: status, in: query, schema: { $ref: '#/components/schemas/StatusCasal' } }
+        - { name: equipeId, in: query, schema: { type: string } }
+        - { name: setorId, in: query, schema: { type: string } }
+        - { name: regiaoId, in: query, schema: { type: string } }
+        - { name: provinciaId, in: query, schema: { type: string } }
+        - { name: page, in: query, schema: { type: integer, default: 0 } }
+        - { name: size, in: query, schema: { type: integer, default: 20 } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PageCasal' }
+    post:
+      tags: [casais]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CasalRequest' }
+      responses:
+        '201':
+          description: Criado
+          content:
+            application/json:
+  /casais/perfil:
+    get:
+      tags: [casais]
+      summary: Consulta perfil do casal logado
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CasalDto' }
+    put:
+      tags: [casais]
+      summary: Atualiza perfil do casal logado
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CasalRequest' }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CasalDto' }
+  /casais/{id}:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string } }
+    get:
+      tags: [casais]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CasalDto' }
+    put:
+      tags: [casais]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CasalRequest' }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CasalDto' }
+  /casais/{id}/inativar:
+    post:
+      tags: [casais]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/InativacaoRequest' }
+      responses:
+        '204': { description: Inativado }
+  /casais/{id}/transferir:
+    post:
+      tags: [casais]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/TransferenciaRequest' }
+      responses:
+        '204': { description: Transferido }
+  /sce:
+    get:
+      tags: [sce]
+      parameters:
+        - { name: busca, in: query, schema: { type: string } }
+        - { name: page, in: query, schema: { type: integer, default: 0 } }
+        - { name: size, in: query, schema: { type: integer, default: 20 } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PageSce' }
+    post:
+      tags: [sce]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SceRequest' }
+      responses:
+        '201':
+          description: Criado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SceDto' }
+  /sce/{id}:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string } }
+    get:
+      tags: [sce]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SceDto' }
+    put:
+      tags: [sce]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SceRequest' }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SceDto' }
+  /sce/{id}/inativar:
+    post:
+      tags: [sce]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/InativacaoRequest' }
+      responses:
+        '204': { description: Inativado }
+  /mandatos:
+    get:
+      tags: [mandatos]
+      parameters:
+        - { name: funcao, in: query, schema: { $ref: '#/components/schemas/FuncaoMandato' } }
+        - { name: status, in: query, schema: { $ref: '#/components/schemas/StatusMandato' } }
+        - { name: nivelInstancia, in: query, schema: { $ref: '#/components/schemas/NivelInstancia' } }
+        - { name: instanciaId, in: query, schema: { type: string } }
+        - { name: alerta, in: query, schema: { $ref: '#/components/schemas/AlertaMandato' } }
+        - { name: page, in: query, schema: { type: integer, default: 0 } }
+        - { name: size, in: query, schema: { type: integer, default: 20 } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PageMandato' }
+    post:
+      tags: [mandatos]
+      summary: Cria mandato e encerra o anterior da mesma instância e função como Concluído (transação)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MandatoRequest' }
+      responses:
+        '201':
+          description: Criado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MandatoDto' }
+  /mandatos/prazo-sugerido:
+    get:
+      tags: [mandatos]
+      summary: Data final sugerida conforme prazo estatutário da função
+      parameters:
+        - { name: funcao, in: query, required: true, schema: { $ref: '#/components/schemas/FuncaoMandato' } }
+        - { name: dataInicio, in: query, required: true, schema: { type: string, format: date } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dataPrevistaTermino: { type: string, format: date }
+  /mandatos/{id}/interromper:
+    post:
+      tags: [mandatos]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [motivo]
+              properties:
+                motivo: { type: string }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MandatoDto' }
+  /equipes/{id}/avisos:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string } }
+    get:
+      tags: [vida-equipe]
+      summary: Avisos da equipe e oficiais do Setor ou Super-Região
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/AvisoDto' }
+    post:
+      tags: [vida-equipe]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AvisoRequest' }
+      responses:
+        '201':
+          description: Criado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AvisoDto' }
+  /equipes/{id}/agenda:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string } }
+      - { name: ano, in: query, schema: { type: integer } }
+    get:
+      tags: [vida-equipe]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/ReuniaoDto' }
+    post:
+      tags: [vida-equipe]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ReuniaoRequest' }
+      responses:
+        '201':
+          description: Criada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ReuniaoDto' }
+  /equipes/{id}/agenda.ics:
+    get:
+      tags: [vida-equipe]
+      summary: Exporta agenda em formato iCalendar
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: OK
+          content:
+            text/calendar:
+              schema: { type: string }
+  /equipes/{id}/agenda/{reuniaoId}/lembrete:
+    get:
+      tags: [vida-equipe]
+      summary: Retorna link wa.me com mensagem pronta e rota de mapa
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+        - { name: reuniaoId, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensagem: { type: string }
+                  links:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        casalId: { type: string }
+                        urlWhatsapp: { type: string }
+  /equipes/{id}/fotos:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string } }
+    get:
+      tags: [vida-equipe]
+      parameters:
+        - { name: anoPastoral, in: query, schema: { type: string } }
+        - { name: categoria, in: query, schema: { $ref: '#/components/schemas/CategoriaFoto' } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/FotoDto' }
+    post:
+      tags: [vida-equipe]
+      summary: Upload multipart com compressão no servidor
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [arquivo, categoria]
+              properties:
+                arquivo: { type: string, format: binary }
+                categoria: { $ref: '#/components/schemas/CategoriaFoto' }
+                legenda: { type: string }
+                data: { type: string, format: date }
+      responses:
+        '201':
+          description: Criada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/FotoDto' }
+  /mural/meu-mural:
+    get:
+      tags: [vida-equipe]
+      summary: Lista momentos do mural de bordo da equipe do casal autenticado
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/MomentoMuralDto' }
+    post:
+      tags: [vida-equipe]
+      summary: Registra novo momento no mural da equipe do casal autenticado
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MomentoMuralRequest' }
+      responses:
+        '201':
+          description: Criado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MomentoMuralDto' }
+  /equipes/{id}/mural:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string } }
+    get:
+      tags: [vida-equipe]
+      summary: Lista momentos do mural de bordo da equipe
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/MomentoMuralDto' }
+    post:
+      tags: [vida-equipe]
+      summary: Registra novo momento no mural de bordo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MomentoMuralRequest' }
+      responses:
+        '201':
+          description: Criado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MomentoMuralDto' }
+  /mural/{id}:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string } }
+    put:
+      tags: [vida-equipe]
+      summary: Atualiza momento do mural de bordo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MomentoMuralRequest' }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MomentoMuralDto' }
+    delete:
+      tags: [vida-equipe]
+      summary: Exclui momento do mural de bordo
+      responses:
+        '204':
+          description: Excluído com sucesso
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    # ---------- Enums ----------
+    NivelEstrutura:
+      type: string
+      enum: [SUPER_REGIAO, PROVINCIA, REGIAO, SETOR, EQUIPE]
+    NivelInstancia:
+      type: string
+      enum: [EQUIPE, SETOR, REGIAO, PROVINCIA, SUPER_REGIAO, INTERNACIONAL]
+    StatusEquipe:
+      type: string
+      enum: [ATIVA, EM_PILOTAGEM, EM_REESTRUTURACAO, INATIVA]
+    SituacaoMandato:
+      type: string
+      enum: [VIGENTE_REGULAR, EM_FASE_SUCESSAO, EXPIRADO]
+    StatusCasal:
+      type: string
+      enum: [ATIVO, EM_PILOTAGEM, LICENCIADO, EMERITO, INATIVO]
+    PapelVinculo:
+      type: string
+      enum: [MEMBRO, CRE]
+    FuncaoMandato:
+      type: string
+      description: Prazo estatutário em anos CRE=1, CL=1 a 3, CRS=3, CRR=4, CRP=5, CRSR=5, ERI=6
+      enum: [CRE, CL, CRS, CRR, CRP, CRSR, ERI]
+    StatusMandato:
+      type: string
+      enum: [VIGENTE, CONCLUIDO, INTERROMPIDO_ANTECIPADAMENTE]
+    AlertaMandato:
+      type: string
+      description: DOURADO 90 a 60 dias, LARANJA até 30 dias, VERMELHO vencido sem sucessor
+      enum: [NENHUM, DOURADO, LARANJA, VERMELHO]
+    Perfil:
+      type: string
+      enum: [MEMBRO, CRE, CL, CRS, CRR, CRP, CRSR, ADMIN]
+    TituloSce:
+      type: string
+      enum: [PADRE, DIACONO, BISPO, RELIGIOSO, RELIGIOSA]
+    CategoriaFoto:
+      type: string
+      enum: [REUNIAO_MENSAL, RETIRO_ANUAL, MISSA_SETOR, CONFRATERNIZACAO, ORACAO, BODAS, OUTRO]
+    # ---------- Comuns ----------
+    Page:
+      type: object
+      properties:
+        page: { type: integer }
+        size: { type: integer }
+        totalElements: { type: integer, format: int64 }
+        totalPages: { type: integer }
+    NoEstruturaRequest:
+      type: object
+      required: [nome, nivel]
+      properties:
+        nome: { type: string }
+        nivel: { $ref: '#/components/schemas/NivelEstrutura' }
+        paiId: { type: string }
+    NoEstrutura:
+      type: object
+      properties:
+        id: { type: string }
+        nome: { type: string }
+        nivel: { $ref: '#/components/schemas/NivelEstrutura' }
+        paiId: { type: string }
+    NoArvore:
+      allOf:
+        - $ref: '#/components/schemas/NoEstrutura'
+        - type: object
+          properties:
+            totalFilhos: { type: integer }
+            filhos:
+              type: array
+              items: { $ref: '#/components/schemas/NoArvore' }
+    Endereco:
+      type: object
+      properties:
+        logradouro: { type: string }
+        numero: { type: string }
+        complemento: { type: string }
+        bairro: { type: string }
+        cidade: { type: string }
+        uf: { type: string, maxLength: 2 }
+        cep: { type: string }
+        latitude: { type: number, format: double }
+        longitude: { type: number, format: double }
+    Pessoa:
+      type: object
+      required: [nomeCompleto, cpf]
+      properties:
+        nomeCompleto: { type: string }
+        cpf: { type: string, description: Cifrado em repouso }
+        email: { type: string, format: email }
+        celular: { type: string }
+        dataNascimento: { type: string, format: date }
+        profissao: { type: string }
+    # ---------- Auth ----------
+    LoginRequest:
+      type: object
+      required: [email, senha]
+      properties:
+        email: { type: string, format: email }
+        senha: { type: string, format: password }
+    TokenResponse:
+      type: object
+      properties:
+        accessToken: { type: string }
+        refreshToken: { type: string }
+        expiresIn: { type: integer }
+    UsuarioLogado:
+      type: object
+      properties:
+        id: { type: string }
+        nome: { type: string }
+        perfil: { $ref: '#/components/schemas/Perfil' }
+        casalId: { type: string }
+        equipeId: { type: string }
+        escopoNivel: { $ref: '#/components/schemas/NivelEstrutura' }
+        escopoId: { type: string }
+        equipesAcompanhadas:
+          type: array
+          description: Preenchido para CL
+          items: { type: string }
+    # ---------- Equipes ----------
+    EquipeResumo:
+      type: object
+      properties:
+        id: { type: string }
+        numero: { type: integer }
+        nomeDevocao: { type: string }
+        status: { $ref: '#/components/schemas/StatusEquipe' }
+        superRegiao: { $ref: '#/components/schemas/NoEstrutura' }
+        provincia: { $ref: '#/components/schemas/NoEstrutura' }
+        regiao: { $ref: '#/components/schemas/NoEstrutura' }
+        setor: { $ref: '#/components/schemas/NoEstrutura' }
+        nomeSce: { type: string }
+        cre: { type: string }
+        situacaoMandatoCre: { $ref: '#/components/schemas/SituacaoMandato' }
+        alertaMandato: { $ref: '#/components/schemas/AlertaMandato' }
+        totalCasais: { type: integer }
+        estado: { type: string, example: "MT" }
+        municipio: { type: string, example: "Cuiabá" }
+    PageEquipeResumo:
+      allOf:
+        - $ref: '#/components/schemas/Page'
+        - type: object
+          properties:
+            content:
+              type: array
+              items: { $ref: '#/components/schemas/EquipeResumo' }
+    EquipeRequest:
+      type: object
+      required: [numero, superRegiaoId, provinciaId, regiaoId, setorId]
+      properties:
+        numero: { type: integer }
+        nomeDevocao: { type: string }
+        superRegiaoId: { type: string }
+        provinciaId: { type: string }
+        regiaoId: { type: string }
+        setorId: { type: string }
+        dataFundacao: { type: string, format: date }
+        dataTerminoPilotagem: { type: string, format: date }
+        status: { $ref: '#/components/schemas/StatusEquipe' }
+        sceId: { type: string }
+        estado: { type: string, example: "MT" }
+        municipio: { type: string, example: "Cuiabá" }
+        temaEstudoAno: { type: string, example: "O Matrimônio como Vocação à Santidade" }
+    EquipeDetalhe:
+      allOf:
+        - $ref: '#/components/schemas/EquipeResumo'
+        - type: object
+          properties:
+            dataFundacao: { type: string, format: date }
+            dataTerminoPilotagem: { type: string, format: date }
+            temaEstudoAno: { type: string }
+            sce: { $ref: '#/components/schemas/SceDto' }
+            vinculos:
+              type: array
+              items: { $ref: '#/components/schemas/VinculoDto' }
+    VinculoRequest:
+      type: object
+      required: [casalId, papel]
+      properties:
+        casalId: { type: string }
+        papel: { $ref: '#/components/schemas/PapelVinculo' }
+    VinculoDto:
+      type: object
+      properties:
+        casalId: { type: string }
+        nomeCasal: { type: string }
+        papel: { $ref: '#/components/schemas/PapelVinculo' }
+        desde: { type: string, format: date }
+    Filho:
+      type: object
+      required: [nome]
+      properties:
+        nome: { type: string }
+        dataNascimento: { type: string, format: date }
+        idade: { type: integer, readOnly: true }
+        fotoUrl: { type: string }
+    # ---------- Casais e SCE ----------
+    CasalRequest:
+      type: object
+      required: [esposo, esposa]
+      properties:
+        esposo: { $ref: '#/components/schemas/Pessoa' }
+        esposa: { $ref: '#/components/schemas/Pessoa' }
+        dataMatrimonio: { type: string, format: date }
+        paroquiaCasamento: { type: string }
+        recebeCartaMensal: { type: string, description: 'Ex: SIM, NÃO, NO GRUPO POR PDF' }
+        endereco: { $ref: '#/components/schemas/Endereco' }
+        status: { $ref: '#/components/schemas/StatusCasal' }
+        equipeId: { type: string }
+        filhos:
+          type: array
+          items: { $ref: '#/components/schemas/Filho' }
+    CasalDto:
+      allOf:
+        - $ref: '#/components/schemas/CasalRequest'
+        - type: object
+          properties:
+            id: { type: string }
+            fotoUrl: { type: string }
+            motivoInativacao: { type: string }
+    PageCasal:
+      allOf:
+        - $ref: '#/components/schemas/Page'
+        - type: object
+          properties:
+            content:
+              type: array
+              items: { $ref: '#/components/schemas/CasalDto' }
+    SceRequest:
+      type: object
+      required: [nomeCompleto, titulo]
+      properties:
+        nomeCompleto: { type: string }
+        titulo: { $ref: '#/components/schemas/TituloSce' }
+        dioceseCongregacao: { type: string }
+        paroquia: { type: string }
+        telefones:
+          type: array
+          items: { type: string }
+        email: { type: string, format: email }
+    SceDto:
+      allOf:
+        - $ref: '#/components/schemas/SceRequest'
+        - type: object
+          properties:
+            id: { type: string }
+            ativo: { type: boolean }
+            motivoInativacao: { type: string }
+    PageSce:
+      allOf:
+        - $ref: '#/components/schemas/Page'
+        - type: object
+          properties:
+            content:
+              type: array
+              items: { $ref: '#/components/schemas/SceDto' }
+    InativacaoRequest:
+      type: object
+      required: [motivo]
+      properties:
+        motivo: { type: string }
+    TransferenciaRequest:
+      type: object
+      required: [equipeDestinoId]
+      properties:
+        equipeDestinoId: { type: string }
+        papel: { $ref: '#/components/schemas/PapelVinculo' }
+        dataEfetiva: { type: string, format: date }
+    # ---------- Mandatos ----------
+    MandatoRequest:
+      type: object
+      required: [funcao, nivelInstancia, instanciaId, dataInicio]
+      properties:
+        casalId: { type: string }
+        sceId: { type: string }
+        funcao: { $ref: '#/components/schemas/FuncaoMandato' }
+        nivelInstancia: { $ref: '#/components/schemas/NivelInstancia' }
+        instanciaId: { type: string }
+        dataInicio: { type: string, format: date }
+        dataPrevistaTermino: { type: string, format: date, description: Sugerida pelo prazo estatutário se omitida }
+        observacoes: { type: string }
+    MandatoDto:
+      allOf:
+        - $ref: '#/components/schemas/MandatoRequest'
+        - type: object
+          properties:
+            id: { type: string }
+            nomeResponsavel: { type: string }
+            nomeInstancia: { type: string }
+            dataEncerramentoEfetivo: { type: string, format: date }
+            status: { $ref: '#/components/schemas/StatusMandato' }
+            alerta: { $ref: '#/components/schemas/AlertaMandato' }
+            diasParaTermino: { type: integer }
+    PageMandato:
+      allOf:
+        - $ref: '#/components/schemas/Page'
+        - type: object
+          properties:
+            content:
+              type: array
+              items: { $ref: '#/components/schemas/MandatoDto' }
+    # ---------- Vida da Equipe ----------
+    AvisoRequest:
+      type: object
+      required: [titulo, texto]
+      properties:
+        titulo: { type: string }
+        texto: { type: string }
+    AvisoDto:
+      allOf:
+        - $ref: '#/components/schemas/AvisoRequest'
+        - type: object
+          properties:
+            id: { type: string }
+            origem:
+              type: string
+              enum: [EQUIPE, SETOR, SUPER_REGIAO]
+            autor: { type: string }
+            criadoEm: { type: string, format: date-time }
+    TipoReuniao:
+      type: string
+      enum: [FORMAL, INFORMAL]
+    ReuniaoRequest:
+      type: object
+      required: [data, horario]
+      properties:
+        data: { type: string, format: date }
+        horario: { type: string, example: '20:00' }
+        tipo: { $ref: '#/components/schemas/TipoReuniao', default: FORMAL }
+        casalAnimadorId: { type: string }
+        local: { type: string }
+        casalAnfitriaoId: { type: string }
+        casalOracaoId: { type: string }
+        tema: { type: string }
+    ReuniaoDto:
+      allOf:
+        - $ref: '#/components/schemas/ReuniaoRequest'
+        - type: object
+          properties:
+            id: { type: string }
+            nomeCasalAnimador: { type: string }
+            enderecoAnfitriao: { $ref: '#/components/schemas/Endereco' }
+    FotoDto:
+      type: object
+      properties:
+        id: { type: string }
+        url: { type: string }
+        categoria: { $ref: '#/components/schemas/CategoriaFoto' }
+        anoPastoral: { type: string }
+        legenda: { type: string }
+        data: { type: string, format: date }
+    MomentoMuralRequest:
+      type: object
+      required: [titulo, data]
+      properties:
+        titulo: { type: string }
+        data: { type: string, format: date }
+        categoria: { type: string }
+        descricao: { type: string }
+        fotos:
+          type: array
+          items: { type: string }
+        autorCasalId: { type: string }
+        autorNome: { type: string }
+    MomentoMuralDto:
+      allOf:
+        - $ref: '#/components/schemas/MomentoMuralRequest'
+        - type: object
+          properties:
+            id: { type: string }
+            equipeId: { type: string }
+            criadoEm: { type: string, format: date-time }
+    Erro:
+      type: object
+      properties:
+        codigo: { type: string }
+        mensagem: { type: string }
+        campos:
+          type: object
+          additionalProperties: { type: string }

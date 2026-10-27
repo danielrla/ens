@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: ens-backend
+  mongodb:
+    uri: ${MONGODB_URI:mongodb://localhost:27017/ens?replicaSet=rs0}
+  data:
+    mongodb:
+      auto-index-creation: true
+  jackson:
+    time-zone: America/Cuiaba
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health

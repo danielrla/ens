@@ -33,6 +33,8 @@ public class MomentoMural {
 
     private LocalDateTime criadoEm;
 
+    private String googleDriveFileId;
+
     public MomentoMural() {
     }
 
@@ -129,5 +131,13 @@ public class MomentoMural {
 
     public void setCriadoEm(LocalDateTime criadoEm) {
         this.criadoEm = criadoEm;
+    }
+
+    public String getGoogleDriveFileId() {
+        return googleDriveFileId;
+    }
+
+    public void setGoogleDriveFileId(String googleDriveFileId) {
+        this.googleDriveFileId = googleDriveFileId;
     }
 }

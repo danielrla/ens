@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface ReuniaoRepository extends MongoRepository<Reuniao, String> {
 
     List<Reuniao> findByEquipeIdOrderByDataDesc(String equipeId);
+
+    List<Reuniao> findByData(java.time.LocalDate data);
 }

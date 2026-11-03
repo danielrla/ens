@@ -24,6 +24,8 @@ services:
     build:
       context: ./backend
     container_name: ens-backend
+    env_file:
+      - .env
     environment:
       TZ: America/Cuiaba
       MONGODB_URI: mongodb://mongo:27017/ens?replicaSet=rs0

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LayoutService } from '../layout.service';
 import { CasalService } from '../../core/casal.service';
-import { AuthService } from '../../core/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -123,7 +122,7 @@ import { AuthService } from '../../core/auth.service';
                 👤 Meu Perfil e Dados do Casal
               </button>
               <hr class="divisor" />
-              <button type="button" class="drop-item item-sair" (click)="sair()">🚪 Sair do Sistema</button>
+              <button type="button" class="drop-item item-sair">🚪 Sair do Sistema</button>
             </div>
           }
         </div>
@@ -404,7 +403,6 @@ import { AuthService } from '../../core/auth.service';
 export class Header {
   private readonly layoutService = inject(LayoutService);
   private readonly casalService = inject(CasalService);
-  private readonly authService = inject(AuthService);
 
   protected readonly breadcrumbs = this.layoutService.breadcrumbs;
   protected readonly anoPastoral = this.layoutService.anoPastoral;
@@ -413,7 +411,6 @@ export class Header {
   protected readonly perfilAberto = signal<boolean>(false);
   protected readonly alertas = signal<string[]>([]);
   protected readonly casal = this.casalService.casalLogado;
-  protected readonly usuario = this.authService.usuarioAtual;
 
   constructor() {
     this.casalService.obterPerfil().subscribe({
@@ -424,14 +421,6 @@ export class Header {
   }
 
   obterIniciais(): string {
-    const u = this.usuario();
-    if (u?.nome) {
-      const partes = u.nome.trim().split(' ');
-      if (partes.length >= 2) {
-        return (partes[0].charAt(0) + partes[partes.length - 1].charAt(0)).toUpperCase();
-      }
-      return u.nome.substring(0, 2).toUpperCase();
-    }
     const c = this.casal();
     if (!c) return 'AD';
     const esp = c.esposo?.nomeCompleto?.trim().charAt(0) || '';
@@ -440,39 +429,22 @@ export class Header {
   }
 
   obterNomesResumidos(): string {
-    const u = this.usuario();
-    if (u?.nome) {
-      return u.nome;
-    }
     const c = this.casal();
-    if (!c) return 'Usuário ENS';
+    if (!c) return 'Aline & Daniel';
     const espPrimeiro = c.esposo?.nomeCompleto?.trim().split(' ')[0] || 'Esposo';
     const espaPrimeiro = c.esposa?.nomeCompleto?.trim().split(' ')[0] || 'Esposa';
     return `${espaPrimeiro} & ${espPrimeiro}`;
   }
 
   obterNomesCompletos(): string {
-    const u = this.usuario();
-    if (u?.nome) {
-      return u.nome;
-    }
     const c = this.casal();
-    if (!c) return 'Usuário ENS';
+    if (!c) return 'Daniel Rios & Aline Freire';
     return `${c.esposo?.nomeCompleto || ''} & ${c.esposa?.nomeCompleto || ''}`;
   }
 
   obterDescricaoEquipe(): string {
-    const u = this.usuario();
-    if (u?.perfis && u.perfis.length > 0) {
-      return u.perfis.join(', ');
-    }
     const c = this.casal();
-    return c?.nomeEquipe || 'Membro da Equipe';
-  }
-
-  sair(): void {
-    this.perfilAberto.set(false);
-    this.authService.logout();
+    return c?.nomeEquipe || 'Membro • Equipe Aparecida';
   }
 
   toggleSidebar(): void {

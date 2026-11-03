@@ -18,7 +18,7 @@ export interface PresencaDetalheDto {
   observacao?: string;
 }
 
-export type TipoReuniao = 'FORMAL' | 'INFORMAL' | 'OUTROS';
+export type TipoReuniao = 'FORMAL' | 'INFORMAL';
 
 export interface ReuniaoRequest {
   data: string;

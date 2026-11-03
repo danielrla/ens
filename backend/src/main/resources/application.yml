@@ -9,18 +9,6 @@ spring:
   jackson:
     time-zone: America/Cuiaba
 
-integracoes:
-  google:
-    client-id: ${GOOGLE_CLIENT_ID:${client-id:}}
-    client-secret: ${GOOGLE_CLIENT_SECRET:${client-secret:}}
-    redirect-uri: ${GOOGLE_REDIRECT_URI:${redirect-uri:http://localhost:4200/admin/integracao/callback}}
-    encryption-key: ${GOOGLE_TOKEN_ENCRYPTION_KEY:ens-chave-secreta-aes-gcm-256-bit!}
-
-seguranca:
-  jwt:
-    secret: ${JWT_SECRET:ens-super-secret-key-jwt-antigravity-2026-cuiaba-token-32b!}
-    expiracao-horas: 24
-
 server:
   port: 8080
   servlet:

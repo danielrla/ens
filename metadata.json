@@ -1,0 +1,8 @@
+{
+  "name": "ENS - Gestão das Equipes de Nossa Senhora",
+  "description": "Sistema de gestão da estrutura, mandatos, casais, reuniões e vida das Equipes de Nossa Senhora.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

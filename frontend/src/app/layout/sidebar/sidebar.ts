@@ -1,10 +1,9 @@
-import { Component, HostListener, computed, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { SidebarItem } from './sidebar-item';
 import { MENU_ITEMS } from './nav-item.model';
 import { LayoutService } from '../layout.service';
-import { AuthService } from '../../core/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -42,7 +41,7 @@ import { AuthService } from '../../core/auth.service';
 
       <!-- Navegação Principal com Nós Recursivos -->
       <nav class="sidebar-nav" role="tree">
-        @for (item of menuItems(); track item.id) {
+        @for (item of menuItems; track item.id) {
           <app-sidebar-item [item]="item" [level]="0" />
         }
       </nav>
@@ -210,27 +209,10 @@ import { AuthService } from '../../core/auth.service';
 })
 export class Sidebar {
   private readonly layoutService = inject(LayoutService);
-  private readonly authService = inject(AuthService);
 
   protected readonly sidebarExpanded = this.layoutService.sidebarExpanded;
   protected readonly mobileDrawerOpen = this.layoutService.mobileDrawerOpen;
-
-  protected readonly menuItems = computed(() => {
-    return MENU_ITEMS.map((item) => {
-      if (item.children) {
-        const filteredChildren = item.children.filter((child) =>
-          !child.route || this.authService.podeAcessarRota(child.route)
-        );
-        return { ...item, children: filteredChildren };
-      }
-      return item;
-    }).filter((item) => {
-      if (item.children) {
-        return item.children.length > 0;
-      }
-      return !item.route || this.authService.podeAcessarRota(item.route);
-    });
-  });
+  protected readonly menuItems = MENU_ITEMS;
 
   toggle(): void {
     this.layoutService.toggleSidebar();

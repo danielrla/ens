@@ -1,26 +1,14 @@
 ---
-name: graphify-rules
-description: Diretrizes de consulta e sincronização do grafo de conhecimento do projeto em graphify-out/.
 trigger: always_on
+description: Consult the graphify knowledge graph at graphify-out/ for codebase and architecture questions.
 ---
 
-# Diretrizes do Grafo de Conhecimento (Padrão GCCD)
+## graphify
 
-## 1. Goal (Objetivo)
-Utilizar o grafo de conhecimento semântico e estrutural do projeto para acelerar a compreensão da arquitetura, mapear impactos de alterações e manter o repositório indexado com mínimo consumo de contexto.
+This project has a graphify knowledge graph at graphify-out/.
 
-## 2. Context (Contexto)
-* **Localização do Grafo:** Diretório `graphify-out/` contendo o índice serializado (`graph.json`), visualização interativa (`graph.html`) e relatório detalhado (`GRAPH_REPORT.md`).
-* **Estrutura Indexada:** Nós representando classes Java, componentes Angular, contratos de DTO, entidades de domínio, rotas e arquivos de documentação.
-
-## 3. Constraints (Restrições)
-* **Prioridade de Ferramentas Estruturadas:**
-  * Para dúvidas de código ou arquitetura, quando `graphify-out/graph.json` existir, executar prioritariamente `graphify query "<pergunta>"` (CLI) ou `query_graph` (MCP).
-  * Para análise de relacionamentos entre dois nós, utilizar `graphify path "<A>" "<B>"` ou `shortest_path`.
-  * Para detalhamento conceitual de um nó ou entidade, empregar `graphify explain "<conceito>"` ou `get_node`.
-* **Navegação Eficiente:** Se o arquivo `graphify-out/wiki/index.md` existir, priorizar a navegação nele em vez de inspecionar arquivos brutos indiscriminadamente.
-* **Leitura Seletiva de Relatório:** Consultar `graphify-out/GRAPH_REPORT.md` apenas para análises arquiteturais amplas ou quando as consultas direcionadas não fornecerem contexto suficiente.
-
-## 4. Deliverables (Entregáveis e Critérios de Sucesso)
-* Subgrafos e respostas pontuais contendo apenas os nós e dependências diretamente impactados pela tarefa.
-* Atualização compulsória do grafo via `graphify update .` (operação baseada em AST local, sem custo de LLM) após qualquer modificação de arquivos de código no workspace.
+Rules:
+- For codebase or architecture questions, when `graphify-out/graph.json` exists, first run `graphify query "<question>"` (CLI) or `query_graph` (MCP). Use `graphify path "<A>" "<B>"` / `shortest_path` for relationships and `graphify explain "<concept>"` / `get_node` for focused concepts. These return a scoped subgraph, usually much smaller than `GRAPH_REPORT.md` or raw grep output.
+- If graphify-out/wiki/index.md exists, navigate it instead of reading raw files
+- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context
+- After modifying code files in this session, run `graphify update .` to keep the graph current (AST-only, no API cost)

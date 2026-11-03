@@ -14,7 +14,6 @@ tags:
   - name: sce
   - name: mandatos
   - name: vida-equipe
-  - name: admin-integracoes
 paths:
   /auth/login:
     post:
@@ -683,91 +682,6 @@ paths:
       responses:
         '204':
           description: Excluído com sucesso
-  /admin/integracoes/google/status:
-    get:
-      tags: [admin-integracoes]
-      summary: Retorna status atual da conexão e sincronizações do Google Workspace
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema: { $ref: '#/components/schemas/GoogleStatusDto' }
-  /admin/integracoes/google/auth-url:
-    get:
-      tags: [admin-integracoes]
-      summary: Retorna a URL de consentimento OAuth 2.0 do Google
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema: { $ref: '#/components/schemas/GoogleAuthUrlResponse' }
-  /admin/integracoes/google/callback:
-    post:
-      tags: [admin-integracoes]
-      summary: Troca o código de autorização pelos tokens OAuth 2.0
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema: { $ref: '#/components/schemas/GoogleCallbackRequest' }
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema: { $ref: '#/components/schemas/GoogleStatusDto' }
-  /admin/integracoes/google/desconectar:
-    delete:
-      tags: [admin-integracoes]
-      summary: Desconecta a conta do Google Workspace e revoga os acessos
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema: { $ref: '#/components/schemas/GoogleStatusDto' }
-  /admin/integracoes/google/agenda/sincronizar:
-    post:
-      tags: [admin-integracoes]
-      summary: Sincroniza reuniões e aniversários no Google Agenda
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema: { $ref: '#/components/schemas/SincronizacaoResultadoDto' }
-  /admin/integracoes/google/contatos/sincronizar:
-    post:
-      tags: [admin-integracoes]
-      summary: Sincroniza membros da equipe no Google Contatos
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema: { $ref: '#/components/schemas/SincronizacaoResultadoDto' }
-  /admin/integracoes/google/drive/sincronizar:
-    post:
-      tags: [admin-integracoes]
-      summary: Provisiona pastas e arquivos no Google Drive
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema: { $ref: '#/components/schemas/SincronizacaoResultadoDto' }
-  /admin/integracoes/google/sincronizar-tudo:
-    post:
-      tags: [admin-integracoes]
-      summary: Dispara a sincronização de Agenda, Contatos e Google Drive em lote
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema: { $ref: '#/components/schemas/SincronizacaoResultadoDto' }
 components:
   securitySchemes:
     bearerAuth:
@@ -1096,7 +1010,7 @@ components:
             criadoEm: { type: string, format: date-time }
     TipoReuniao:
       type: string
-      enum: [FORMAL, INFORMAL, OUTROS]
+      enum: [FORMAL, INFORMAL]
     ReuniaoRequest:
       type: object
       required: [data, horario]
@@ -1155,35 +1069,3 @@ components:
         campos:
           type: object
           additionalProperties: { type: string }
-    GoogleStatusDto:
-      type: object
-      properties:
-        conectado: { type: boolean }
-        configurado: { type: boolean }
-        emailGoogle: { type: string }
-        nomeGoogle: { type: string }
-        calendarioEnsId: { type: string }
-        grupoContatosResourceName: { type: string }
-        drivePastaRaizId: { type: string }
-        ultimaSincronizacaoAgenda: { type: string, format: date-time }
-        ultimaSincronizacaoContatos: { type: string, format: date-time }
-        ultimaSincronizacaoDrive: { type: string, format: date-time }
-    GoogleAuthUrlResponse:
-      type: object
-      properties:
-        url: { type: string }
-    GoogleCallbackRequest:
-      type: object
-      required: [code]
-      properties:
-        code: { type: string }
-        state: { type: string }
-    SincronizacaoResultadoDto:
-      type: object
-      properties:
-        sucesso: { type: boolean }
-        mensagem: { type: string }
-        itensSincronizados: { type: integer }
-        detalhes:
-          type: array
-          items: { type: string }

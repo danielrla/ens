@@ -1,27 +1,37 @@
 ---
-name: gestao-de-sessoes
-description: Protocolo de higiene da janela de contexto, segmentação de tarefas e recomendação de abertura de novas sessões.
 trigger: always_on
 ---
 
-# Protocolo de Higiene de Sessões e Contexto (Padrão GCCD)
+---
+name: gestao-de-sessoes-e-contexto
+description: Diretrizes para otimização da janela de contexto através da abertura de novas sessões e segmentação de tarefas.
+behavior: always-on
+---
 
-## 1. Goal (Objetivo)
-Maximizar a acurácia e a velocidade de resposta do agente de IA através da segmentação cirúrgica de tarefas, evitando a degradação de desempenho provocada pela saturação da janela de contexto com logs transitórios ou refatorações antigas.
+# Protocolo de Higiene de Contexto (Novas Sessões e Ciclo de Vida)
 
-## 2. Context (Contexto)
-* **Ambiente Operacional:** Atuação em projeto full-stack multivariado (Backend Java, Frontend Angular, Banco MongoDB e integrações Google Workspace).
-* **Ciclos de Desenvolvimento:** Transições frequentes entre modelagem de domínio, definição de contratos (DTOs), implementação de telas e resolução de bloqueios técnicos de infraestrutura.
+Para maximizar a eficiência da janela de contexto e evitar a poluição da memória de curto prazo do agente com logs transitórios ou refatorações antigas, o agente deve seguir as regras de ciclo de vida abaixo.
 
-## 3. Constraints (Restrições)
-* **Limite de Tentativas Consecutivas:** Caso uma abordagem técnica falhe por mais de 2 interações consecutivas gerando erros no terminal, interromper imediatamente as tentativas automáticas, diagnosticar a causa raiz no chat e submeter uma revisão de estratégia.
-* **Isolamento de Erros:** Não carregar no contexto ativo o histórico exaustivo de erros de compilação ou depuração já superados.
-* **Preservação de Conhecimento:** Em conversas continuadas iniciadas com `@Conversation`, manter como válidas as decisões arquiteturais e contratos firmados, sem exigir que o usuário repita especificações já existentes na documentação.
+---
 
-## 4. Deliverables (Entregáveis e Critérios de Sucesso)
-* Notificação proativa ao usuário sugerindo a abertura de nova sessão nas seguintes transições:
-  * Conclusão de contratos de DTOs e transição para codificação de backend ou frontend;
-  * Resolução definitiva de erros graves de build, execução ou containers;
-  * Finalização do ciclo de uma feature e início de nova entidade.
-* Emissão compulsória da mensagem padronizada de fechamento:
-  > "💡 **Sugestão de Contexto:** Concluímos com sucesso [esta etapa/esta correção]. Para manter o contexto leve e com alto desempenho, abra uma nova conversa no botão **\"+\"** e inicie referenciando esta conversa com `@Conversation`."
+## 1. Gatilhos para Recomendação de Nova Sessão
+O agente deve analisar o andamento da conversa e recomendar proativamente ao usuário a criação de uma nova sessão de chat nas seguintes transições de cenário:
+
+- **Mudança de Trilha de Desenvolvimento:** Ao concluir a definição de contratos (DTOs/Interfaces) no chat principal e iniciar a implementação técnica (seja mudando para a Trilha Backend em Java ou Trilha Frontend em Angular 21).
+- **Resolução de Bloqueios Críticos:** Assim que um bug complexo, erro de compilação do Spring Boot ou falha de container for totalmente resolvido e estabilizado. O histórico de tentativas e erros acumulados deve ser isolado.
+- **Transição de Entidade ou Feature:** Ao finalizar o ciclo de um endpoint ou componente específico e mover o escopo para outra funcionalidade do sistema ENS.
+
+### Mensagem Padrão de Recomendação:
+Sempre que um gatilho for acionado, o agente deve encerrar sua resposta com a seguinte instrução:
+> "💡 **Sugestão de Contexto:** Concluímos com sucesso [esta etapa/esta correção]. Para manter o contexto leve e com alto desempenho, abra uma nova conversa no botão **\"+\"** e inicie referenciando esta conversa com `@Conversation`."
+
+---
+
+## 2. Resolução de Erros Consecutivos
+- Se uma abordagem de código proposta pelo agente falhar consecutivamente por mais de 2 interações, gerando logs extensos no terminal, o agente deve interromper as tentativas automáticas, reportar a causa raiz com transparência e propor uma revisão estruturada da estratégia antes de prosseguir.
+
+---
+
+## 3. Preservação de Conhecimento Transversal
+- Ao operar em um chat continuado via menção `@Conversation`, o agente deve reter como verdades absolutas as decisões arquiteturais validadas no histórico anterior, cruzando-as continuamente com as regras ativas de negócio (`regras-de-negocio.md`) e de arquitetura (`docs/arquitetura.md`).
+- O agente não deve exigir que o usuário repita especificações técnicas, URLs da API ou estruturas de contratos já estabelecidas na documentação do projeto.

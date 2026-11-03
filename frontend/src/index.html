@@ -5,26 +5,12 @@
   <title>ENS | Gestão das Equipes de Nossa Senhora</title>
   <meta name="description" content="Sistema de gestão da estrutura, mandatos e vida das Equipes de Nossa Senhora.">
   <meta name="theme-color" content="#1e3a8a">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="ENS">
-  <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then((reg) => console.log('ENS PWA Service Worker registrado com sucesso: ', reg.scope))
-          .catch((err) => console.log('Falha ao registrar Service Worker ENS: ', err));
-      });
-    }
-  </script>
 </head>
 <body>
   <app-root></app-root>

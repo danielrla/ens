@@ -19,7 +19,6 @@
 | Backend | SCE: cadastro, listagem, inativação e vínculo | Pendente |
 | Backend e Frontend | Vida da Equipe (Dashboard Equipe exclusivo, Agenda, Roteiro Litúrgico, Mural de Bordo) e Dashboard Geral para lideranças | Concluído e validado |
 | Backend e Frontend | Perfil do Casal com foto no topo, Mural de Bordo com fotos (removidos diário e livro de ouro) | Concluído e validado |
-| Backend e Frontend | Integração Google Workspace (Google Calendar, People API e Google Drive) com painel em Administração > Integração | Concluído e validado |
 | Transversal | Auditoria, cifragem de campos sensíveis, PWA | Pendente |
 
 ## Pendências abertas

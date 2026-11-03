@@ -1,0 +1,16 @@
+[{
+	"_id": {
+		"$oid": "6ae090f05a48d8872d777d54"
+	},
+	"casalId": "6ae08c88ca048c6290d5fdce",
+	"tipo": "SAIDA",
+	"equipeOrigemId": "6ae08c88ca048c6290d5fdcc",
+	"equipeDestinoId": "",
+	"data": {
+		"$date": "2026-08-31T04:00:00Z"
+	},
+	"motivo": "mudou de cidade",
+	"observacoes": "",
+	"_class": "br.org.ens.casal.movimentacao.MovimentacaoCasal"
+}]
+

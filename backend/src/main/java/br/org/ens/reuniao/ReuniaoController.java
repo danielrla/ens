@@ -17,11 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReuniaoController {
 
     private final ReuniaoService reuniaoService;
-    private final ReuniaoAlertaScheduler reuniaoAlertaScheduler;
 
-    public ReuniaoController(ReuniaoService reuniaoService, ReuniaoAlertaScheduler reuniaoAlertaScheduler) {
+    public ReuniaoController(ReuniaoService reuniaoService) {
         this.reuniaoService = reuniaoService;
-        this.reuniaoAlertaScheduler = reuniaoAlertaScheduler;
     }
 
     @PostMapping("/equipes/{equipeId}/reunioes")
@@ -64,11 +62,5 @@ public class ReuniaoController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable String id) {
         reuniaoService.excluir(id);
-    }
-
-    @PostMapping("/reunioes/disparar-alertas-d1")
-    public java.util.Map<String, Object> dispararAlertasD1() {
-        int disparados = reuniaoAlertaScheduler.enviarAlertasParaData(java.time.LocalDate.now(java.time.ZoneId.of("America/Cuiaba")).plusDays(1));
-        return java.util.Map.of("sucesso", true, "alertasDisparados", disparados);
     }
 }

@@ -1,40 +1,33 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Sidebar } from './layout/sidebar/sidebar';
 import { Header } from './layout/header/header';
 import { Footer } from './layout/footer/footer';
-import { AuthService } from './core/auth.service';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, Sidebar, Header, Footer],
   template: `
-    @if (authService.isLogado()) {
-      <div class="app-layout">
-        <!-- Sidebar Retrátil / Recursiva -->
-        <app-sidebar />
+    <div class="app-layout">
+      <!-- Sidebar Retrátil / Recursiva -->
+      <app-sidebar />
 
-        <!-- Invólucro Principal da Aplicação -->
-        <div class="main-wrapper">
-          <!-- Topbar / Header Fixo -->
-          <app-header />
+      <!-- Invólucro Principal da Aplicação -->
+      <div class="main-wrapper">
+        <!-- Topbar / Header Fixo -->
+        <app-header />
 
-          <!-- Área Principal de Dados com rolagem independente -->
-          <main class="main-content-area" id="main-content">
-            <div class="conteudo-container">
-              <router-outlet />
-            </div>
-          </main>
+        <!-- Área Principal de Dados com rolagem independente -->
+        <main class="main-content-area" id="main-content">
+          <div class="conteudo-container">
+            <router-outlet />
+          </div>
+        </main>
 
-          <!-- Rodapé Discreto -->
-          <app-footer />
-        </div>
+        <!-- Rodapé Discreto -->
+        <app-footer />
       </div>
-    } @else {
-      <div class="auth-layout">
-        <router-outlet />
-      </div>
-    }
+    </div>
   `,
   styles: `
     :host {
@@ -50,14 +43,6 @@ import { AuthService } from './core/auth.service';
       background: var(--fundo-claro);
       overflow-x: hidden;
       position: relative;
-    }
-
-    .auth-layout {
-      min-height: 100vh;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0f172a 100%);
     }
 
     .main-wrapper {
@@ -89,6 +74,4 @@ import { AuthService } from './core/auth.service';
     }
   `,
 })
-export class App {
-  protected readonly authService = inject(AuthService);
-}
+export class App {}

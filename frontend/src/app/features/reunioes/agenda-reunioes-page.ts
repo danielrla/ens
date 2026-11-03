@@ -119,9 +119,7 @@ interface ItemChamadaPresenca {
                 </div>
 
                 <div class="badges-status">
-                  @if (r.tipo === 'OUTROS') {
-                    <span class="badge badge-outros">📌 Outros</span>
-                  } @else if (r.tipo === 'INFORMAL') {
+                  @if (r.tipo === 'INFORMAL') {
                     <span class="badge badge-informal">Informal</span>
                   } @else {
                     <span class="badge badge-formal">Formal</span>
@@ -139,58 +137,43 @@ interface ItemChamadaPresenca {
 
               @if (r.tema) {
                 <div class="tema-bloco">
-                  <span class="rotulo-suave">{{ r.tipo === 'OUTROS' ? 'Título do Encontro:' : 'Tema de Estudo:' }}</span>
+                  <span class="rotulo-suave">Tema de Estudo:</span>
                   <strong class="tema-texto">{{ r.tema }}</strong>
                 </div>
               }
 
-              @if (r.tipo === 'OUTROS') {
-                @if (r.anotacoesCre) {
-                  <div class="descricao-outros-bloco">
-                    <span class="rotulo-suave">Descrição / Pauta:</span>
-                    <p class="descricao-outros-texto">{{ r.anotacoesCre }}</p>
-                  </div>
-                }
-                @if (r.localObservacao) {
-                  <div class="observacao-local-card">
-                    <span class="icone-info">📍</span>
-                    <span><strong>Local:</strong> {{ r.localObservacao }}</span>
-                  </div>
-                }
-              } @else {
-                @if (r.nomeCasalAnimador) {
-                  <div class="animador-bloco">
-                    <span class="rotulo-suave">Casal Animador:</span>
-                    <strong>🎙️ {{ r.nomeCasalAnimador }}</strong>
-                  </div>
-                }
-
-                <!-- Detalhes do Anfitrião e Endereço -->
-                <div class="anfitriao-bloco">
-                  <div class="anfitriao-linha">
-                    <span class="icone-casa">🏡</span>
-                    <div>
-                      <span class="rotulo-suave">Casal Anfitrião:</span>
-                      <strong>{{ r.nomeCasalAnfitriao || 'A definir' }}</strong>
-                    </div>
-                  </div>
-
-                  @if (r.enderecoAnfitriao) {
-                    <div class="endereco-card">
-                      <p class="endereco-texto">
-                        📍 {{ formatarEndereco(r.enderecoAnfitriao) }}
-                      </p>
-                    </div>
-                  }
-
-                  @if (r.localObservacao) {
-                    <div class="observacao-local-card">
-                      <span class="icone-info">ℹ️</span>
-                      <span><strong>Local / Obs:</strong> {{ r.localObservacao }}</span>
-                    </div>
-                  }
+              @if (r.nomeCasalAnimador) {
+                <div class="animador-bloco">
+                  <span class="rotulo-suave">Casal Animador:</span>
+                  <strong>🎙️ {{ r.nomeCasalAnimador }}</strong>
                 </div>
               }
+
+              <!-- Detalhes do Anfitrião e Endereço -->
+              <div class="anfitriao-bloco">
+                <div class="anfitriao-linha">
+                  <span class="icone-casa">🏡</span>
+                  <div>
+                    <span class="rotulo-suave">Casal Anfitrião:</span>
+                    <strong>{{ r.nomeCasalAnfitriao || 'A definir' }}</strong>
+                  </div>
+                </div>
+
+                @if (r.enderecoAnfitriao) {
+                  <div class="endereco-card">
+                    <p class="endereco-texto">
+                      📍 {{ formatarEndereco(r.enderecoAnfitriao) }}
+                    </p>
+                  </div>
+                }
+
+                @if (r.localObservacao) {
+                  <div class="observacao-local-card">
+                    <span class="icone-info">ℹ️</span>
+                    <span><strong>Local / Obs:</strong> {{ r.localObservacao }}</span>
+                  </div>
+                }
+              </div>
 
               <!-- Resumo da Ata e Presenças se Realizada -->
               @if (r.presencas && r.presencas.length > 0) {
@@ -277,7 +260,7 @@ interface ItemChamadaPresenca {
             <div class="campo">
               <label>Tipo de Reunião <span class="obrigatorio">*</span></label>
               <div class="tipo-reuniao-selector">
-                <label class="radio-card" [class.selecionado]="formReuniao.tipo === 'FORMAL'">
+                <label class="radio-card" [class.selecionado]="formReuniao.tipo !== 'INFORMAL'">
                   <input type="radio" [(ngModel)]="formReuniao.tipo" name="tipoReuniao" value="FORMAL" />
                   <div class="radio-info">
                     <strong>📖 Reunião Formal</strong>
@@ -289,13 +272,6 @@ interface ItemChamadaPresenca {
                   <div class="radio-info">
                     <strong>🎉 Reunião Informal</strong>
                     <small>Confraternização, piquenique, celebração informal ou encontro de famílias</small>
-                  </div>
-                </label>
-                <label class="radio-card" [class.selecionado]="formReuniao.tipo === 'OUTROS'">
-                  <input type="radio" [(ngModel)]="formReuniao.tipo" name="tipoReuniao" value="OUTROS" />
-                  <div class="radio-info">
-                    <strong>📌 Outros</strong>
-                    <small>Retiros, reuniões de setor, formações ou encontros diversos da equipe</small>
                   </div>
                 </label>
               </div>
@@ -312,84 +288,53 @@ interface ItemChamadaPresenca {
               </div>
             </div>
 
-            @if (formReuniao.tipo === 'OUTROS') {
-              <div class="campo">
-                <label>Título do Encontro <span class="obrigatorio">*</span></label>
-                <input
-                  required
-                  [(ngModel)]="formReuniao.tema"
-                  name="temaReuniao"
-                  placeholder="Ex: Retiro Espiritual da Equipe, Reunião de Setor..."
-                />
-              </div>
+            <div class="campo">
+              <label>Tema de Reflexão / Assunto da Reunião</label>
+              <input [(ngModel)]="formReuniao.tema" name="temaReuniao" placeholder="Ex: Tema do Mês, Livro de Estudo Cap. 7" />
+            </div>
 
+            @if (formReuniao.tipo !== 'INFORMAL') {
               <div class="campo">
-                <label>Local</label>
-                <input
-                  [(ngModel)]="formReuniao.localObservacao"
-                  name="localObservacao"
-                  placeholder="Ex: Salão Paroquial, Casa de Retiro São Francisco..."
-                />
-              </div>
-
-              <div class="campo">
-                <label>Descrição / Pauta</label>
-                <textarea
-                  [(ngModel)]="formReuniao.anotacoesCre"
-                  name="anotacoesCre"
-                  rows="3"
-                  placeholder="Informe detalhes, objetivos, orientações ou pauta deste encontro..."
-                ></textarea>
-              </div>
-            } @else {
-              <div class="campo">
-                <label>Tema de Reflexão / Assunto da Reunião</label>
-                <input [(ngModel)]="formReuniao.tema" name="temaReuniao" placeholder="Ex: Tema do Mês, Livro de Estudo Cap. 7" />
-              </div>
-
-              @if (formReuniao.tipo === 'FORMAL') {
-                <div class="campo">
-                  <label>Casal Animador do Mês</label>
-                  <select [(ngModel)]="formReuniao.casalAnimadorId" name="animadorId">
-                    <option value="">Selecione o casal animador (opcional)...</option>
-                    @for (c of casaisAtivos(); track c.id) {
-                      <option [value]="c.id">{{ c.esposo.nomeCompleto }} & {{ c.esposa.nomeCompleto }}</option>
-                    }
-                  </select>
-                </div>
-              }
-
-              <div class="campo">
-                <label>Casal Anfitrião (Apenas Casais Ativos)</label>
-                <select [(ngModel)]="formReuniao.casalAnfitriaoId" name="anfitriaoId" (change)="aoSelecionarAnfitriao()">
-                  <option value="">Selecione o casal anfitrião...</option>
+                <label>Casal Animador do Mês</label>
+                <select [(ngModel)]="formReuniao.casalAnimadorId" name="animadorId">
+                  <option value="">Selecione o casal animador (opcional)...</option>
                   @for (c of casaisAtivos(); track c.id) {
                     <option [value]="c.id">{{ c.esposo.nomeCompleto }} & {{ c.esposa.nomeCompleto }}</option>
                   }
                 </select>
               </div>
+            }
 
-              <!-- Preview Automático do Endereço do Casal Anfitrião -->
-              @if (enderecoPreview()) {
-                <div class="endereco-preview-card">
-                  <strong>📍 Endereço do Anfitrião:</strong>
-                  <p>{{ formatarEndereco(enderecoPreview()!) }}</p>
-                </div>
-              } @else if (formReuniao.casalAnfitriaoId) {
-                <div class="endereco-preview-aviso">
-                  <small>⚠️ Este casal ainda não possui endereço residencial cadastrado.</small>
-                </div>
-              }
+            <div class="campo">
+              <label>Casal Anfitrião (Apenas Casais Ativos)</label>
+              <select [(ngModel)]="formReuniao.casalAnfitriaoId" name="anfitriaoId" (change)="aoSelecionarAnfitriao()">
+                <option value="">Selecione o casal anfitrião...</option>
+                @for (c of casaisAtivos(); track c.id) {
+                  <option [value]="c.id">{{ c.esposo.nomeCompleto }} & {{ c.esposa.nomeCompleto }}</option>
+                }
+              </select>
+            </div>
 
-              <div class="campo">
-                <label>Local / Observação do Espaço</label>
-                <input
-                  [(ngModel)]="formReuniao.localObservacao"
-                  name="localObservacao"
-                  placeholder="Ex: Salão de festas do condomínio, churrasqueira, etc."
-                />
+            <!-- Preview Automático do Endereço do Casal Anfitrião -->
+            @if (enderecoPreview()) {
+              <div class="endereco-preview-card">
+                <strong>📍 Endereço do Anfitrião:</strong>
+                <p>{{ formatarEndereco(enderecoPreview()!) }}</p>
+              </div>
+            } @else if (formReuniao.casalAnfitriaoId) {
+              <div class="endereco-preview-aviso">
+                <small>⚠️ Este casal ainda não possui endereço residencial cadastrado.</small>
               </div>
             }
+
+            <div class="campo">
+              <label>Local / Observação do Espaço</label>
+              <input
+                [(ngModel)]="formReuniao.localObservacao"
+                name="localObservacao"
+                placeholder="Ex: Salão de festas do condomínio, churrasqueira, etc."
+              />
+            </div>
 
             <div class="modal-acoes">
               <button type="button" class="btn btn-fantasma" (click)="fecharModalAgendamento()">Cancelar</button>
@@ -1380,26 +1325,6 @@ interface ItemChamadaPresenca {
       color: #92400e;
       border: 1px solid #fde68a;
     }
-    .badge-outros {
-      background: #f1f5f9;
-      color: #334155;
-      border: 1px solid #cbd5e1;
-    }
-    .descricao-outros-bloco {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-      background: #f8fafc;
-      padding: 0.65rem 0.85rem;
-      border-radius: 6px;
-      border: 1px solid #e2e8f0;
-      font-size: 0.875rem;
-    }
-    .descricao-outros-texto {
-      margin: 0;
-      color: #334155;
-      line-height: 1.45;
-    }
     .animador-bloco {
       font-size: 0.85rem;
       color: #475569;
@@ -1778,7 +1703,6 @@ export class AgendaReunioesPage {
       casalAnimadorId: '',
       casalAnfitriaoId: '',
       localObservacao: '',
-      anotacoesCre: '',
     };
     this.enderecoPreview.set(null);
     this.modalAgendamentoAberto.set(true);
@@ -1795,7 +1719,6 @@ export class AgendaReunioesPage {
       casalAnimadorId: r.casalAnimadorId || '',
       casalAnfitriaoId: r.casalAnfitriaoId || '',
       localObservacao: r.localObservacao || '',
-      anotacoesCre: r.anotacoesCre || '',
     };
     this.enderecoPreview.set(r.enderecoAnfitriao || null);
     this.modalAgendamentoAberto.set(true);

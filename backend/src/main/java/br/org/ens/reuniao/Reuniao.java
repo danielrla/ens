@@ -38,10 +38,6 @@ public class Reuniao {
 
     private List<String> fotos = new ArrayList<>();
 
-    private String googleEventId;
-
-    private String googleDriveRoteiroFileId;
-
     public Reuniao() {
     }
 
@@ -165,21 +161,5 @@ public class Reuniao {
 
     public void setFotos(List<String> fotos) {
         this.fotos = fotos != null ? fotos : new ArrayList<>();
-    }
-
-    public String getGoogleEventId() {
-        return googleEventId;
-    }
-
-    public void setGoogleEventId(String googleEventId) {
-        this.googleEventId = googleEventId;
-    }
-
-    public String getGoogleDriveRoteiroFileId() {
-        return googleDriveRoteiroFileId;
-    }
-
-    public void setGoogleDriveRoteiroFileId(String googleDriveRoteiroFileId) {
-        this.googleDriveRoteiroFileId = googleDriveRoteiroFileId;
     }
 }

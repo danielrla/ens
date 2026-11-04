@@ -1,0 +1,79 @@
+[{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdcc"
+	},
+	"numero": 1,
+	"nomeDevocao": "NOSSA SENHORA APARECIDA",
+	"superRegiaoId": "6ae08c87ca048c6290d5fcd8",
+	"provinciaId": "6ae08c87ca048c6290d5fd0b",
+	"regiaoId": "6ae08c87ca048c6290d5fd22",
+	"setorId": "6ae08c87ca048c6290d5fd23",
+	"status": "ATIVA",
+	"dataFundacao": {
+		"$date": "2015-10-12T04:00:00Z"
+	},
+	"casalPilotoId": "",
+	"sceId": "6ae08ec2ca048c6290d5fdd4",
+	"estado": "MT",
+	"municipio": "Cuiabá",
+	"temaEstudoAno": "O Amor é muito mais que o amor",
+	"temasAnuais": [
+		{
+			"ano": 2026,
+			"tema": "O Amor é muito mais que o amor"
+		}
+	],
+	"vinculos": [
+		{
+			"casalId": "6ae08c88ca048c6290d5fdcd",
+			"papel": "MEMBRO",
+			"desde": {
+				"$date": "2008-07-27T04:00:00Z"
+			}
+		},
+		{
+			"casalId": "6ae08c88ca048c6290d5fdce",
+			"papel": "MEMBRO",
+			"desde": {
+				"$date": "2012-03-31T04:00:00Z"
+			}
+		},
+		{
+			"casalId": "6ae08c88ca048c6290d5fdcf",
+			"papel": "MEMBRO",
+			"desde": {
+				"$date": "2010-04-19T04:00:00Z"
+			}
+		},
+		{
+			"casalId": "6ae08c88ca048c6290d5fdd0",
+			"papel": "MEMBRO",
+			"desde": {
+				"$date": "2011-04-02T04:00:00Z"
+			}
+		},
+		{
+			"casalId": "6ae08c88ca048c6290d5fdd1",
+			"papel": "MEMBRO",
+			"desde": {
+				"$date": "2002-01-12T03:00:00Z"
+			}
+		},
+		{
+			"casalId": "6ae08c88ca048c6290d5fdd2",
+			"papel": "MEMBRO",
+			"desde": {
+				"$date": "2015-10-31T03:00:00Z"
+			}
+		},
+		{
+			"casalId": "6ae08c88ca048c6290d5fdd3",
+			"papel": "MEMBRO",
+			"desde": {
+				"$date": "2008-01-11T03:00:00Z"
+			}
+		}
+	],
+	"_class": "br.org.ens.equipe.Equipe"
+}]
+

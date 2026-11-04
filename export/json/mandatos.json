@@ -1,0 +1,19 @@
+[{
+	"_id": {
+		"$oid": "6ae08f74ca048c6290d5fdd5"
+	},
+	"casalId": "6ae08c88ca048c6290d5fdd0",
+	"funcao": "CRE",
+	"nivelInstancia": "EQUIPE",
+	"instanciaId": "6ae08c88ca048c6290d5fdcc",
+	"dataInicio": {
+		"$date": "2025-10-30T04:00:00Z"
+	},
+	"dataPrevistaTermino": {
+		"$date": "2026-10-30T04:00:00Z"
+	},
+	"status": "VIGENTE",
+	"observacoes": "",
+	"_class": "br.org.ens.mandato.Mandato"
+}]
+

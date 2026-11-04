@@ -1,0 +1,2196 @@
+[{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcd8"
+	},
+	"nome": "Super-Região Brasil",
+	"nivel": "SUPER_REGIAO",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcd9"
+	},
+	"nome": "Província Leste (PL)",
+	"nivel": "PROVINCIA",
+	"paiId": "6ae08c87ca048c6290d5fcd8",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcda"
+	},
+	"nome": "Região Rio de Janeiro (RJ)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c87ca048c6290d5fcd9",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcdb"
+	},
+	"nome": "Rio Centro",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcda",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcdc"
+	},
+	"nome": "Rio Zona Sul",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcda",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcdd"
+	},
+	"nome": "Rio Zona Norte",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcda",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcde"
+	},
+	"nome": "Niterói",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcda",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcdf"
+	},
+	"nome": "Petrópolis",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcda",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fce0"
+	},
+	"nome": "Volta Redonda",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcda",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fce1"
+	},
+	"nome": "Nova Friburgo",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcda",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fce2"
+	},
+	"nome": "Campos dos Goytacazes",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcda",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fce3"
+	},
+	"nome": "Região Minas Gerais Centro/Sul (MG)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c87ca048c6290d5fcd9",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fce4"
+	},
+	"nome": "Belo Horizonte (Lourdes, Mangabeiras, Pampulha)",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fce3",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fce5"
+	},
+	"nome": "Contagem",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fce3",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fce6"
+	},
+	"nome": "Juiz de Fora",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fce3",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fce7"
+	},
+	"nome": "Pouso Alegre",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fce3",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fce8"
+	},
+	"nome": "Varginha",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fce3",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fce9"
+	},
+	"nome": "Poços de Caldas",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fce3",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcea"
+	},
+	"nome": "Região Minas Gerais Norte/Triângulo (MG)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c87ca048c6290d5fcd9",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fceb"
+	},
+	"nome": "Uberlândia",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcea",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcec"
+	},
+	"nome": "Uberaba",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcea",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fced"
+	},
+	"nome": "Montes Claros",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcea",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcee"
+	},
+	"nome": "Governador Valadares",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcea",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcef"
+	},
+	"nome": "Ipatinga",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcea",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcf0"
+	},
+	"nome": "Região Espírito Santo (ES)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c87ca048c6290d5fcd9",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcf1"
+	},
+	"nome": "Vitória",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcf0",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcf2"
+	},
+	"nome": "Vila Velha",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcf0",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcf3"
+	},
+	"nome": "Serra",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcf0",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcf4"
+	},
+	"nome": "Colatina",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcf0",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcf5"
+	},
+	"nome": "Cachoeiro de Itapemirim",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcf0",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcf6"
+	},
+	"nome": "Província Sul II (PS II)",
+	"nivel": "PROVINCIA",
+	"paiId": "6ae08c87ca048c6290d5fcd8",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcf7"
+	},
+	"nome": "Região Vale do Itajaí e Norte (SC)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c87ca048c6290d5fcf6",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcf8"
+	},
+	"nome": "Blumenau",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcf7",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcf9"
+	},
+	"nome": "Joinville Norte",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcf7",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcfa"
+	},
+	"nome": "Joinville Sul",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcf7",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcfb"
+	},
+	"nome": "Jaraguá do Sul",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcf7",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcfc"
+	},
+	"nome": "Brusque",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcf7",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcfd"
+	},
+	"nome": "Região Oeste Catarinense (SC)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c87ca048c6290d5fcf6",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcfe"
+	},
+	"nome": "Chapecó",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcfd",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fcff"
+	},
+	"nome": "Joaçaba",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcfd",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd00"
+	},
+	"nome": "Concórdia",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcfd",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd01"
+	},
+	"nome": "Caçador",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcfd",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd02"
+	},
+	"nome": "Lages",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fcfd",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd03"
+	},
+	"nome": "Região Litoral e Capital (SC)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c87ca048c6290d5fcf6",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd04"
+	},
+	"nome": "Florianópolis Centro",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd03",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd05"
+	},
+	"nome": "Florianópolis Continente",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd03",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd06"
+	},
+	"nome": "São José",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd03",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd07"
+	},
+	"nome": "Itajaí",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd03",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd08"
+	},
+	"nome": "Balneário Camboriú",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd03",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd09"
+	},
+	"nome": "Tubarão",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd03",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd0a"
+	},
+	"nome": "Criciúma",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd03",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd0b"
+	},
+	"nome": "Província Centro-Oeste (PCO)",
+	"nivel": "PROVINCIA",
+	"paiId": "6ae08c87ca048c6290d5fcd8",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd0c"
+	},
+	"nome": "Região Goiás (GO)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c87ca048c6290d5fd0b",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd0d"
+	},
+	"nome": "Goiânia Centro",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd0c",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd0e"
+	},
+	"nome": "Goiânia Sul",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd0c",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd0f"
+	},
+	"nome": "Goiânia Leste",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd0c",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd10"
+	},
+	"nome": "Anápolis",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd0c",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd11"
+	},
+	"nome": "Rio Verde",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd0c",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd12"
+	},
+	"nome": "Itumbiara",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd0c",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd13"
+	},
+	"nome": "Jataí",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd0c",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd14"
+	},
+	"nome": "Região Mato Grosso do Sul (MS)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c87ca048c6290d5fd0b",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd15"
+	},
+	"nome": "Campo Grande A",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd14",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd16"
+	},
+	"nome": "Campo Grande B",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd14",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd17"
+	},
+	"nome": "Dourados",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd14",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd18"
+	},
+	"nome": "Três Lagoas",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd14",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd19"
+	},
+	"nome": "Corumbá",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd14",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd1a"
+	},
+	"nome": "Ponta Porã",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd14",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd1b"
+	},
+	"nome": "Região Distrito Federal (DF)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c87ca048c6290d5fd0b",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd1c"
+	},
+	"nome": "Brasília Asa Norte",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd1b",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd1d"
+	},
+	"nome": "Brasília Asa Sul",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd1b",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd1e"
+	},
+	"nome": "Taguatinga",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd1b",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd1f"
+	},
+	"nome": "Ceilândia",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd1b",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd20"
+	},
+	"nome": "Sobradinho",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd1b",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd21"
+	},
+	"nome": "Águas Claras",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd1b",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd22"
+	},
+	"nome": "Região Mato Grosso (MT)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c87ca048c6290d5fd0b",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd23"
+	},
+	"nome": "Cuiabá Norte",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd22",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd24"
+	},
+	"nome": "Cuiabá Sul",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd22",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd25"
+	},
+	"nome": "Várzea Grande",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd22",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd26"
+	},
+	"nome": "Rondonópolis",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd22",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd27"
+	},
+	"nome": "Sinop",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd22",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd28"
+	},
+	"nome": "Tangará da Serra",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd22",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd29"
+	},
+	"nome": "Primavera do Leste",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd22",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd2a"
+	},
+	"nome": "Sorriso",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd22",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd2b"
+	},
+	"nome": "Província Nordeste I (PNE I)",
+	"nivel": "PROVINCIA",
+	"paiId": "6ae08c87ca048c6290d5fcd8",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd2c"
+	},
+	"nome": "Região Piauí (PI)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c87ca048c6290d5fd2b",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd2d"
+	},
+	"nome": "Teresina Centro",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd2c",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd2e"
+	},
+	"nome": "Teresina Leste",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd2c",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd2f"
+	},
+	"nome": "Parnaíba",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd2c",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd30"
+	},
+	"nome": "Picos",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd2c",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd31"
+	},
+	"nome": "Floriano",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd2c",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd32"
+	},
+	"nome": "Região Ceará (CE)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c87ca048c6290d5fd2b",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd33"
+	},
+	"nome": "Fortaleza Centro",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd32",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd34"
+	},
+	"nome": "Fortaleza Aldeota",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd32",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd35"
+	},
+	"nome": "Fortaleza Sul",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd32",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd36"
+	},
+	"nome": "Sobral",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd32",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd37"
+	},
+	"nome": "Juazeiro do Norte",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd32",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd38"
+	},
+	"nome": "Crato",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd32",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd39"
+	},
+	"nome": "Iguatu",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd32",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd3a"
+	},
+	"nome": "Região Maranhão (MA)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c87ca048c6290d5fd2b",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd3b"
+	},
+	"nome": "São Luís Centro",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd3a",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd3c"
+	},
+	"nome": "São Luís Renascença",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd3a",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd3d"
+	},
+	"nome": "Imperatriz",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd3a",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd3e"
+	},
+	"nome": "Caxias",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd3a",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd3f"
+	},
+	"nome": "Bacabal",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd3a",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd40"
+	},
+	"nome": "Província São Paulo (PSP)",
+	"nivel": "PROVINCIA",
+	"paiId": "6ae08c87ca048c6290d5fcd8",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd41"
+	},
+	"nome": "Região Vale do Paraíba (SP)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c87ca048c6290d5fd40",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd42"
+	},
+	"nome": "São José dos Campos",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd41",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd43"
+	},
+	"nome": "Taubaté",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd41",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c87ca048c6290d5fd44"
+	},
+	"nome": "Guaratinguetá",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd41",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd45"
+	},
+	"nome": "Aparecida",
+	"nivel": "SETOR",
+	"paiId": "6ae08c87ca048c6290d5fd41",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd46"
+	},
+	"nome": "Região Interior Paulista (SP)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c87ca048c6290d5fd40",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd47"
+	},
+	"nome": "Ribeirão Preto",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd46",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd48"
+	},
+	"nome": "São José do Rio Preto",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd46",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd49"
+	},
+	"nome": "Bauru",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd46",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd4a"
+	},
+	"nome": "Sorocaba",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd46",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd4b"
+	},
+	"nome": "Marília",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd46",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd4c"
+	},
+	"nome": "Presidente Prudente",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd46",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd4d"
+	},
+	"nome": "São Carlos",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd46",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd4e"
+	},
+	"nome": "Região Campinas e Circuito das Águas (SP)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c87ca048c6290d5fd40",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd4f"
+	},
+	"nome": "Campinas Centro",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd4e",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd50"
+	},
+	"nome": "Campinas Taquaral",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd4e",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd51"
+	},
+	"nome": "Jundiaí",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd4e",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd52"
+	},
+	"nome": "Piracicaba",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd4e",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd53"
+	},
+	"nome": "Americana",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd4e",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd54"
+	},
+	"nome": "Bragança Paulista",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd4e",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd55"
+	},
+	"nome": "Região São Paulo Capital (SP)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c87ca048c6290d5fd40",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd56"
+	},
+	"nome": "Santana",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd55",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd57"
+	},
+	"nome": "Ibirapuera",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd55",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd58"
+	},
+	"nome": "Pinheiros",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd55",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd59"
+	},
+	"nome": "Mooca",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd55",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd5a"
+	},
+	"nome": "Santo Amaro",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd55",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd5b"
+	},
+	"nome": "Tatuapé",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd55",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd5c"
+	},
+	"nome": "Belém",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd55",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd5d"
+	},
+	"nome": "Lapa",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd55",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd5e"
+	},
+	"nome": "Região Grande São Paulo e Litoral (SP)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c87ca048c6290d5fd40",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd5f"
+	},
+	"nome": "Santo André",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd5e",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd60"
+	},
+	"nome": "São Bernardo do Campo",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd5e",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd61"
+	},
+	"nome": "Santos",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd5e",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd62"
+	},
+	"nome": "São Vicente",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd5e",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd63"
+	},
+	"nome": "Guarulhos",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd5e",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd64"
+	},
+	"nome": "Osasco",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd5e",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd65"
+	},
+	"nome": "Mogi das Cruzes",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd5e",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd66"
+	},
+	"nome": "Província Sul III (PS III)",
+	"nivel": "PROVINCIA",
+	"paiId": "6ae08c87ca048c6290d5fcd8",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd67"
+	},
+	"nome": "Região Central e Missões (RS)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c88ca048c6290d5fd66",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd68"
+	},
+	"nome": "Santa Maria",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd67",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd69"
+	},
+	"nome": "Passo Fundo",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd67",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd6a"
+	},
+	"nome": "Cruz Alta",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd67",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd6b"
+	},
+	"nome": "Santo Ângelo",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd67",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd6c"
+	},
+	"nome": "Ijuí",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd67",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd6d"
+	},
+	"nome": "Erechim",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd67",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd6e"
+	},
+	"nome": "Região Metropolitana e Litoral (RS)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c88ca048c6290d5fd66",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd6f"
+	},
+	"nome": "Porto Alegre Centro",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd6e",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd70"
+	},
+	"nome": "Porto Alegre Zona Sul",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd6e",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd71"
+	},
+	"nome": "Canoas",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd6e",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd72"
+	},
+	"nome": "Novo Hamburgo",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd6e",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd73"
+	},
+	"nome": "São Leopoldo",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd6e",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd74"
+	},
+	"nome": "Osório",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd6e",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd75"
+	},
+	"nome": "Região Sul Gaúcho (RS)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c88ca048c6290d5fd66",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd76"
+	},
+	"nome": "Pelotas",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd75",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd77"
+	},
+	"nome": "Rio Grande",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd75",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd78"
+	},
+	"nome": "Bagé",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd75",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd79"
+	},
+	"nome": "Uruguaiana",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd75",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd7a"
+	},
+	"nome": "Santana do Livramento",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd75",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd7b"
+	},
+	"nome": "Região Serra Gaúcha (RS)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c88ca048c6290d5fd66",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd7c"
+	},
+	"nome": "Caxias do Sul",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd7b",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd7d"
+	},
+	"nome": "Bento Gonçalves",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd7b",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd7e"
+	},
+	"nome": "Farroupilha",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd7b",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd7f"
+	},
+	"nome": "Gramado/Canela",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd7b",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd80"
+	},
+	"nome": "Vacaria",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd7b",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd81"
+	},
+	"nome": "Província Nordeste II (PNE II)",
+	"nivel": "PROVINCIA",
+	"paiId": "6ae08c87ca048c6290d5fcd8",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd82"
+	},
+	"nome": "Região Rio Grande do Norte (RN)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c88ca048c6290d5fd81",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd83"
+	},
+	"nome": "Natal Leste",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd82",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd84"
+	},
+	"nome": "Natal Sul",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd82",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd85"
+	},
+	"nome": "Mossoró",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd82",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd86"
+	},
+	"nome": "Caicó",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd82",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd87"
+	},
+	"nome": "Região Pernambuco (PE)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c88ca048c6290d5fd81",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd88"
+	},
+	"nome": "Recife Boa Viagem",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd87",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd89"
+	},
+	"nome": "Recife Espinheiro",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd87",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd8a"
+	},
+	"nome": "Olinda",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd87",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd8b"
+	},
+	"nome": "Jaboatão dos Guararapes",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd87",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd8c"
+	},
+	"nome": "Caruaru",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd87",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd8d"
+	},
+	"nome": "Garanhuns",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd87",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd8e"
+	},
+	"nome": "Petrolina",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd87",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd8f"
+	},
+	"nome": "Região Paraíba (PB)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c88ca048c6290d5fd81",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd90"
+	},
+	"nome": "João Pessoa Centro",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd8f",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd91"
+	},
+	"nome": "João Pessoa Manaíra",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd8f",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd92"
+	},
+	"nome": "Campina Grande",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd8f",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd93"
+	},
+	"nome": "Patos",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd8f",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd94"
+	},
+	"nome": "Sousa",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd8f",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd95"
+	},
+	"nome": "Região Alagoas / Sergipe (AL/SE)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c88ca048c6290d5fd81",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd96"
+	},
+	"nome": "Maceió Ponta Verde",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd95",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd97"
+	},
+	"nome": "Maceió Farol",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd95",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd98"
+	},
+	"nome": "Arapiraca",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd95",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd99"
+	},
+	"nome": "Aracaju Centro",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd95",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd9a"
+	},
+	"nome": "Aracaju Jardins",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd95",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd9b"
+	},
+	"nome": "Estância",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd95",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd9c"
+	},
+	"nome": "Província Sul I (PS I)",
+	"nivel": "PROVINCIA",
+	"paiId": "6ae08c87ca048c6290d5fcd8",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd9d"
+	},
+	"nome": "Região Paraná Sul (PR)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c88ca048c6290d5fd9c",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd9e"
+	},
+	"nome": "Curitiba Centro",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd9d",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fd9f"
+	},
+	"nome": "Curitiba Norte",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd9d",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fda0"
+	},
+	"nome": "Curitiba Sul",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd9d",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fda1"
+	},
+	"nome": "São José dos Pinhais",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd9d",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fda2"
+	},
+	"nome": "Ponta Grossa",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd9d",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fda3"
+	},
+	"nome": "Paranaguá",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd9d",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fda4"
+	},
+	"nome": "Guarapuava",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fd9d",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fda5"
+	},
+	"nome": "Região Paraná Norte (PR)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c88ca048c6290d5fd9c",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fda6"
+	},
+	"nome": "Londrina Centro",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fda5",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fda7"
+	},
+	"nome": "Londrina Norte",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fda5",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fda8"
+	},
+	"nome": "Maringá",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fda5",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fda9"
+	},
+	"nome": "Arapongas",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fda5",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdaa"
+	},
+	"nome": "Apucarana",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fda5",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdab"
+	},
+	"nome": "Cornélio Procópio",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fda5",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdac"
+	},
+	"nome": "Região Paraná Oeste (PR)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c88ca048c6290d5fd9c",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdad"
+	},
+	"nome": "Cascavel",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdac",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdae"
+	},
+	"nome": "Foz do Iguaçu",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdac",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdaf"
+	},
+	"nome": "Toledo",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdac",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdb0"
+	},
+	"nome": "Umuarama",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdac",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdb1"
+	},
+	"nome": "Pato Branco",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdac",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdb2"
+	},
+	"nome": "Francisco Beltrão",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdac",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdb3"
+	},
+	"nome": "Província Norte (PN)",
+	"nivel": "PROVINCIA",
+	"paiId": "6ae08c87ca048c6290d5fcd8",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdb4"
+	},
+	"nome": "Região Tocantins (TO)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c88ca048c6290d5fdb3",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdb5"
+	},
+	"nome": "Palmas Centro",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdb4",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdb6"
+	},
+	"nome": "Araguaína",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdb4",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdb7"
+	},
+	"nome": "Gurupi",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdb4",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdb8"
+	},
+	"nome": "Porto Nacional",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdb4",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdb9"
+	},
+	"nome": "Região Rondônia / Acre (RO/AC)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c88ca048c6290d5fdb3",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdba"
+	},
+	"nome": "Porto Velho",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdb9",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdbb"
+	},
+	"nome": "Ji-Paraná",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdb9",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdbc"
+	},
+	"nome": "Ariquemes",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdb9",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdbd"
+	},
+	"nome": "Cacoal",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdb9",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdbe"
+	},
+	"nome": "Vilhena",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdb9",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdbf"
+	},
+	"nome": "Rio Branco",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdb9",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdc0"
+	},
+	"nome": "Região Pará / Amapá (PA/AP)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c88ca048c6290d5fdb3",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdc1"
+	},
+	"nome": "Belém Centro",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdc0",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdc2"
+	},
+	"nome": "Belém Nazaré",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdc0",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdc3"
+	},
+	"nome": "Ananindeua",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdc0",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdc4"
+	},
+	"nome": "Santarém",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdc0",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdc5"
+	},
+	"nome": "Marabá",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdc0",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdc6"
+	},
+	"nome": "Macapá",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdc0",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdc7"
+	},
+	"nome": "Região Amazonas / Roraima (AM/RR)",
+	"nivel": "REGIAO",
+	"paiId": "6ae08c88ca048c6290d5fdb3",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdc8"
+	},
+	"nome": "Manaus Centro",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdc7",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdc9"
+	},
+	"nome": "Manaus Adrianópolis",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdc7",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdca"
+	},
+	"nome": "Parintins",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdc7",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+},
+{
+	"_id": {
+		"$oid": "6ae08c88ca048c6290d5fdcb"
+	},
+	"nome": "Boa Vista",
+	"nivel": "SETOR",
+	"paiId": "6ae08c88ca048c6290d5fdc7",
+	"_class": "br.org.ens.estrutura.NoEstrutura"
+}]
+

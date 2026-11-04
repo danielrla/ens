@@ -1,0 +1,872 @@
+{
+  "backend/pom.xml": {
+    "mtime": 1793731112.4571393,
+    "seen": 1793731712.534729,
+    "ast_hash": "e2a5f6b6e13bc723bb42d48894643938",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/EnsApplication.java": {
+    "mtime": 1793038147.6587782,
+    "seen": 1793040816.524672,
+    "ast_hash": "e406d7d226e52b119cf7df35e51a6f2a",
+    "semantic_hash": "e406d7d226e52b119cf7df35e51a6f2a"
+  },
+  "backend/src/main/java/br/org/ens/casal/Casal.java": {
+    "mtime": 1793731226.5353494,
+    "seen": 1793731712.534741,
+    "ast_hash": "b285c5688132c6f903810f9b54a84aef",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/casal/CasalController.java": {
+    "mtime": 1793105454.1817448,
+    "seen": 1793106141.667098,
+    "ast_hash": "2292011da8bdff6e18e4ba84e3692aaa",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/casal/CasalDto.java": {
+    "mtime": 1793107664.9821866,
+    "seen": 1793107850.3312562,
+    "ast_hash": "c415bd849a822d776975c53a819b46a2",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/casal/CasalRepository.java": {
+    "mtime": 1793105403.3554509,
+    "seen": 1793106141.6671019,
+    "ast_hash": "cc52aed390e16805cacbc0a5d344213b",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/casal/CasalRequest.java": {
+    "mtime": 1793042017.3430028,
+    "seen": 1793042236.6231449,
+    "ast_hash": "ae1862c9aee8abd513be22986e994abd",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/casal/CasalService.java": {
+    "mtime": 1793105437.313061,
+    "seen": 1793106141.667105,
+    "ast_hash": "4625eba3e8ad9e3bdafdabacb3a67af4",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/casal/Endereco.java": {
+    "mtime": 1793028926.9861114,
+    "seen": 1793040816.5246809,
+    "ast_hash": "96a6c82fb9b5fd2d6e0ac3d02818f4d3",
+    "semantic_hash": "96a6c82fb9b5fd2d6e0ac3d02818f4d3"
+  },
+  "backend/src/main/java/br/org/ens/casal/Filho.java": {
+    "mtime": 1793044477.1124144,
+    "seen": 1793044967.6491158,
+    "ast_hash": "6784e5b809dc770f2450078acc564f6a",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/casal/InativacaoRequest.java": {
+    "mtime": 1793028992.3871045,
+    "seen": 1793040816.524683,
+    "ast_hash": "769b9e87f2fcdb9440142d8ecb5e02d6",
+    "semantic_hash": "769b9e87f2fcdb9440142d8ecb5e02d6"
+  },
+  "backend/src/main/java/br/org/ens/casal/Pessoa.java": {
+    "mtime": 1793047298.1487882,
+    "seen": 1793047969.871031,
+    "ast_hash": "f3afb3243c740a7ff8b562f43bbea9ef",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/casal/StatusCasal.java": {
+    "mtime": 1793039574.4135184,
+    "seen": 1793040816.5246851,
+    "ast_hash": "e0df0717887e7d93cd764af52f867162",
+    "semantic_hash": "e0df0717887e7d93cd764af52f867162"
+  },
+  "backend/src/main/java/br/org/ens/casal/TransferenciaRequest.java": {
+    "mtime": 1793039673.6540852,
+    "seen": 1793040816.524686,
+    "ast_hash": "aa741c10ccbd7be9c6e7b37ab076417a",
+    "semantic_hash": "aa741c10ccbd7be9c6e7b37ab076417a"
+  },
+  "backend/src/main/java/br/org/ens/casal/movimentacao/MovimentacaoCasal.java": {
+    "mtime": 1793039606.7416387,
+    "seen": 1793040816.524687,
+    "ast_hash": "a0102aca051b553a39f827336acd2a72",
+    "semantic_hash": "a0102aca051b553a39f827336acd2a72"
+  },
+  "backend/src/main/java/br/org/ens/casal/movimentacao/MovimentacaoCasalRepository.java": {
+    "mtime": 1793039637.5714805,
+    "seen": 1793040816.5246878,
+    "ast_hash": "5f8ef0cf79b8e0165b3a9370c2e73c58",
+    "semantic_hash": "5f8ef0cf79b8e0165b3a9370c2e73c58"
+  },
+  "backend/src/main/java/br/org/ens/casal/movimentacao/MovimentacaoDto.java": {
+    "mtime": 1793039628.0942295,
+    "seen": 1793040816.5246878,
+    "ast_hash": "ad56588b5016e07d26e6771b0fe3858d",
+    "semantic_hash": "ad56588b5016e07d26e6771b0fe3858d"
+  },
+  "backend/src/main/java/br/org/ens/casal/movimentacao/MovimentacaoRequest.java": {
+    "mtime": 1793039617.7279701,
+    "seen": 1793040816.524689,
+    "ast_hash": "c707fbbd46d5ebd7e92a0436bc62d3a7",
+    "semantic_hash": "c707fbbd46d5ebd7e92a0436bc62d3a7"
+  },
+  "backend/src/main/java/br/org/ens/casal/movimentacao/TipoMovimentacao.java": {
+    "mtime": 1793101854.6880922,
+    "seen": 1793102024.989752,
+    "ast_hash": "642b79404feb9bd99253aad217e3db9f",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/comum/PageResponse.java": {
+    "mtime": 1793028919.7556667,
+    "seen": 1793040816.5246909,
+    "ast_hash": "fc3d6c1c1c97499cd978a05ceeb6b7a1",
+    "semantic_hash": "fc3d6c1c1c97499cd978a05ceeb6b7a1"
+  },
+  "backend/src/main/java/br/org/ens/equipe/AlertaMandato.java": {
+    "mtime": 1793029015.104183,
+    "seen": 1793040816.524692,
+    "ast_hash": "5b77fe181280844d30a318f5edf9036b",
+    "semantic_hash": "5b77fe181280844d30a318f5edf9036b"
+  },
+  "backend/src/main/java/br/org/ens/equipe/Equipe.java": {
+    "mtime": 1793102446.0111473,
+    "seen": 1793103259.417006,
+    "ast_hash": "527dec63af5744416d6a8877fe6c0d94",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/equipe/EquipeController.java": {
+    "mtime": 1793029194.4018242,
+    "seen": 1793040816.524694,
+    "ast_hash": "20e8d5c817e830cfe3d14bfc54cfbd23",
+    "semantic_hash": "20e8d5c817e830cfe3d14bfc54cfbd23"
+  },
+  "backend/src/main/java/br/org/ens/equipe/EquipeDetalheDto.java": {
+    "mtime": 1793102486.4045157,
+    "seen": 1793103259.4170082,
+    "ast_hash": "bf2432c71512069d36bcc17514c1fc32",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/equipe/EquipeRepository.java": {
+    "mtime": 1793047352.4119058,
+    "seen": 1793047969.871048,
+    "ast_hash": "e34ec0ba9629dba8d62742924cfb0d5b",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/equipe/EquipeRequest.java": {
+    "mtime": 1793102455.4222856,
+    "seen": 1793103259.417011,
+    "ast_hash": "ba484663d7984f6485398268bc03feaa",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/equipe/EquipeResumoDto.java": {
+    "mtime": 1793044543.6336658,
+    "seen": 1793044967.649138,
+    "ast_hash": "86479fabb21382944e70a53a7cc24176",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/equipe/EquipeService.java": {
+    "mtime": 1793113345.0044646,
+    "seen": 1793113982.219947,
+    "ast_hash": "fc9659a8d016a8367ed921b66464f802",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/equipe/PapelVinculo.java": {
+    "mtime": 1793029022.2840202,
+    "seen": 1793040816.524703,
+    "ast_hash": "7898c8788d56cde6572668643df8d55a",
+    "semantic_hash": "7898c8788d56cde6572668643df8d55a"
+  },
+  "backend/src/main/java/br/org/ens/equipe/SituacaoMandato.java": {
+    "mtime": 1793029007.2140267,
+    "seen": 1793040816.524704,
+    "ast_hash": "a701731c8f57ae70d689309e77f84b5a",
+    "semantic_hash": "a701731c8f57ae70d689309e77f84b5a"
+  },
+  "backend/src/main/java/br/org/ens/equipe/StatusEquipe.java": {
+    "mtime": 1793028999.917908,
+    "seen": 1793040816.524705,
+    "ast_hash": "853332780a5d966a5fd550a16667ebf3",
+    "semantic_hash": "853332780a5d966a5fd550a16667ebf3"
+  },
+  "backend/src/main/java/br/org/ens/equipe/Vinculo.java": {
+    "mtime": 1793029054.4127817,
+    "seen": 1793040816.5247061,
+    "ast_hash": "76fa1bb50dc497a1c14278dbd16db932",
+    "semantic_hash": "76fa1bb50dc497a1c14278dbd16db932"
+  },
+  "backend/src/main/java/br/org/ens/equipe/VinculoDto.java": {
+    "mtime": 1793029092.3989232,
+    "seen": 1793040816.524707,
+    "ast_hash": "0164d215dc7e1763dd9ef0ce67e9b940",
+    "semantic_hash": "0164d215dc7e1763dd9ef0ce67e9b940"
+  },
+  "backend/src/main/java/br/org/ens/equipe/VinculoRequest.java": {
+    "mtime": 1793029085.7510612,
+    "seen": 1793040816.524708,
+    "ast_hash": "881deb48c2d6404f57d9d86590647179",
+    "semantic_hash": "881deb48c2d6404f57d9d86590647179"
+  },
+  "backend/src/main/java/br/org/ens/estrutura/EstruturaController.java": {
+    "mtime": 1793047406.580418,
+    "seen": 1793047969.871063,
+    "ast_hash": "cfeedb9b7ae4eb5a92119c183af97970",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/estrutura/EstruturaSeed.java": {
+    "mtime": 1793047491.3926525,
+    "seen": 1793047969.871064,
+    "ast_hash": "d8001243fc3af94f27603108150846d3",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/estrutura/NivelEstrutura.java": {
+    "mtime": 1793027616.703858,
+    "seen": 1793040816.524711,
+    "ast_hash": "f91e4950cc89dc6f3381e88d7290ec5f",
+    "semantic_hash": "f91e4950cc89dc6f3381e88d7290ec5f"
+  },
+  "backend/src/main/java/br/org/ens/estrutura/NoEstrutura.java": {
+    "mtime": 1793027618.7987845,
+    "seen": 1793040816.5247118,
+    "ast_hash": "99eeba86dec87aac3a7a7b1aad75b717",
+    "semantic_hash": "99eeba86dec87aac3a7a7b1aad75b717"
+  },
+  "backend/src/main/java/br/org/ens/estrutura/NoEstruturaRepository.java": {
+    "mtime": 1793047310.870382,
+    "seen": 1793047969.8710709,
+    "ast_hash": "c69c75c7032d009a168b8a21bfea7d5f",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/mandato/AlertaMandato.java": {
+    "mtime": 1793038070.0714726,
+    "seen": 1793040816.524714,
+    "ast_hash": "a5f4c3620cb7c73eeb3938d11d8c4aa9",
+    "semantic_hash": "a5f4c3620cb7c73eeb3938d11d8c4aa9"
+  },
+  "backend/src/main/java/br/org/ens/mandato/FuncaoMandato.java": {
+    "mtime": 1793038056.04478,
+    "seen": 1793040816.524715,
+    "ast_hash": "f0e38d0810a8c387c5ea29dabce027bc",
+    "semantic_hash": "f0e38d0810a8c387c5ea29dabce027bc"
+  },
+  "backend/src/main/java/br/org/ens/mandato/InterrupcaoRequest.java": {
+    "mtime": 1793038101.3054235,
+    "seen": 1793040816.5247161,
+    "ast_hash": "a0fda63ad52d8ac66fe045cfe824fc44",
+    "semantic_hash": "a0fda63ad52d8ac66fe045cfe824fc44"
+  },
+  "backend/src/main/java/br/org/ens/mandato/Mandato.java": {
+    "mtime": 1793038082.5864534,
+    "seen": 1793040816.524717,
+    "ast_hash": "692dfb18caf6c73fe771e52e220cb54a",
+    "semantic_hash": "692dfb18caf6c73fe771e52e220cb54a"
+  },
+  "backend/src/main/java/br/org/ens/mandato/MandatoController.java": {
+    "mtime": 1793038517.273892,
+    "seen": 1793040816.524718,
+    "ast_hash": "53833669692297d4fee8df5346d9222b",
+    "semantic_hash": "53833669692297d4fee8df5346d9222b"
+  },
+  "backend/src/main/java/br/org/ens/mandato/MandatoDto.java": {
+    "mtime": 1793038130.8468266,
+    "seen": 1793040816.524719,
+    "ast_hash": "e9a6ec8c398eb0d974387b23ab4add3c",
+    "semantic_hash": "e9a6ec8c398eb0d974387b23ab4add3c"
+  },
+  "backend/src/main/java/br/org/ens/mandato/MandatoRepository.java": {
+    "mtime": 1793038139.0329967,
+    "seen": 1793040816.5247202,
+    "ast_hash": "51206fa82b1ef8f268dca0f5e8d9e9a0",
+    "semantic_hash": "51206fa82b1ef8f268dca0f5e8d9e9a0"
+  },
+  "backend/src/main/java/br/org/ens/mandato/MandatoRequest.java": {
+    "mtime": 1793038091.0796304,
+    "seen": 1793040816.524721,
+    "ast_hash": "d6f663dc9543465196a71f74a88343db",
+    "semantic_hash": "d6f663dc9543465196a71f74a88343db"
+  },
+  "backend/src/main/java/br/org/ens/mandato/MandatoService.java": {
+    "mtime": 1793112087.523734,
+    "seen": 1793112138.6224809,
+    "ast_hash": "a2a1f414e83f880fa26af9faff8b14d6",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/mandato/NivelInstancia.java": {
+    "mtime": 1793038047.9278073,
+    "seen": 1793040816.524723,
+    "ast_hash": "7727af1fc98811b50f2a069f8e54a29a",
+    "semantic_hash": "7727af1fc98811b50f2a069f8e54a29a"
+  },
+  "backend/src/main/java/br/org/ens/mandato/PrazoSugeridoDto.java": {
+    "mtime": 1793038109.0490031,
+    "seen": 1793040816.524724,
+    "ast_hash": "c261b07a8b9110a8a413186778e7bbdf",
+    "semantic_hash": "c261b07a8b9110a8a413186778e7bbdf"
+  },
+  "backend/src/main/java/br/org/ens/mandato/StatusMandato.java": {
+    "mtime": 1793038062.7843585,
+    "seen": 1793040816.524724,
+    "ast_hash": "f2595e853ed779dba6d1dcfd67ea4cbd",
+    "semantic_hash": "f2595e853ed779dba6d1dcfd67ea4cbd"
+  },
+  "backend/src/main/java/br/org/ens/reuniao/PresencaCasal.java": {
+    "mtime": 1793039778.8539677,
+    "seen": 1793040816.524725,
+    "ast_hash": "ee470c1ca8347cd83f26c1247b20f70d",
+    "semantic_hash": "ee470c1ca8347cd83f26c1247b20f70d"
+  },
+  "backend/src/main/java/br/org/ens/reuniao/PresencaDetalheDto.java": {
+    "mtime": 1793039809.9488368,
+    "seen": 1793040816.524726,
+    "ast_hash": "eed5a5ceebc70f1bc7365579b9a98002",
+    "semantic_hash": "eed5a5ceebc70f1bc7365579b9a98002"
+  },
+  "backend/src/main/java/br/org/ens/reuniao/Reuniao.java": {
+    "mtime": 1793731208.5407703,
+    "seen": 1793731712.535001,
+    "ast_hash": "8516f1baa6c8e447c7aace055aeecb93",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/reuniao/ReuniaoController.java": {
+    "mtime": 1793111658.6904724,
+    "seen": 1793112138.6225002,
+    "ast_hash": "17ac77818f828ce618a34fc840237a29",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/reuniao/ReuniaoDto.java": {
+    "mtime": 1793099610.8093536,
+    "seen": 1793100741.1226492,
+    "ast_hash": "b84aa342d68ae15fb86397825c1f5bb4",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/reuniao/ReuniaoRepository.java": {
+    "mtime": 1793039832.8336363,
+    "seen": 1793040816.5247302,
+    "ast_hash": "3ca09e8c62b7693c1e837294d624153d",
+    "semantic_hash": "3ca09e8c62b7693c1e837294d624153d"
+  },
+  "backend/src/main/java/br/org/ens/reuniao/ReuniaoRequest.java": {
+    "mtime": 1793099595.41556,
+    "seen": 1793100741.1226509,
+    "ast_hash": "18f0b6775fd6ab1529eac5a18bf5be57",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/reuniao/ReuniaoService.java": {
+    "mtime": 1793734830.1467683,
+    "seen": 1793735109.095746,
+    "ast_hash": "da26503dea2209dba33063131f089849",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/reuniao/StatusPresenca.java": {
+    "mtime": 1793039768.0731328,
+    "seen": 1793040816.524735,
+    "ast_hash": "a248494c59d60a4d9c91b75ee21d8ecf",
+    "semantic_hash": "a248494c59d60a4d9c91b75ee21d8ecf"
+  },
+  "backend/src/main/java/br/org/ens/sce/Sce.java": {
+    "mtime": 1793041367.2998867,
+    "seen": 1793042236.623211,
+    "ast_hash": "fe401023d6c9be55af07db1d06c94891",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/sce/SceController.java": {
+    "mtime": 1793039329.905995,
+    "seen": 1793040816.5247371,
+    "ast_hash": "0af3e2da2b8bdba1ab7b6e3f73816d0e",
+    "semantic_hash": "0af3e2da2b8bdba1ab7b6e3f73816d0e"
+  },
+  "backend/src/main/java/br/org/ens/sce/SceDto.java": {
+    "mtime": 1793041386.4583225,
+    "seen": 1793042236.623213,
+    "ast_hash": "b1f8145f0ce39810a681fb6a3e6d430b",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/sce/SceRepository.java": {
+    "mtime": 1793039300.5077121,
+    "seen": 1793040816.524739,
+    "ast_hash": "427721fcdbb53654e8071f02e712d105",
+    "semantic_hash": "427721fcdbb53654e8071f02e712d105"
+  },
+  "backend/src/main/java/br/org/ens/sce/SceRequest.java": {
+    "mtime": 1793041375.7562342,
+    "seen": 1793042236.6232162,
+    "ast_hash": "1fd9ddf3a551c40134ed15c5d97d7927",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/sce/SceService.java": {
+    "mtime": 1793041395.1287806,
+    "seen": 1793042236.6232169,
+    "ast_hash": "9ee205ef0988cab67b46f0475d3c3ddf",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/sce/TituloSce.java": {
+    "mtime": 1793039250.6484208,
+    "seen": 1793040816.5247412,
+    "ast_hash": "65df83325c9dc0b744be57e47a465bf4",
+    "semantic_hash": "65df83325c9dc0b744be57e47a465bf4"
+  },
+  "frontend/angular.json": {
+    "mtime": 1793101305.735564,
+    "seen": 1793102024.98982,
+    "ast_hash": "ced9a40b297b148fea0f01525967c42d",
+    "semantic_hash": ""
+  },
+  "frontend/package.json": {
+    "mtime": 1793028357.45997,
+    "seen": 1793040816.5247428,
+    "ast_hash": "5b571598003873de5d7c4a31957f44a7",
+    "semantic_hash": "5b571598003873de5d7c4a31957f44a7"
+  },
+  "frontend/proxy.conf.json": {
+    "mtime": 1793028462.3026323,
+    "seen": 1793040816.524744,
+    "ast_hash": "ed98749363315022c3ee8d0bf26fa8fb",
+    "semantic_hash": "ed98749363315022c3ee8d0bf26fa8fb"
+  },
+  "frontend/src/app/app.config.ts": {
+    "mtime": 1793028442.037997,
+    "seen": 1793040816.524745,
+    "ast_hash": "fb22806a1095936feff06104b0fab8ca",
+    "semantic_hash": "fb22806a1095936feff06104b0fab8ca"
+  },
+  "frontend/src/app/app.routes.ts": {
+    "mtime": 1793731549.6047606,
+    "seen": 1793731712.535156,
+    "ast_hash": "f5142f72775e0fabeaf856df644fdc2b",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/app.ts": {
+    "mtime": 1793030373.2082117,
+    "seen": 1793040816.524747,
+    "ast_hash": "81283a63be67f65701ea9a4593462e21",
+    "semantic_hash": "81283a63be67f65701ea9a4593462e21"
+  },
+  "frontend/src/app/core/casal.service.ts": {
+    "mtime": 1793105579.7014441,
+    "seen": 1793106141.667207,
+    "ast_hash": "e0b955f597c4105c87e08693cce2d534",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/core/equipe.service.ts": {
+    "mtime": 1793102594.487239,
+    "seen": 1793103259.417084,
+    "ast_hash": "dd27c3f260c4d5dd0a804af5e8f17457",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/core/estrutura.service.ts": {
+    "mtime": 1793047549.489828,
+    "seen": 1793047969.871116,
+    "ast_hash": "df54b0c0906796b4778f9645b2255e93",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/core/mandato.service.ts": {
+    "mtime": 1793038255.399607,
+    "seen": 1793040816.5247529,
+    "ast_hash": "aff1c2eb53cd1e2157da7b9a58b6ed6d",
+    "semantic_hash": "aff1c2eb53cd1e2157da7b9a58b6ed6d"
+  },
+  "frontend/src/app/core/reuniao.service.ts": {
+    "mtime": 1793734685.240994,
+    "seen": 1793735109.0957792,
+    "ast_hash": "b9cd078fd9322e52e1fc5d33fd00324e",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/core/sce.service.ts": {
+    "mtime": 1793041585.1740348,
+    "seen": 1793042236.623233,
+    "ast_hash": "89499239e19a8324fd73e6c17b24565b",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/features/casais/casais-page.ts": {
+    "mtime": 1793107329.8742905,
+    "seen": 1793107850.3313751,
+    "ast_hash": "3fce9aae31f9235ba803b01f44c133bc",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/features/equipes/equipes-page.ts": {
+    "mtime": 1793113401.0414054,
+    "seen": 1793113982.220041,
+    "ast_hash": "39099c8053642fe2493e82ebea06a307",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/features/equipes/filtro-estrutura.ts": {
+    "mtime": 1793028458.214522,
+    "seen": 1793040816.524758,
+    "ast_hash": "13826d9a6b6779e2348a231083d5d281",
+    "semantic_hash": "13826d9a6b6779e2348a231083d5d281"
+  },
+  "frontend/src/app/features/mandatos/mandatos-page.ts": {
+    "mtime": 1793113546.299569,
+    "seen": 1793113982.220045,
+    "ast_hash": "a106fa8af1adf4b4e6f3640e2d310326",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/features/sacerdotes/sacerdotes-page.ts": {
+    "mtime": 1793107405.857233,
+    "seen": 1793107850.331386,
+    "ast_hash": "d37b3b06b99aaddd03244a975ec1e0b2",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/layout/footer/footer.ts": {
+    "mtime": 1793030342.5854993,
+    "seen": 1793040816.52476,
+    "ast_hash": "94e7d645bfa239074a8816c6b57541d6",
+    "semantic_hash": "94e7d645bfa239074a8816c6b57541d6"
+  },
+  "frontend/src/app/layout/header/header.ts": {
+    "mtime": 1793105687.6162634,
+    "seen": 1793106141.667233,
+    "ast_hash": "219c16a608a4660d9ddd04b48ac21cbe",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/layout/layout.service.ts": {
+    "mtime": 1793041531.437246,
+    "seen": 1793042236.623242,
+    "ast_hash": "e25420b0958ea260c517d97df77d442a",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/layout/sidebar/nav-item.model.ts": {
+    "mtime": 1793731536.4075327,
+    "seen": 1793731712.5352068,
+    "ast_hash": "6fbbc2469b207672fcddb92404790341",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/layout/sidebar/sidebar-item.ts": {
+    "mtime": 1793042040.9735396,
+    "seen": 1793042236.623244,
+    "ast_hash": "35f3b2f589025625ded109452473f131",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/layout/sidebar/sidebar.ts": {
+    "mtime": 1793030294.2517307,
+    "seen": 1793040816.524768,
+    "ast_hash": "f1a2d8f6dbbcb4c1726a020be27d614b",
+    "semantic_hash": "f1a2d8f6dbbcb4c1726a020be27d614b"
+  },
+  "frontend/src/main.ts": {
+    "mtime": 1793028357.463606,
+    "seen": 1793040816.524769,
+    "ast_hash": "ac0b277dca1867b341af9e2d25224ae9",
+    "semantic_hash": "ac0b277dca1867b341af9e2d25224ae9"
+  },
+  "frontend/tsconfig.app.json": {
+    "mtime": 1793028357.4607267,
+    "seen": 1793040816.52477,
+    "ast_hash": "67a3f20f3c9369570c8dc70e3d5bb7ce",
+    "semantic_hash": "67a3f20f3c9369570c8dc70e3d5bb7ce"
+  },
+  "frontend/tsconfig.json": {
+    "mtime": 1793028357.46033,
+    "seen": 1793040816.524771,
+    "ast_hash": "d4886a8a9be1c35a2d17ab5e0f4439c2",
+    "semantic_hash": "d4886a8a9be1c35a2d17ab5e0f4439c2"
+  },
+  "frontend/tsconfig.spec.json": {
+    "mtime": 1793028357.4612749,
+    "seen": 1793040816.5247722,
+    "ast_hash": "9261a8f9db3b2c991df0e6f9d51828b1",
+    "semantic_hash": "9261a8f9db3b2c991df0e6f9d51828b1"
+  },
+  "backend/src/main/resources/application.yml": {
+    "mtime": 1793733761.8156383,
+    "seen": 1793734269.923102,
+    "ast_hash": "c67bf78c1589299185243fb8f2097ace",
+    "semantic_hash": ""
+  },
+  "docker/docker-compose.yml": {
+    "mtime": 1793101102.2113686,
+    "seen": 1793101129.385979,
+    "ast_hash": "47dbc9571aacd5af78e5c13c3e7e822a",
+    "semantic_hash": ""
+  },
+  "docs/README.md": {
+    "mtime": 1793028680.2256703,
+    "seen": 1793041115.434583,
+    "ast_hash": "f3344336ffd735492f726c1e1ba73ffd",
+    "semantic_hash": ""
+  },
+  "docs/arquitetura.md": {
+    "mtime": 1793731689.7269864,
+    "seen": 1793731712.53525,
+    "ast_hash": "ebddc5a27251454c2d953c0bdcbbe378",
+    "semantic_hash": ""
+  },
+  "docs/execucao.md": {
+    "mtime": 1793028691.0950606,
+    "seen": 1793041115.4345841,
+    "ast_hash": "1a036a55cedb0ff0542d7b24639eec45",
+    "semantic_hash": ""
+  },
+  "docs/openapi.yaml": {
+    "mtime": 1793734672.8037481,
+    "seen": 1793735109.0958169,
+    "ast_hash": "65ccdeefc264c6e4b0b952ca7dd4b103",
+    "semantic_hash": ""
+  },
+  "docs/roadmap.md": {
+    "mtime": 1793731701.4328914,
+    "seen": 1793731712.535254,
+    "ast_hash": "8adc87e16a6773898eeaac7339ab2154",
+    "semantic_hash": ""
+  },
+  "frontend.md": {
+    "mtime": 1793029184.3730345,
+    "seen": 1793041115.434588,
+    "ast_hash": "224582f2cebc49893d3d9101dee3a2f9",
+    "semantic_hash": ""
+  },
+  "frontend/README.md": {
+    "mtime": 1793028357.4584131,
+    "seen": 1793041115.434589,
+    "ast_hash": "1f3c7f86fb696b4fcd8b06d77fff9ee0",
+    "semantic_hash": ""
+  },
+  "frontend/src/index.html": {
+    "mtime": 1793028437.9148796,
+    "seen": 1793041115.4345899,
+    "ast_hash": "d23656c4f7d35d1e60485b45628a017d",
+    "semantic_hash": ""
+  },
+  "docs/logo-ens.png": {
+    "mtime": 1793026266.0620317,
+    "seen": 1793041115.434591,
+    "ast_hash": "fa523b73a4d6dfa6401e2958f404fc0d",
+    "semantic_hash": ""
+  },
+  "frontend/public/logo-ens.png": {
+    "mtime": 1793028469.6424885,
+    "seen": 1793041115.434592,
+    "ast_hash": "fa523b73a4d6dfa6401e2958f404fc0d",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/core/mascara.util.ts": {
+    "mtime": 1793044617.8401675,
+    "seen": 1793044967.6492019,
+    "ast_hash": "a9750cf791b623b0b334b65aafb8d4e6",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/estrutura/CargaOficialSeed.java": {
+    "mtime": 1793047898.9043617,
+    "seen": 1793047969.871062,
+    "ast_hash": "1eab1f1ceaf6985ff430793a010e7ca0",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/estrutura/EstruturaService.java": {
+    "mtime": 1793047381.852556,
+    "seen": 1793047969.871066,
+    "ast_hash": "94483e980e168d6711f71dac4bcd5c80",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/estrutura/NoArvoreDto.java": {
+    "mtime": 1793047339.9839754,
+    "seen": 1793047969.871068,
+    "ast_hash": "2247eb0590843c1d1db7805e6863455c",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/estrutura/NoEstruturaRequest.java": {
+    "mtime": 1793047317.7736907,
+    "seen": 1793047969.871072,
+    "ast_hash": "5a82954cb4bea6bb6c553fe44be7bc32",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/features/estrutura/estrutura-page.ts": {
+    "mtime": 1793049791.0522807,
+    "seen": 1793050595.301665,
+    "ast_hash": "a68de316b612f319d2a7cadbdefc4dad",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/reuniao/RegistroPresencaRequest.java": {
+    "mtime": 1793049844.1347616,
+    "seen": 1793050595.301625,
+    "ast_hash": "ab6196a28882cd7403b1f0b8db7c2f5f",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/features/reunioes/agenda-reunioes-page.ts": {
+    "mtime": 1793735060.518962,
+    "seen": 1793735109.095793,
+    "ast_hash": "ed207873fac495ad527eabaa0ec76424",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/reuniao/TipoReuniao.java": {
+    "mtime": 1793734659.8182638,
+    "seen": 1793735109.0957482,
+    "ast_hash": "a9b3408c19df727a10a0e59ba4c69d3c",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/core/ens-date.pipe.ts": {
+    "mtime": 1793099825.474324,
+    "seen": 1793100741.122675,
+    "ast_hash": "821fdbc89cb61c32adfe4c3cef7d9b32",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/features/reunioes/dashboard-equipe-page.ts": {
+    "mtime": 1793113789.2862148,
+    "seen": 1793113982.220049,
+    "ast_hash": "56d49f4ead757f6c496be475cc762ade",
+    "semantic_hash": ""
+  },
+  "docker-compose.yml": {
+    "mtime": 1793731131.688191,
+    "seen": 1793731712.535245,
+    "ast_hash": "06add048b10d71207b1e52a3dba8ff73",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/equipe/TemaAno.java": {
+    "mtime": 1793102394.420524,
+    "seen": 1793103259.4170198,
+    "ast_hash": "6ca9c40d73df87004655de18e6b0d561",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/mural/MomentoMural.java": {
+    "mtime": 1793731242.3702302,
+    "seen": 1793731712.534827,
+    "ast_hash": "700bb079df5c6bd88f52a763ecb9ed1b",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/mural/MomentoMuralController.java": {
+    "mtime": 1793106934.4124959,
+    "seen": 1793107850.331327,
+    "ast_hash": "8fafb913f26e46f78be3a87328ee2bba",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/mural/MomentoMuralDto.java": {
+    "mtime": 1793105488.9780734,
+    "seen": 1793106141.6671722,
+    "ast_hash": "8eab8ffbfe4e7e80b6aec254fbde388f",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/mural/MomentoMuralRepository.java": {
+    "mtime": 1793105514.590122,
+    "seen": 1793106141.6671731,
+    "ast_hash": "3f54f086cf8debcdf155558ae57409fb",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/mural/MomentoMuralRequest.java": {
+    "mtime": 1793106894.7039084,
+    "seen": 1793107850.3313322,
+    "ast_hash": "b7c036eec00546b08d852eba9a8b860f",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/mural/MomentoMuralService.java": {
+    "mtime": 1793107583.0033157,
+    "seen": 1793107850.3313332,
+    "ast_hash": "c14f9eb44abd7cf5ff53a53e2448b827",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/core/mural.service.ts": {
+    "mtime": 1793106994.5980933,
+    "seen": 1793107850.331372,
+    "ast_hash": "787a9cc0e43b3f4b3e9347a7f79f112b",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/features/casais/perfil-casal-page.ts": {
+    "mtime": 1793107241.7609346,
+    "seen": 1793107850.331376,
+    "ast_hash": "a75ce5725132989bf63a7937c3ed4d98",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/features/mural/mural-bordo-page.ts": {
+    "mtime": 1793107760.9381735,
+    "seen": 1793107850.331382,
+    "ast_hash": "867e543583e14f9ef6ffea43fb038b6f",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/features/dashboard/dashboard-geral-page.ts": {
+    "mtime": 1793113904.549967,
+    "seen": 1793113982.2200398,
+    "ast_hash": "3a7b69010a134a904656312fdc05ad11",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/integracao/google/ConexaoGoogle.java": {
+    "mtime": 1793731739.104054,
+    "seen": 1793733709.979369,
+    "ast_hash": "b1bef972acc1ea98ad7d2e50492e5c5f",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/integracao/google/ConexaoGoogleRepository.java": {
+    "mtime": 1793731270.2101212,
+    "seen": 1793731712.534801,
+    "ast_hash": "4ec5b0dfaeb2da59928c55516a703d10",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/integracao/google/GoogleAuthService.java": {
+    "mtime": 1793734448.8340392,
+    "seen": 1793735109.095702,
+    "ast_hash": "42dcea47073a9baa4da6c22bbf9c8135",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/integracao/google/GoogleCalendarService.java": {
+    "mtime": 1793734776.6106255,
+    "seen": 1793735109.095704,
+    "ast_hash": "d627e88214a5add439f8e57e0df2289f",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/integracao/google/GoogleContactsService.java": {
+    "mtime": 1793731477.1507077,
+    "seen": 1793731712.5348039,
+    "ast_hash": "25be40e225e145a7a191f4126cbbc809",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/integracao/google/GoogleDriveService.java": {
+    "mtime": 1793731371.562911,
+    "seen": 1793731712.534806,
+    "ast_hash": "1b0d38c344b3be7ccebbd5551674a1ac",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/integracao/google/GoogleIntegracaoAdminController.java": {
+    "mtime": 1793733596.9256132,
+    "seen": 1793733709.9793768,
+    "ast_hash": "4c6240f4f0afe85681a7bb74ff0ec520",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/integracao/google/dto/GoogleAuthUrlResponse.java": {
+    "mtime": 1793731280.440612,
+    "seen": 1793731712.534807,
+    "ast_hash": "913a8cb5c36f79aaa12670cdea626dbd",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/integracao/google/dto/GoogleCallbackRequest.java": {
+    "mtime": 1793731284.6902444,
+    "seen": 1793731712.5348082,
+    "ast_hash": "f9239d7dd5bebc2224e03bdf44b15403",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/integracao/google/dto/GoogleStatusDto.java": {
+    "mtime": 1793733761.768355,
+    "seen": 1793734269.922962,
+    "ast_hash": "d3ba6e3e60dd6130fb888a8256c90b83",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/integracao/google/dto/SincronizacaoResultadoDto.java": {
+    "mtime": 1793731289.3527317,
+    "seen": 1793731712.5348108,
+    "ast_hash": "e6f385360a5fdc171a0e854cf4b099b0",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/br/org/ens/seguranca/CriptografiaService.java": {
+    "mtime": 1793731252.270322,
+    "seen": 1793731712.535063,
+    "ast_hash": "d54ca27cf8975f53b0c885e6c73d4036",
+    "semantic_hash": ""
+  },
+  "backend/src/test/java/br/org/ens/seguranca/CriptografiaServiceTest.java": {
+    "mtime": 1793731491.3768282,
+    "seen": 1793731712.5350652,
+    "ast_hash": "806ff1d2db6cfa61aa93626eb9e20392",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/core/google-integracao.service.ts": {
+    "mtime": 1793733620.8643706,
+    "seen": 1793733709.979446,
+    "ast_hash": "a882586d6b0b82a95fa4dc054b06bdd0",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/features/admin/google-callback-page.ts": {
+    "mtime": 1793731563.2423854,
+    "seen": 1793731712.535179,
+    "ast_hash": "ce8b2143e87043878914bd0473807e3b",
+    "semantic_hash": ""
+  },
+  "frontend/src/app/features/admin/integracao-admin-page.ts": {
+    "mtime": 1793733761.9647963,
+    "seen": 1793734269.923063,
+    "ast_hash": "a6d751fb14ff30612ce2da948f012657",
+    "semantic_hash": ""
+  }
+}

@@ -8,6 +8,8 @@ security:
   - bearerAuth: []
 tags:
   - name: auth
+  - name: usuarios
+  - name: integracoes
   - name: estrutura
   - name: equipes
   - name: casais
@@ -51,6 +53,44 @@ paths:
           content:
             application/json:
               schema: { $ref: '#/components/schemas/TokenResponse' }
+  /auth/esqueci-senha:
+    post:
+      tags: [auth]
+      security: []
+      summary: Solicita link/token de recuperação de senha enviado por e-mail
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EsqueciSenhaRequest' }
+      responses:
+        '200':
+          description: Instruções enviadas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensagem: { type: string }
+  /auth/reset-senha:
+    post:
+      tags: [auth]
+      security: []
+      summary: Redefine a senha com base em token de validação
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ResetSenhaRequest' }
+      responses:
+        '200':
+          description: Senha redefinida com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensagem: { type: string }
   /auth/me:
     get:
       tags: [auth]
@@ -682,6 +722,297 @@ paths:
       responses:
         '204':
           description: Excluído com sucesso
+  /reunioes:
+    get:
+      tags: [vida-equipe]
+      summary: Lista todas as reuniões filtradas opcionalmente por equipe
+      parameters:
+        - { name: equipeId, in: query, required: false, schema: { type: string } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/ReuniaoDto' }
+  /reunioes/minha-equipe:
+    get:
+      tags: [vida-equipe]
+      summary: Lista reuniões da equipe do usuário logado
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/ReuniaoDto' }
+  /reunioes/{id}:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string } }
+    get:
+      tags: [vida-equipe]
+      summary: Obtém detalhes de uma reunião por ID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ReuniaoDto' }
+    put:
+      tags: [vida-equipe]
+      summary: Atualiza dados de uma reunião e sincroniza com Google Agenda
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ReuniaoRequest' }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ReuniaoDto' }
+    delete:
+      tags: [vida-equipe]
+      summary: Exclui uma reunião e remove do Google Agenda
+      responses:
+        '204':
+          description: Excluído com sucesso
+  /reunioes/{id}/presencas:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string } }
+    put:
+      tags: [vida-equipe]
+      summary: Registra presenças, presença do SCE e anotações do CRE
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                presencas:
+                  type: array
+                  items: { $ref: '#/components/schemas/PresencaCasal' }
+                scePresente: { type: boolean }
+                anotacoesCre: { type: string }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ReuniaoDto' }
+  /reunioes/disparar-alertas-d1:
+    post:
+      tags: [vida-equipe]
+      summary: Disparo manual de verificação e envio de alertas D-1
+      responses:
+        '200':
+          description: Disparo realizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sucesso: { type: boolean }
+                  alertasDisparados: { type: integer }
+  /admin/usuarios:
+    get:
+      tags: [usuarios]
+      summary: Lista usuários paginados com filtro por nome ou e-mail
+      parameters:
+        - { name: busca, in: query, required: false, schema: { type: string } }
+        - { name: page, in: query, schema: { type: integer, default: 0 } }
+        - { name: size, in: query, schema: { type: integer, default: 20 } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: array
+                    items: { $ref: '#/components/schemas/UsuarioDto' }
+                  totalElements: { type: integer }
+                  totalPages: { type: integer }
+    post:
+      tags: [usuarios]
+      summary: Cria novo usuário manualmente pela administração
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CriarUsuarioRequest' }
+      responses:
+        '201':
+          description: Criado com sucesso
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UsuarioDto' }
+  /admin/usuarios/{id}:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string } }
+    get:
+      tags: [usuarios]
+      summary: Obtém usuário por ID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UsuarioDto' }
+  /admin/usuarios/{id}/perfis:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string } }
+    patch:
+      tags: [usuarios]
+      summary: Atualiza os perfis atribuídos a um usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AtualizarPerfisRequest' }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UsuarioDto' }
+  /admin/usuarios/{id}/status:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string } }
+    patch:
+      tags: [usuarios]
+      summary: Altera o status do usuário entre ATIVO e BLOQUEADO
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status]
+              properties:
+                status: { $ref: '#/components/schemas/StatusUsuario' }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UsuarioDto' }
+  /admin/usuarios/{id}/reset-senha:
+    parameters:
+      - { name: id, in: path, required: true, schema: { type: string } }
+    post:
+      tags: [usuarios]
+      summary: Reseta a senha do usuário gerando credencial temporária enviada por e-mail
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensagem: { type: string }
+                  novaSenhaTemporaria: { type: string }
+  /admin/integracoes/google/status:
+    get:
+      tags: [integracoes]
+      summary: Retorna status atual da conexão com Google Workspace
+      parameters:
+        - { name: casalId, in: query, required: false, schema: { type: string } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StatusConexaoGoogleDto' }
+  /admin/integracoes/google/autorizar:
+    get:
+      tags: [integracoes]
+      summary: Gera URL de consentimento OAuth 2.0 do Google
+      parameters:
+        - { name: casalId, in: query, required: false, schema: { type: string } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthUrlResponse' }
+  /admin/integracoes/google/callback:
+    get:
+      tags: [integracoes]
+      security: []
+      summary: Endpoint de retorno do fluxo OAuth Google
+      parameters:
+        - { name: code, in: query, required: false, schema: { type: string } }
+        - { name: state, in: query, required: false, schema: { type: string } }
+      responses:
+        '302':
+          description: Redirecionamento para o painel frontend
+  /admin/integracoes/google/trocar-codigo:
+    post:
+      tags: [integracoes]
+      summary: Troca o código de autorização por tokens de acesso
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code]
+              properties:
+                code: { type: string }
+                casalId: { type: string }
+      responses:
+        '200':
+          description: Conectado com sucesso
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StatusConexaoGoogleDto' }
+  /admin/integracoes/google/desconectar:
+    post:
+      tags: [integracoes]
+      summary: Desconecta a conta Google associada
+      parameters:
+        - { name: casalId, in: query, required: false, schema: { type: string } }
+      responses:
+        '200':
+          description: Desconectado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensagem: { type: string }
+  /admin/integracoes/google/sincronizar-agenda:
+    post:
+      tags: [integracoes]
+      summary: Dispara sincronização de reuniões e aniversários no Google Calendar
+      parameters:
+        - { name: equipeId, in: query, required: false, schema: { type: string } }
+      responses:
+        '200':
+          description: Sincronização concluída
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SincronizacaoResultadoDto' }
+  /admin/integracoes/google/sincronizar-contatos:
+    post:
+      tags: [integracoes]
+      summary: Dispara sincronização de contatos da equipe no Google Contacts
+      parameters:
+        - { name: equipeId, in: query, required: false, schema: { type: string } }
+      responses:
+        '200':
+          description: Sincronização concluída
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SincronizacaoResultadoDto' }
 components:
   securitySchemes:
     bearerAuth:
@@ -1010,7 +1341,17 @@ components:
             criadoEm: { type: string, format: date-time }
     TipoReuniao:
       type: string
-      enum: [FORMAL, INFORMAL]
+      enum: [FORMAL, INFORMAL, OUTROS]
+    StatusPresenca:
+      type: string
+      enum: [PRESENTE, FALTOU, JUSTIFICOU]
+    PresencaCasal:
+      type: object
+      required: [casalId, status]
+      properties:
+        casalId: { type: string }
+        status: { $ref: '#/components/schemas/StatusPresenca' }
+        observacao: { type: string }
     ReuniaoRequest:
       type: object
       required: [data, horario]
@@ -1020,17 +1361,30 @@ components:
         tipo: { $ref: '#/components/schemas/TipoReuniao', default: FORMAL }
         casalAnimadorId: { type: string }
         local: { type: string }
+        localObservacao: { type: string }
         casalAnfitriaoId: { type: string }
         casalOracaoId: { type: string }
         tema: { type: string }
+        scePresente: { type: boolean }
+        anotacoesCre: { type: string }
+        presencas:
+          type: array
+          items: { $ref: '#/components/schemas/PresencaCasal' }
+        fotos:
+          type: array
+          items: { type: string }
     ReuniaoDto:
       allOf:
         - $ref: '#/components/schemas/ReuniaoRequest'
         - type: object
           properties:
             id: { type: string }
+            equipeId: { type: string }
             nomeCasalAnimador: { type: string }
+            nomeCasalAnfitriao: { type: string }
             enderecoAnfitriao: { $ref: '#/components/schemas/Endereco' }
+            googleEventId: { type: string }
+            googleDriveRoteiroFileId: { type: string }
     FotoDto:
       type: object
       properties:
@@ -1061,6 +1415,106 @@ components:
             id: { type: string }
             equipeId: { type: string }
             criadoEm: { type: string, format: date-time }
+    PerfilUsuario:
+      type: string
+      enum: [ADMINISTRADOR, MEMBRO_EQUIPE, CRE, SACERDOTE, RESPONSAVEL_SETOR, RESPONSAVEL_REGIAO]
+    TipoUsuario:
+      type: string
+      enum: [INDIVIDUAL, CASAL]
+    StatusUsuario:
+      type: string
+      enum: [ATIVO, BLOQUEADO]
+    LoginResponse:
+      type: object
+      properties:
+        token: { type: string }
+        usuarioId: { type: string }
+        nome: { type: string }
+        email: { type: string }
+        tipoUsuario: { $ref: '#/components/schemas/TipoUsuario' }
+        perfis:
+          type: array
+          items: { $ref: '#/components/schemas/PerfilUsuario' }
+        casalId: { type: string }
+        sceId: { type: string }
+        equipeId: { type: string }
+        setorId: { type: string }
+        regiaoId: { type: string }
+    EsqueciSenhaRequest:
+      type: object
+      required: [email]
+      properties:
+        email: { type: string, format: email }
+    ResetSenhaRequest:
+      type: object
+      required: [token, novaSenha]
+      properties:
+        token: { type: string }
+        novaSenha: { type: string, minLength: 6 }
+    UsuarioDto:
+      type: object
+      properties:
+        id: { type: string }
+        email: { type: string, format: email }
+        nome: { type: string }
+        tipoUsuario: { $ref: '#/components/schemas/TipoUsuario' }
+        casalId: { type: string }
+        sceId: { type: string }
+        equipeId: { type: string }
+        setorId: { type: string }
+        regiaoId: { type: string }
+        perfis:
+          type: array
+          items: { $ref: '#/components/schemas/PerfilUsuario' }
+        status: { $ref: '#/components/schemas/StatusUsuario' }
+        criadoEm: { type: string, format: date-time }
+        ultimoAcessoEm: { type: string, format: date-time }
+    CriarUsuarioRequest:
+      type: object
+      required: [nome, email, perfis]
+      properties:
+        nome: { type: string }
+        email: { type: string, format: email }
+        senha: { type: string }
+        tipoUsuario: { $ref: '#/components/schemas/TipoUsuario' }
+        casalId: { type: string }
+        sceId: { type: string }
+        equipeId: { type: string }
+        setorId: { type: string }
+        regiaoId: { type: string }
+        perfis:
+          type: array
+          items: { $ref: '#/components/schemas/PerfilUsuario' }
+    AtualizarPerfisRequest:
+      type: object
+      required: [perfis]
+      properties:
+        perfis:
+          type: array
+          items: { $ref: '#/components/schemas/PerfilUsuario' }
+    StatusConexaoGoogleDto:
+      type: object
+      properties:
+        conectado: { type: boolean }
+        emailConectado: { type: string }
+        calendarioEnsId: { type: string }
+        ultimaSincronizacaoAgenda: { type: string, format: date-time }
+        ultimaSincronizacaoContatos: { type: string, format: date-time }
+        ultimaSincronizacaoDrive: { type: string, format: date-time }
+        expirado: { type: boolean }
+    SincronizacaoResultadoDto:
+      type: object
+      properties:
+        sucesso: { type: boolean }
+        mensagem: { type: string }
+        totalSincronizados: { type: integer }
+        detalhes:
+          type: array
+          items: { type: string }
+    AuthUrlResponse:
+      type: object
+      properties:
+        url: { type: string }
     Erro:
       type: object
       properties:

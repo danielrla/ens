@@ -1,90 +1,86 @@
-# Arquitetura
+# Arquitetura do Sistema ENS
 
-## Stack
+## Stack Tecnológica
 
 | Camada | Tecnologia | Versão |
 |---|---|---|
-| Backend | Spring Boot (webmvc, data-mongodb, validation, actuator) | 4.1.1 |
-| Linguagem | Java | 25 |
-| Banco | MongoDB em replica set `rs0` | 8.3.13 |
-| Frontend | Angular (standalone, signals, rotas lazy) servido por Nginx Alpine | 21 |
-| Infra | Docker Compose, rede `containers`, timezone `America/Cuiaba` | |
+| Backend | Spring Boot (webmvc, data-mongodb, validation, actuator, mail) | 4.1.1 |
+| Linguagem Backend | Java | 25 |
+| Segurança & JWT | Spring Security Crypto, JJWT (api, impl, jackson) | 0.12.6 |
+| Integração Google | Google API Client, OAuth Client, Calendar v3, People v1, Drive v3 | 2.7.0 / v3 / v1 |
+| Banco de Dados | MongoDB em replica set `rs0` | 8.3.13 |
+| Frontend | Angular (standalone components, signals, rotas lazy, interceptors, guards) | 21 |
+| PWA & Mobile | Web App Manifest, Service Worker para cache offline e ícones em múltiplas resoluções | PWA Standard |
+| Infraestrutura | Docker Compose, rede `containers`, timezone `America/Cuiaba` | |
 
-O replica set é obrigatório mesmo em desenvolvimento, porque a transição de mandato exige transação multi-documento.
+O replica set do MongoDB é obrigatório mesmo em desenvolvimento, pois transições de mandatos e sincronizações atômicas utilizam transações multi-documento.
 
-## Decisões técnicas
+## Decisões Técnicas
 
 | Tema | Decisão | Razão |
 |---|---|---|
-| Hierarquia | Coleção `estrutura` única para Super-Região, Província, Região e Setor, com `nivel` e `paiId` e índice composto | Cascata vira consulta indexada simples |
-| Equipe | Coleção `equipes` própria, com os 4 IDs de ancestrais desnormalizados | Filtrar por qualquer nó sem `$lookup` |
-| Mandatos | Coleção `mandatos` imutável: encerra, nunca apaga | Histórico e auditoria |
-| Casais | Coleção `casais` com `esposo` e `esposa` embutidos | Sempre lidos juntos |
-| Vínculos | Coleção `vinculos_equipe` (casal, equipe, papel, período) | Transferências com histórico |
-| Vida da Equipe | `avisos`, `reunioes`, `mural_momentos`, todas com `equipe_id` | Isolamento estrito por equipe (LGPD e privacidade de registros fraternos) |
-| Dashboard Equipe | `/vida-equipe/dashboard` e `/reunioes/minha-equipe` travados na equipe do usuário | Membros de uma equipe não visualizam nem operam reuniões de outras equipes |
-| Dashboard Geral | `/dashboard` com cascata territorial (UF, Município, Equipe) | Visão executiva para lideranças e setores avaliarem qualquer equipe selecionada |
-| Resolução de CRE | Sincronização atômica em `mandatos` e fallback em `EquipeService` | Garante que o casal com mandato CRE ativo seja exibido como titular mesmo com vínculos pendentes |
-| Mural de Bordo | Endpoint `/api/mural/meu-mural` vinculado estritamente à equipe do casal ativo | Impede visualização e manipulação de murais entre equipes distintas |
-| Auditoria | Coleção `auditoria` append-only | Mandatos, transferências e movimentações |
-| Autenticação | Login próprio com JWT (access e refresh) | Decisão do projeto |
-| WhatsApp | Link `wa.me` com mensagem pronta | Sem custo nem aprovação |
-| Geocodificação | Nominatim (OpenStreetMap) | Gratuito |
-| Fotos | GridFS ou storage de objetos, com compressão no upload | Evita documentos grandes |
+| Hierarquia Territorial | Coleção `estrutura` única para Super-Região, Província, Região e Setor, com `nivel` e `paiId` e índice composto | Navegação em cascata simplificada através de consultas indexadas |
+| Equipes de Base | Coleção `equipes` própria, com os 4 IDs ancestrais desnormalizados | Filtragem por qualquer instância territorial sem junções pesadas |
+| Mandatos | Coleção `mandatos` imutável, encerrando mandatos anteriores na transição | Garantia de auditoria histórica estatutária |
+| Casais e Membros | Coleção `casais` com `esposo` e `esposa` embutidos | Cônjuges são sempre consultados e representados em conjunto |
+| Vínculos de Equipe | Coleção `vinculos_equipe` com histórico de papéis | Rastreabilidade de transferências entre equipes |
+| Reuniões e Encontros | Coleção `reunioes` com tipos `FORMAL`, `INFORMAL` e `OUTROS` | Flexibilidade para acolher reuniões de equipe, retiros e encontros livres de setor |
+| Sincronização Google | Sincronização bidirecional em tempo real ao salvar reunião | Notificação automática no Google Calendar com todos os casais ativos e o SCE |
+| Criptografia de Tokens | Credenciais OAuth do Google cifradas com AES-GCM 256 bits | Proteção de tokens de atualização (refresh tokens) em repouso no banco |
+| Autenticação JWT | Tokens com assinatura HMAC-SHA256 e extração via `AutenticacaoFilter` | Autenticação stateless com dados mínimos de sessão no `UsuarioContext` |
+| Matriz RBAC | Segregação entre perfis individuais (`ADMINISTRADOR`, `SACERDOTE`) e de casal | Fidelidade ao carisma do movimento, no qual o casal atua em unidade |
+| Notificações D-1 | Agendador Spring rodando às 08:00 no fuso de Cuiabá | Envio automático de lembretes na véspera dos encontros por e-mail |
+| Arquitetura PWA | Manifesto Web e Service Worker com logo oficial em 192px e 512px | Instalação no smartphone sem necessidade de loja de aplicativos |
+| Mural de Bordo | Endpoint `/api/mural/meu-mural` vinculado estritamente à equipe do casal | Resguardo da privacidade das partilhas e fotos familiares |
 
-Limitação conhecida: o MongoDB não impõe integridade referencial. Ela deve ser garantida nos serviços.
+## Modelo de Dados das Principais Entidades
 
-- `estrutura`: `id`, `nome`, `nivel` (`SUPER_REGIAO`, `PROVINCIA`, `REGIAO`, `SETOR`), `paiId`. Índice composto `hierarquia_idx`.
-- `equipes`: `id`, `numero` (sequencial automático gerado pelo sistema caso omitido), `nomeDevocao`, `superRegiaoId`, `provinciaId`, `regiaoId`, `setorId`, `status` (`ATIVA`, `EM_PILOTAGEM`, `EM_REESTRUTURACAO`, `INATIVA`), `emPilotagem`, `dataFundacao`, `dataInicioPilotagem`, `dataTerminoPilotagem`, `sceId`, `temaEstudoAno`, `vinculos` (lista de `casalId`, `papel`, `desde`).
-- `casais`: `id`, `esposo` (`nomeCompleto`, `cpf`, `email`, `celular`, `dataNascimento`, `dataFalecimento`, `profissao`, `falecido`), `esposa` (`nomeCompleto`, `cpf`, `email`, `celular`, `dataNascimento`, `dataFalecimento`, `profissao`, `falecido`), `dataMatrimonio`, `paroquiaCasamento`, `recebeCartaMensal`, `endereco`, `status` (`ATIVO`, `EM_PILOTAGEM`, `LICENCIADO`, `EMERITO`, `VIUVO`, `INATIVO`), `equipeId`, `fotoUrl`, `motivoInativacao`, `filhos`. Transição automática para `VIUVO` quando registrada data de falecimento de um cônjuge.
-- `sacerdotes`: `id`, `nomeCompleto`, `titulo` (`PADRE`, `DIACONO`, `BISPO`, `RELIGIOSO`, `RELIGIOSA`), `dioceseCongregacao`, `paroquia`, `telefones`, `email`, `dataNascimento`, `dataOrdenacaoConsagracao`, `status` (`ATIVO`, `INATIVO`).
-- `reunioes`: `id`, `equipeId`, `data`, `horario`, `tipo` (`FORMAL`, `INFORMAL`), `casalAnimadorId`, `tema`, `casalAnfitriaoId`, `scePresente` (booleano indicando presença do Sacerdote/SCE), `presencas` (lista com `casalId`, `status`: `PRESENTE`, `FALTOU`, `JUSTIFICOU`, `observacao`), `anotacoesCre`. Lançamento oficial de reuniões mensais pelo Casal Responsável de Equipe (CRE), com emissão de roteiro para reuniões formais e KPIs de assiduidade.
-- `movimentacoes_casal`: `id`, `casalId`, `tipo` (`TRANSFERENCIA`, `SAIDA`, `LICENCA`, `RETORNO`), `equipeOrigemId`, `equipeDestinoId`, `data`, `motivo` (obrigatório), `observacoes`. Registro histórico auditável de saídas e remanejamentos de equipe.
-- `mandatos`: `id`, `casalId`, `sceId`, `funcao` (`CRE`, `CL`, `CRS`, `CRR`, `CRP`, `CRSR`, `ERI`), `nivelInstancia` (`EQUIPE`, `SETOR`, `REGIAO`, `PROVINCIA`, `SUPER_REGIAO`, `INTERNACIONAL`), `instanciaId`, `dataInicio`, `dataPrevistaTermino`, `dataEncerramentoEfetivo`, `status` (`VIGENTE`, `CONCLUIDO`, `INTERROMPIDO_ANTECIPADAMENTE`), `observacoes`. Suporte a acúmulo de funções pelo casal em instâncias sem perda da equipe base.
+* `estrutura`: `id`, `nome`, `nivel` (`SUPER_REGIAO`, `PROVINCIA`, `REGIAO`, `SETOR`), `paiId`. Índice composto `hierarquia_idx`.
+* `equipes`: `id`, `numero`, `nomeDevocao`, `superRegiaoId`, `provinciaId`, `regiaoId`, `setorId`, `status` (`ATIVA`, `EM_PILOTAGEM`, `EM_REESTRUTURACAO`, `INATIVA`), `emPilotagem`, `dataFundacao`, `dataInicioPilotagem`, `dataTerminoPilotagem`, `sceId`, `temaEstudoAno`, `vinculos`.
+* `casais`: `id`, `esposo` e `esposa` (`nomeCompleto`, `cpf`, `email`, `celular`, `dataNascimento`, `dataFalecimento`, `profissao`, `falecido`), `dataMatrimonio`, `paroquiaCasamento`, `recebeCartaMensal`, `endereco`, `status` (`ATIVO`, `EM_PILOTAGEM`, `LICENCIADO`, `EMERITO`, `VIUVO`, `INATIVO`), `equipeId`, `fotoUrl`, `motivoInativacao`, `filhos`. Transição automática para `VIUVO` mediante registro de óbito de cônjuge.
+* `sacerdotes`: `id`, `nomeCompleto`, `titulo` (`PADRE`, `DIACONO`, `BISPO`, `RELIGIOSO`, `RELIGIOSA`), `dioceseCongregacao`, `paroquia`, `telefones`, `email`, `dataNascimento`, `dataOrdenacaoConsagracao`, `status` (`ATIVO`, `INATIVO`).
+* `reunioes`: `id`, `equipeId`, `data`, `horario`, `tipo` (`FORMAL`, `INFORMAL`, `OUTROS`), `casalAnimadorId`, `tema`, `casalAnfitriaoId`, `localObservacao`, `scePresente`, `presencas` (lista com `casalId`, `status`: `PRESENTE`, `FALTOU`, `JUSTIFICOU`, `observacao`), `anotacoesCre`, `fotos`, `googleEventId`, `googleDriveRoteiroFileId`.
+* `usuarios`: `id`, `email`, `senhaHash`, `nome`, `tipoUsuario` (`INDIVIDUAL`, `CASAL`), `casalId`, `sceId`, `equipeId`, `setorId`, `regiaoId`, `perfis` (conjunto de `PerfilUsuario`), `status` (`ATIVO`, `BLOQUEADO`), `tokenResetSenha`, `expiracaoTokenReset`, `criadoEm`, `ultimoAcessoEm`.
+* `conexoes_google`: `id`, `casalId`, `email`, `accessToken`, `refreshToken`, `expiracaoToken`, `calendarioEnsId`, `ultimaSincronizacaoAgenda`, `ultimaSincronizacaoContatos`, `ultimaSincronizacaoDrive`, `atualizadoEm`.
+* `mandatos`: `id`, `casalId`, `sceId`, `funcao` (`CRE`, `CL`, `CRS`, `CRR`, `CRP`, `CRSR`, `ERI`), `nivelInstancia` (`EQUIPE`, `SETOR`, `REGIAO`, `PROVINCIA`, `SUPER_REGIAO`, `INTERNACIONAL`), `instanciaId`, `dataInicio`, `dataPrevistaTermino`, `dataEncerramentoEfetivo`, `status` (`VIGENTE`, `CONCLUIDO`, `INTERROMPIDO_ANTECIPADAMENTE`), `observacoes`.
 
-## Regras de negócio dos mandatos
+## Matriz de Perfis Estatutários (RBAC)
 
-Prazos estatutários (anos): CRE 1, CL 1 a 3 (padrão 3), CRS 3, CRR 4, CRP 5, CRSR 5, ERI 6.
+A governança de permissões reflete a estrutura de liderança do movimento ENS:
 
-Alertas de sucessão dinâmicos:
-- `DOURADO`: de 90 a 60 dias antes do término previsto (fase de discernimento).
-- `LARANJA`: a menos de 30 dias do término.
-- `VERMELHO`: quando o prazo estatutário expirou sem registro de sucessor ativo.
-- `NENHUM`: regular ou mandato encerrado.
+| Perfil | Natureza | Escopo de Visibilidade e Ações |
+|---|---|---|
+| `ADMINISTRADOR` | Individual | Acesso irrestrito a todas as áreas, parametrizações, integrações Google e governança de usuários |
+| `SACERDOTE` | Individual | Visão da própria equipe: agenda de reuniões, mural de bordo, dashboard de reuniões e quadro de avisos |
+| `MEMBRO_EQUIPE` | Casal | Acesso restrito à agenda de reuniões e ao mural de bordo da sua própria equipe |
+| `CRE` | Casal | Gestão da própria equipe: agenda, presenças, ata/roteiro, dashboard da equipe e quadro de avisos |
+| `RESPONSAVEL_SETOR` | Casal | Acumula direitos de equipe e CRE mais acesso ao Dashboard Geral e visão de todas as equipes do seu Setor |
+| `RESPONSAVEL_REGIAO` | Casal | Acumula direitos de equipe e CRE mais acesso ao Dashboard Geral e visão de todas as equipes da sua Região |
 
-Ao registrar um novo mandato para uma mesma instância e função, o mandato anterior ativo passa automaticamente a `CONCLUIDO` com a data de encerramento efetivo igual à data de início do novo mandato na mesma transação atômica. Suporte a interrupção antecipada com registro de justificativa formal.
+Apenas `ADMINISTRADOR` e `SACERDOTE` constituem usuários de natureza individual; os demais perfis são vinculados ao casal (`casalId`).
 
-## RBAC e escopo territorial
+No frontend, o serviço de autenticação (`AuthService`) e o componente de menu (`Sidebar`) filtram os itens de navegação com base nos perfis do usuário logado, enquanto o `authGuard` bloqueia URLs não autorizadas redirecionando para a rota padrão correspondente.
 
-O escopo é resolvido no backend e injetado nas consultas, nunca decidido pelo frontend.
+## Integração com Google Workspace
 
-| Perfil | Escopo |
-|---|---|
-| MEMBRO | Própria equipe; edita só o próprio casal |
-| CRE | Gestão da própria equipe; avisos do Setor em leitura |
-| CL | Equipes sob seu acompanhamento, em leitura |
-| CRS | Setor fixo; CRUD de mandatos locais |
-| CRR, CRP, CRSR | Filtros em cascata até Região, Província ou Super-Região |
-| ADMIN | Irrestrito, com logs de auditoria |
+A integração é realizada por meio do protocolo OAuth 2.0 com escopos específicos:
+* `https://www.googleapis.com/auth/calendar`: Criação de calendário próprio ("ENS - Equipe ..."), sincronização de eventos com participantes e aniversários de matrimônio;
+* `https://www.googleapis.com/auth/contacts`: Criação de grupo de contatos da equipe na agenda Google;
+* `https://www.googleapis.com/auth/drive.file`: Exportação de roteiros litúrgicos e relatórios formatados em pasta dedicada no Google Drive.
 
-Notas do diário marcadas como `INTERNA_CRE` só são devolvidas ao CRE.
+As reuniões criadas ou alteradas na interface de agenda disparam a sincronização em tempo real no Google Calendar, incluindo automaticamente no evento os endereços de e-mail de todos os cônjuges ativos da equipe e do sacerdote assistente (`sendUpdates="all"`).
 
-Estado: perfis e escopo estão no contrato (`/auth/me`), mas a autenticação ainda não foi implementada. O endpoint `/estrutura` hoje não aplica escopo.
+## Notificações e Agendamento D-1
 
-## LGPD e segurança
+O serviço `ReuniaoAlertaScheduler` executa diariamente às 08:00 (fuso horário `America/Cuiaba`):
+* Localiza no MongoDB reuniões com `data` correspondente a `LocalDate.now().plusDays(1)`;
+* Identifica os cônjuges da equipe e o conselheiro espiritual;
+* Constrói e envia mensagens personalizadas de lembrete com detalhes de horário, tema, anfitrião e local;
+* Disponibiliza endpoint de disparo manual administrativo via `POST /api/reunioes/disparar-alertas-d1`.
 
-- CPF, endereço e contatos cifrados em campo (AES-GCM), com hash separado do CPF para busca.
-- Dados isolados por equipe e setor.
-- Auditoria de mandatos, transferências e movimentações de equipes.
+## Progressive Web App (PWA)
 
-## Frontend
-
-- **Design System:** em `frontend/src/styles.css` (tokens de cores institucionais, tipografia Inter e Lora, superfícies, botões e badges).
-- **App Shell Responsivo:** estruturado em `app.ts` e submódulos em `src/app/layout/`:
-  - `Header` (altura fixa de 64px, botão de toggle da sidebar, breadcrumbs dinâmicos, seletor de ano pastoral, central de notificações/alertas de mandatos e menu suspenso de perfil/casal).
-  - `Sidebar` (superfície Navy `#0F172A`, largura de 280px expandida e 72px recolhida com transição suave em desktop, drawer móvel com overlay semitransparente em telas menores que 1024px e fechamento via tecla `Esc`).
-  - `SidebarItem` (componente recursivo multi-nível com indentação proporcional, rotação animada de chevron, atributos ARIA e persistência do estado no `localStorage`).
-  - `Footer` (altura entre 48px e 56px, discreto, com identificação da Super-Região Brasil, versão do sistema, links para LGPD/Termos e indicador de status).
-  - `Main Content Area` (ocupando o espaço restante com rolagem vertical independente suave e proteção contra overflow horizontal).
-- **Filtro em cascata:** em `features/equipes/filtro-estrutura.ts`: o estado de cada nível vive nos `queryParams` da URL, o que permite compartilhar links filtrados. Trocar um nível limpa os descendentes. Se existir só uma Super-Região, ela é selecionada por padrão.
-- Em desenvolvimento, `proxy.conf.json` encaminha `/api` para `http://localhost:8080`.
+O frontend dispõe de suporte completo a PWA:
+* **Manifesto Web (`manifest.webmanifest`):** Nome institucional, cor de tema `#1E3A8A`, display `standalone` e orientação retrato;
+* **Ícones Redimensionados:** Gerados a partir do logo oficial `logo-ens.png` nos formatos 192x192, 512x512, maskable e apple-touch-icon;
+* **Service Worker (`sw.js`):** Gerenciamento de cache de recursos estáticos e interceptação de navegação offline, registrado dinamicamente no `index.html`.

@@ -15,6 +15,7 @@ import { EquipeResumoDto, EquipeService } from '../../core/equipe.service';
 import { EstruturaService, NoEstrutura } from '../../core/estrutura.service';
 import { EnsDatePipe } from '../../core/ens-date.pipe';
 import { SearchableOption, SearchableSelect } from '../../shared/searchable-select';
+import { hojeCuiabaStr, calcularDiasRestantesCuiaba } from '../../core/cuiaba-date.util';
 
 @Component({
   selector: 'app-mandatos-page',
@@ -1117,7 +1118,7 @@ export class MandatosPage implements OnInit {
 
   readonly funcaoFiltro = signal<FuncaoMandato | ''>('');
   readonly nivelInstanciaFiltro = signal<NivelInstancia | ''>('');
-  readonly statusFiltro = signal<StatusMandato | ''>('VIGENTE');
+  readonly statusFiltro = signal<StatusMandato | ''>('');
   readonly alertaFiltro = signal<AlertaMandato | ''>('');
   readonly termoBusca = signal<string>('');
 
@@ -1135,7 +1136,7 @@ export class MandatosPage implements OnInit {
     nivelInstancia: 'EQUIPE',
     instanciaId: '',
     casalId: '',
-    dataInicio: new Date().toISOString().substring(0, 10),
+    dataInicio: hojeCuiabaStr(),
     dataPrevistaTermino: '',
     observacoes: '',
   };
@@ -1290,14 +1291,14 @@ export class MandatosPage implements OnInit {
   limparFiltros(): void {
     this.funcaoFiltro.set('');
     this.nivelInstanciaFiltro.set('');
-    this.statusFiltro.set('VIGENTE');
+    this.statusFiltro.set('');
     this.alertaFiltro.set('');
     this.termoBusca.set('');
     this.carregarMandatos();
   }
 
   abrirModalNovo(): void {
-    const hoje = new Date().toISOString().substring(0, 10);
+    const hoje = hojeCuiabaStr();
     this.novoMandato = {
       funcao: 'CRE',
       nivelInstancia: 'EQUIPE',
@@ -1312,7 +1313,7 @@ export class MandatosPage implements OnInit {
   }
 
   prepararSucessor(m: MandatoDto): void {
-    const hoje = new Date().toISOString().substring(0, 10);
+    const hoje = hojeCuiabaStr();
     this.novoMandato = {
       funcao: m.funcao,
       nivelInstancia: m.nivelInstancia,

@@ -44,6 +44,10 @@ export class LayoutService {
     }
   }
 
+  openMobileDrawer(): void {
+    this.mobileDrawerOpen.set(true);
+  }
+
   closeMobileDrawer(): void {
     this.mobileDrawerOpen.set(false);
   }

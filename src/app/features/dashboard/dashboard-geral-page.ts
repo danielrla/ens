@@ -6,6 +6,7 @@ import { ReuniaoDto, ReuniaoService } from '../../core/reuniao.service';
 import { EquipeDetalheDto, EquipeResumoDto, EquipeService } from '../../core/equipe.service';
 import { CasalDto, CasalService } from '../../core/casal.service';
 import { EnsDatePipe } from '../../core/ens-date.pipe';
+import { NotificacaoService } from '../../core/notificacao.service';
 
 interface EstatisticaCasal {
   casalId: string;
@@ -37,6 +38,40 @@ interface EstatisticaCasal {
         </a>
       </div>
     </header>
+
+    <!-- Alerta Prioritário de Reunião da Equipe -->
+    @if (alertaPrioritario(); as alerta) {
+      <aside class="banner-aviso-reuniao" [class.urgente]="alerta.tipo === 'AVISO_IMEDIATO_H4'" role="alert">
+        <div class="banner-aviso-conteudo">
+          <div class="banner-aviso-icone">
+            @switch (alerta.tipo) {
+              @case ('AVISO_IMEDIATO_H4') { 🚨 }
+              @case ('AVISO_VESPERA_D1') { 📅 }
+              @default { 🗓️ }
+            }
+          </div>
+          <div class="banner-aviso-textos">
+            <div class="banner-aviso-topo-linha">
+              <strong>{{ alerta.titulo }}</strong>
+              <span class="tag-equipe-badge">Filtro Exclusivo: {{ alerta.nomeEquipe || 'Sua Equipe' }}</span>
+            </div>
+            <p>{{ alerta.mensagem }}</p>
+            <div class="banner-aviso-meta">
+              <span><strong>Data:</strong> {{ alerta.dataReuniao }} às {{ alerta.horarioReuniao }}</span>
+              @if (alerta.nomeAnfitriao) {
+                <span><strong>Anfitrião:</strong> {{ alerta.nomeAnfitriao }}</span>
+              }
+              @if (alerta.emailEnviado) {
+                <span class="tag-email-ok">✓ Notificação enviada por e-mail</span>
+              }
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn-fechar-aviso" (click)="dispensarAlerta(alerta.id)" title="Dispensar aviso">
+          ✕
+        </button>
+      </aside>
+    }
 
     <!-- Barra de Filtros Territoriais e Seleção de Equipe -->
     <section class="cartao seletor-equipe-container">
@@ -1290,12 +1325,129 @@ interface EstatisticaCasal {
     .py-8 {
       padding: 2rem 0;
     }
+
+    @media (max-width: 768px) {
+      .card-reuniao-timeline {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem;
+      }
+      .cabecalho {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      .acoes-cabecalho {
+        width: 100%;
+      }
+      .acoes-cabecalho .btn {
+        width: 100%;
+      }
+      .grade-cards-casais {
+        grid-template-columns: 1fr;
+      }
+      .mini-grid-metricas {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+      }
+    }
+
+    /* Banner Prioritário de Reunião da Equipe */
+    .banner-aviso-reuniao {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      border-radius: 12px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.08);
+      animation: fadeIn 0.2s ease-out;
+    }
+    .banner-aviso-reuniao.urgente {
+      background: #fffbeb;
+      border-color: #fde68a;
+      box-shadow: 0 2px 6px rgba(217, 119, 6, 0.12);
+    }
+    .banner-aviso-conteudo {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.875rem;
+      flex: 1;
+    }
+    .banner-aviso-icone {
+      font-size: 1.75rem;
+      line-height: 1;
+    }
+    .banner-aviso-textos {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .banner-aviso-topo-linha {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .banner-aviso-topo-linha strong {
+      font-size: 1.05rem;
+      color: #0f172a;
+    }
+    .tag-equipe-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #1e40af;
+      background: #dbeafe;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+    .banner-aviso-textos p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #334155;
+      line-height: 1.45;
+    }
+    .banner-aviso-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      color: #475569;
+      margin-top: 0.25rem;
+    }
+    .tag-email-ok {
+      color: #059669;
+      font-weight: 600;
+    }
+    .btn-fechar-aviso {
+      background: transparent;
+      border: none;
+      color: #64748b;
+      font-size: 1.15rem;
+      cursor: pointer;
+      padding: 0.25rem;
+      line-height: 1;
+    }
+    .btn-fechar-aviso:hover {
+      color: #0f172a;
+    }
   `,
 })
 export class DashboardGeralPage {
   private readonly reuniaoService = inject(ReuniaoService);
   private readonly equipeService = inject(EquipeService);
   private readonly casalService = inject(CasalService);
+  private readonly notificacaoService = inject(NotificacaoService);
+
+  protected readonly alertaPrioritario = this.notificacaoService.alertaPrioritario;
+
+  dispensarAlerta(id: string): void {
+    this.notificacaoService.marcarComoLida(id);
+  }
 
   protected equipes = signal<EquipeResumoDto[]>([]);
   protected equipeIdSelecionada = '';

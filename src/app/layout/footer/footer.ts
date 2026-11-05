@@ -63,13 +63,9 @@ import { Component } from '@angular/core';
     .ponto-verde {
       font-size: 0.65rem;
     }
-    @media (max-width: 640px) {
+    @media (max-width: 1023px) {
       .app-footer {
-        height: auto;
-        padding: 0.75rem 1rem;
-        flex-direction: column;
-        gap: 0.4rem;
-        text-align: center;
+        display: none !important;
       }
     }
   `,

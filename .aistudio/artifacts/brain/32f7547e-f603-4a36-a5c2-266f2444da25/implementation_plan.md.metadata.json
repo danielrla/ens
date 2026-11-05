@@ -1,0 +1,6 @@
+{
+  "summary": "Plano de implementação detalhado para:\n1. Refatoração da central de alertas para Bottom Sheet deslizante no mobile com backdrop e toque ergonômico.\n2. Refatoração geral de UX/UI mobile (barra inferior fixa, gaveta lateral, cartões compactos, eliminação de overflow horizontal).\n3. Configuração do ícone oficial das ENS no favicon da aba do navegador, Apple Touch Icon e manifesto PWA.\n4. Validação e teste de envio de e-mail via Google Workspace OAuth2 com registro em log.",
+  "updatedAt": "2026-11-05T11:42:58.760501568Z",
+  "requestFeedback": true,
+  "userFacing": true
+}

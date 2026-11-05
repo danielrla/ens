@@ -32,7 +32,11 @@
 html,
 body {
   margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100vw;
   min-height: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -166,3 +170,106 @@ label .asterisco {
   background: var(--ambar-100);
   color: var(--ambar-600);
 }
+
+/* Otimizações Globais para Dispositivos Móveis e Tablets */
+@media (max-width: 1023px) {
+  /* Escala tipográfica equilibrada para idosos e alto contraste */
+  body {
+    font-size: 15.5px !important;
+    line-height: 1.55 !important;
+    color: #0f172a !important;
+  }
+
+  /* Reduzir títulos desproporcionais mantendo leitura nítida */
+  h1 {
+    font-size: 1.45rem !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.015em !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  h2 {
+    font-size: 1.25rem !important;
+    line-height: 1.3 !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  h3 {
+    font-size: 1.1rem !important;
+    line-height: 1.35 !important;
+  }
+
+  /* Textos secundários e metadados legíveis para idosos (mínimo 13px) */
+  small,
+  .texto-suave,
+  .dica-campo,
+  .meta-rotulo {
+    font-size: 0.825rem !important; /* ~13.2px */
+    color: #475569 !important;
+  }
+
+  /* Aproveitamento de espaço em cartões eliminando bordas vazias gigantes */
+  .cartao {
+    padding: 1rem 0.875rem !important;
+    border-radius: 10px !important;
+    margin-bottom: 0.875rem !important;
+  }
+
+  /* Rótulos e campos de formulário fáceis de ler e tocar */
+  .campo {
+    gap: 0.3rem !important;
+  }
+
+  .campo > label {
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    letter-spacing: normal !important;
+    text-transform: none !important;
+    color: #1e293b !important;
+  }
+
+  /* Evitar zoom automático indesejado no iOS e garantir toque motor fácil (44px) */
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+    min-height: 44px !important;
+    padding: 0.55rem 0.75rem !important;
+    border-radius: 8px !important;
+  }
+
+  /* Botões com alvo mínimo de 44px para facilidade motora de idosos */
+  .btn {
+    min-height: 44px !important;
+    padding: 0.6rem 1rem !important;
+    font-size: 0.925rem !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  /* Prevenir vazamento horizontal em tabelas e cartões no mobile */
+  .tabela-wrapper,
+  .tabela-responsiva {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Modais e Caixas de Diálogo no Mobile: centralizados com respiro e rolagem interna */
+  .modal-backdrop {
+    padding: 0.75rem !important;
+    align-items: flex-end !important;
+  }
+  .modal-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 88vh !important;
+    border-radius: 20px 20px 12px 12px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+}
+

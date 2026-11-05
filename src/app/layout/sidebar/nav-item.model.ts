@@ -49,4 +49,13 @@ export const MENU_ITEMS: NavItem[] = [
       { id: 've-mural', label: 'Mural de Bordo', route: '/mural' },
     ],
   },
+  {
+    id: 'administracao',
+    label: 'Administração',
+    icon: '⚙️',
+    children: [
+      { id: 'adm-usuarios', label: 'Gestão de Usuários', route: '/admin/usuarios' },
+      { id: 'adm-integracao', label: 'Integrações', route: '/admin/integracao' },
+    ],
+  },
 ];

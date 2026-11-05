@@ -15,6 +15,8 @@ import { EquipeDetalheDto, EquipeResumoDto, EquipeService } from '../../core/equ
 import { CasalDto, CasalService, Endereco } from '../../core/casal.service';
 import { EnsDatePipe } from '../../core/ens-date.pipe';
 import { SearchableOption, SearchableSelect } from '../../shared/searchable-select';
+import { GoogleIntegracaoService } from '../../core/google-integracao.service';
+import { hojeCuiabaStr, formatarDataCuiaba } from '../../core/cuiaba-date.util';
 
 export interface ItemChamadaPresenca {
   casalId: string;
@@ -38,6 +40,14 @@ export interface ItemChamadaPresenca {
         </button>
       </div>
     </header>
+
+    @if (mensagemFeedbackSucesso()) {
+      <div class="banner-feedback-agenda" role="alert">
+        <span class="icone-check">✅</span>
+        <span>{{ mensagemFeedbackSucesso() }}</span>
+        <button type="button" class="btn-fechar-toast" (click)="mensagemFeedbackSucesso.set(null)">✕</button>
+      </div>
+    }
 
     @if (carregandoPerfil()) {
       <div class="cartao estado-info">
@@ -299,7 +309,8 @@ export interface ItemChamadaPresenca {
                 <label>Casal Animador do Mês</label>
                 <app-searchable-select
                   [options]="opcoesCasais()"
-                  [(value)]="formReuniao.casalAnimadorId"
+                  [value]="formReuniao.casalAnimadorId || ''"
+                  (valueChange)="formReuniao.casalAnimadorId = $event"
                   placeholder="Selecione o casal animador (opcional)..."
                   clearLabel="Nenhum animador"
                   [forceSearch]="true"
@@ -1592,17 +1603,21 @@ export class AgendaReunioesPage {
   private readonly reuniaoService = inject(ReuniaoService);
   private readonly equipeService = inject(EquipeService);
   private readonly casalService = inject(CasalService);
+  private readonly googleService = inject(GoogleIntegracaoService);
 
   protected equipes = signal<EquipeResumoDto[]>([]);
   protected equipeIdSelecionada = '';
   protected detalheEquipe = signal<EquipeDetalheDto | null>(null);
   protected casaisAtivos = signal<CasalDto[]>([]);
+  protected mensagemFeedbackSucesso = signal<string | null>(null);
 
   readonly opcoesCasais = computed<SearchableOption[]>(() =>
-    this.casaisAtivos().map((c) => ({
-      value: c.id,
-      label: `${c.esposo.nomeCompleto} & ${c.esposa.nomeCompleto}`,
-    }))
+    this.casaisAtivos()
+      .filter((c) => c.status === 'ATIVO')
+      .map((c) => ({
+        value: c.id,
+        label: `${c.esposo.nomeCompleto} & ${c.esposa.nomeCompleto}`,
+      }))
   );
 
   aoMudarAnfitriao(novoId: string): void {
@@ -1620,7 +1635,7 @@ export class AgendaReunioesPage {
   protected idEdicaoReuniao: string | null = null;
   protected formReuniao: ReuniaoRequest = {
     tipo: 'FORMAL',
-    data: new Date().toISOString().substring(0, 10),
+    data: hojeCuiabaStr(),
     horario: '19:30',
     tema: '',
     casalAnimadorId: '',
@@ -1716,7 +1731,7 @@ export class AgendaReunioesPage {
     this.idEdicaoReuniao = null;
     this.formReuniao = {
       tipo: 'FORMAL',
-      data: new Date().toISOString().substring(0, 10),
+      data: hojeCuiabaStr(),
       horario: '19:30',
       tema: '',
       casalAnimadorId: '',
@@ -1776,6 +1791,18 @@ export class AgendaReunioesPage {
         this.salvando.set(false);
         this.fecharModalAgendamento();
         this.carregarReunioes();
+
+        // Sincronização automática imediata com o Google Agenda
+        this.googleService.sincronizarAgenda().subscribe({
+          next: () => {
+            this.mensagemFeedbackSucesso.set('Reunião agendada e sincronizada com sucesso no Google Agenda!');
+            setTimeout(() => this.mensagemFeedbackSucesso.set(null), 5000);
+          },
+          error: () => {
+            this.mensagemFeedbackSucesso.set('Reunião agendada com sucesso!');
+            setTimeout(() => this.mensagemFeedbackSucesso.set(null), 4000);
+          },
+        });
       },
       error: (err) => {
         this.salvando.set(false);

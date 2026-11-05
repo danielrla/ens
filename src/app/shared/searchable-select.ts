@@ -68,7 +68,7 @@ export interface SearchableOption {
             @if (allowEmpty) {
               <li
                 class="opcao-item opcao-vazia"
-                [class.selecionado]="!value"
+                [class.selecionado]="!valueAtual()"
                 (click)="selecionarOpcao('')"
                 role="option"
               >
@@ -79,7 +79,7 @@ export interface SearchableOption {
             @for (opt of opcoesFiltradas(); track opt.value) {
               <li
                 class="opcao-item"
-                [class.selecionado]="opt.value === value"
+                [class.selecionado]="opt.value === valueAtual()"
                 (click)="selecionarOpcao(opt.value)"
                 role="option"
               >
@@ -89,7 +89,7 @@ export interface SearchableOption {
                     <small class="opcao-sublabel">{{ opt.sublabel }}</small>
                   }
                 </div>
-                @if (opt.value === value) {
+                @if (opt.value === valueAtual()) {
                   <span class="opcao-check">✓</span>
                 }
               </li>
@@ -307,35 +307,52 @@ export class SearchableSelect {
   @Input() forceSearch = false; // Forçado para Casal e Conselheiro, ou por regra > 10 itens
   @Input() allowEmpty = true;
   @Input() emptyLabel = 'Nenhum / Não informado';
-  @Input() options: SearchableOption[] = [];
 
-  @Input() value: string | null | undefined = null;
-  @Output() valueChange = new EventEmitter<any>();
+  private readonly _options = signal<SearchableOption[]>([]);
+  @Input() set options(opts: SearchableOption[] | null | undefined) {
+    this._options.set(opts || []);
+  }
+  get options(): SearchableOption[] {
+    return this._options();
+  }
 
+  private readonly _value = signal<string | null | undefined>(null);
+  @Input() set value(val: string | null | undefined) {
+    this._value.set(val);
+  }
+  get value(): string | null | undefined {
+    return this._value();
+  }
+  @Output() valueChange = new EventEmitter<string>();
+
+  protected readonly valueAtual = computed(() => this._value());
   protected readonly aberto = signal(false);
   protected readonly termoBusca = signal('');
 
   // Regra: todo combobox com mais de 10 registros ou forceSearch permite consulta
   protected readonly exibirBusca = computed(() => {
-    return this.forceSearch || this.options.length > 10;
+    return this.forceSearch || this._options().length > 10;
   });
 
   protected readonly temValorSelecionado = computed(() => {
-    return !!this.value && this.options.some((o) => o.value === this.value);
+    const v = this._value();
+    return !!v && this._options().some((o) => o.value === v);
   });
 
   protected readonly labelSelecionado = computed(() => {
-    const encontrada = this.options.find((o) => o.value === this.value);
+    const v = this._value();
+    const encontrada = this._options().find((o) => o.value === v);
     return encontrada ? encontrada.label : '';
   });
 
   // Filtro sem distinção de acentos ou maiúsculas/minúsculas
   protected readonly opcoesFiltradas = computed(() => {
     const termo = this.removerAcentos(this.termoBusca().trim().toLowerCase());
+    const opts = this._options();
     if (!termo) {
-      return this.options;
+      return opts;
     }
-    return this.options.filter((opt) => {
+    return opts.filter((opt) => {
       const l = this.removerAcentos(opt.label.toLowerCase());
       const sub = opt.sublabel ? this.removerAcentos(opt.sublabel.toLowerCase()) : '';
       return l.includes(termo) || sub.includes(termo);
@@ -363,7 +380,7 @@ export class SearchableSelect {
   }
 
   selecionarOpcao(val: string): void {
-    this.value = val;
+    this._value.set(val);
     this.valueChange.emit(val);
     this.fechar();
   }

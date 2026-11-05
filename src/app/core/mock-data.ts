@@ -1930,10 +1930,26 @@ export const INITIAL_MANDATOS: MandatoDto[] = [
     "nomeInstancia": "Equipe 01 - NOSSA SENHORA APARECIDA",
     "dataInicio": "2025-10-30",
     "dataPrevistaTermino": "2026-10-30",
+    "dataEncerramentoEfetivo": "2026-10-30",
+    "status": "CONCLUIDO",
+    "alerta": "NENHUM",
+    "diasParaTermino": 0,
+    "observacoes": "Mandato anual de CRE concluído."
+  },
+  {
+    "id": "6ae08f74ca048c6290d5fdd6",
+    "casalId": "6ae08c88ca048c6290d5fdcd",
+    "nomeResponsavel": "Daniel e Aline",
+    "funcao": "CRE",
+    "nivelInstancia": "EQUIPE",
+    "instanciaId": "6ae08c88ca048c6290d5fdcc",
+    "nomeInstancia": "Equipe 01 - NOSSA SENHORA APARECIDA",
+    "dataInicio": "2026-10-30",
+    "dataPrevistaTermino": "2027-10-30",
     "status": "VIGENTE",
     "alerta": "NENHUM",
-    "diasParaTermino": 3,
-    "observacoes": ""
+    "diasParaTermino": 358,
+    "observacoes": "Novo casal responsável de equipe (sucessão 2026-2027)."
   }
 ];
 

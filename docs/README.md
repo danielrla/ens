@@ -4,8 +4,8 @@ Aplicação web e PWA para gestão da estrutura hierárquica, dos mandatos, da g
 
 ## Índice da Documentação
 
-| Documento | Conteúdo |
-|---|---|
+| [REGRAS_DOCUMENTACAO.md](REGRAS_DOCUMENTACAO.md) | Política mandatória de documentação contínua para toda evolução do projeto |
+| [regras_negocio_notificacoes.md](regras_negocio_notificacoes.md) | Regras temporais de avisos de reuniões (Segunda, D-1, H-4), isolamento de equipe e Gmail |
 | [arquitetura.md](arquitetura.md) | Stack, modelo de dados, matriz RBAC estatutária, integrações Google e decisões técnicas |
 | [execucao.md](execucao.md) | Guia de execução local e containers, variáveis de ambiente, seeds e testes |
 | [roadmap.md](roadmap.md) | Estado evolutivo de cada trilha de desenvolvimento e pendências |

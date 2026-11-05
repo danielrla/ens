@@ -8,6 +8,7 @@ import { MandatoDto } from './mandato.service';
 import { MomentoMuralDto } from './mural.service';
 import { ReuniaoDto } from './reuniao.service';
 import { SceDto } from './sce.service';
+import { UsuarioLogado } from './auth.model';
 import {
   INITIAL_CASAIS,
   INITIAL_EQUIPES,
@@ -18,6 +19,52 @@ import {
   INITIAL_REUNIOES,
   INITIAL_SCES,
 } from './mock-data';
+import { agoraCuiaba, hojeCuiabaStr, calcularDiasRestantesCuiaba, formatarDataCuiaba } from './cuiaba-date.util';
+
+const INITIAL_USUARIOS: UsuarioLogado[] = [
+  {
+    id: 'usr-admin-principal',
+    email: 'admin@ens.org.br',
+    nome: 'Super Administrador ENS',
+    tipoUsuario: 'INDIVIDUAL',
+    perfis: ['ADMINISTRADOR', 'RESPONSAVEL_REGIAO', 'RESPONSAVEL_SETOR', 'CRE', 'MEMBRO_EQUIPE'],
+    status: 'ATIVO',
+    criadoEm: '2025-01-15T10:00:00.000Z',
+    ultimoAcessoEm: new Date().toISOString(),
+  },
+  {
+    id: 'usr-daniel-aline',
+    email: 'danielrla@gmail.com',
+    nome: 'Daniel & Aline (Aline Freire Pereira Rios & Daniel Rios Lima Amaral)',
+    tipoUsuario: 'CASAL',
+    perfis: ['MEMBRO_EQUIPE', 'CRE'],
+    casalId: '6ae08c88ca048c6290d5fdcd',
+    equipeId: '6ae08c88ca048c6290d5fdcc',
+    setorId: '6ae08c87ca048c6290d5fd23',
+    status: 'ATIVO',
+    criadoEm: '2025-01-10T14:30:00.000Z',
+    ultimoAcessoEm: '2026-02-28T09:15:00.000Z',
+  },
+  {
+    id: 'usr-setor-pe',
+    email: 'setor.pe2@ens.org.br',
+    nome: 'Casal Responsável de Setor (PE II)',
+    tipoUsuario: 'CASAL',
+    perfis: ['RESPONSAVEL_SETOR', 'MEMBRO_EQUIPE'],
+    setorId: '6ae08c87ca048c6290d5fd23',
+    status: 'ATIVO',
+    criadoEm: '2025-02-01T08:00:00.000Z',
+  },
+  {
+    id: 'usr-padre-fabio',
+    email: 'padre.fabio@ens.org.br',
+    nome: 'Pe. Fábio de Melo (Conselheiro Espiritual)',
+    tipoUsuario: 'INDIVIDUAL',
+    perfis: ['SACERDOTE'],
+    status: 'ATIVO',
+    criadoEm: '2025-02-10T11:20:00.000Z',
+  },
+];
 
 const STORAGE_PREFIX = 'ens_data_v3_';
 
@@ -41,7 +88,58 @@ function getStored<T>(key: string, defaultValue: T): T {
   }
   try {
     const raw = window.localStorage.getItem(STORAGE_PREFIX + key);
-    return raw ? JSON.parse(raw) : defaultValue;
+    if (!raw) return defaultValue;
+    const parsed = JSON.parse(raw);
+    if (key === 'mandatos' && Array.isArray(parsed)) {
+      let patched = false;
+      const updated = parsed.map((m: any) => {
+        if (m.nomeResponsavel && m.nomeResponsavel.includes('Robson') && (m.status === 'VIGENTE' || m.diasParaTermino > 0)) {
+          patched = true;
+          return {
+            ...m,
+            status: 'CONCLUIDO',
+            dataEncerramentoEfetivo: m.dataPrevistaTermino || '2026-10-30',
+            diasParaTermino: 0,
+            alerta: 'NENHUM',
+            observacoes: 'Mandato de CRE concluído com êxito estatutário.',
+          };
+        }
+        return m;
+      });
+      if (!updated.some((m: any) => m.nomeResponsavel && m.nomeResponsavel.includes('Daniel'))) {
+        updated.push({
+          id: '6ae08f74ca048c6290d5fdd6',
+          casalId: '6ae08c88ca048c6290d5fdcd',
+          nomeResponsavel: 'Daniel e Aline',
+          funcao: 'CRE',
+          nivelInstancia: 'EQUIPE',
+          instanciaId: '6ae08c88ca048c6290d5fdcc',
+          nomeInstancia: 'Equipe 01 - NOSSA SENHORA APARECIDA',
+          dataInicio: '2026-10-30',
+          dataPrevistaTermino: '2027-10-30',
+          status: 'VIGENTE',
+          alerta: 'NENHUM',
+          diasParaTermino: 358,
+          observacoes: 'Novo casal responsável de equipe (sucessão 2026-2027).',
+        });
+        patched = true;
+      }
+      if (patched) {
+        setStored('mandatos', updated);
+      }
+      return updated as unknown as T;
+    }
+    if (key === 'email_config' && parsed && typeof parsed === 'object') {
+      if (parsed.metodo !== 'OAUTH2' || !parsed.oauthConectado) {
+        parsed.metodo = 'OAUTH2';
+        parsed.oauthConectado = true;
+        parsed.remetenteEmail = 'danielrla@gmail.com';
+        parsed.ultimoTesteSucesso = true;
+        setStored('email_config', parsed);
+      }
+      return parsed as unknown as T;
+    }
+    return parsed;
   } catch {
     return defaultValue;
   }
@@ -84,7 +182,32 @@ export const mockApiInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>,
     return of(new HttpResponse({ status: 200, body: user })).pipe(delay(30));
   }
 
-  if (cleanUrl === '/api/auth/login' || cleanUrl === '/auth/login' || cleanUrl === '/api/auth/refresh' || cleanUrl === '/auth/refresh') {
+  if (cleanUrl === '/api/auth/login' || cleanUrl === '/auth/login') {
+    const body = (req.body as { email?: string; senha?: string }) || {};
+    const email = (body.email || '').toLowerCase().trim();
+    const usuarios = getStored<UsuarioLogado[]>('usuarios', INITIAL_USUARIOS);
+    const u = usuarios.find((item) => item.email.toLowerCase() === email) || usuarios[0];
+
+    const loginResponse = {
+      token: 'mock-jwt-token-' + (u ? u.id : 'admin') + '-' + Date.now(),
+      usuarioId: u ? u.id : 'usr-admin-principal',
+      nome: u ? u.nome : 'Super Administrador ENS',
+      email: u ? u.email : (body.email || 'admin@ens.org.br'),
+      tipoUsuario: u ? u.tipoUsuario : 'INDIVIDUAL',
+      perfis: u ? u.perfis : ['ADMINISTRADOR'],
+      casalId: u?.casalId,
+      sceId: u?.sceId,
+      equipeId: u?.equipeId,
+      setorId: u?.setorId,
+      regiaoId: u?.regiaoId,
+      accessToken: 'mock-jwt-token-ens-2026',
+      refreshToken: 'mock-refresh-token-ens-2026',
+      expiresIn: 3600,
+    };
+    return of(new HttpResponse({ status: 200, body: loginResponse })).pipe(delay(30));
+  }
+
+  if (cleanUrl === '/api/auth/refresh' || cleanUrl === '/auth/refresh') {
     return of(
       new HttpResponse({
         status: 200,
@@ -95,6 +218,399 @@ export const mockApiInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>,
         },
       })
     ).pipe(delay(30));
+  }
+
+  if (cleanUrl === '/api/auth/esqueci-senha') {
+    return of(
+      new HttpResponse({
+        status: 200,
+        body: {
+          mensagem: 'Instruções de redefinição de senha enviadas para o e-mail informado (Token simulado: ENS-2026-RESET).',
+        },
+      })
+    ).pipe(delay(30));
+  }
+
+  if (cleanUrl === '/api/auth/reset-senha') {
+    return of(
+      new HttpResponse({
+        status: 200,
+        body: {
+          mensagem: 'Senha redefinida com sucesso! Você já pode efetuar o login com suas novas credenciais.',
+        },
+      })
+    ).pipe(delay(30));
+  }
+
+  if (cleanUrl === '/api/auth/trocar-senha') {
+    const body = req.body as { senhaAtual?: string; novaSenha?: string };
+    if (!body || !body.novaSenha || body.novaSenha.length < 8) {
+      return of(
+        new HttpResponse({
+          status: 400,
+          body: { mensagem: 'A nova senha deve possuir no mínimo 8 caracteres.' },
+        })
+      ).pipe(delay(30));
+    }
+
+    return of(
+      new HttpResponse({
+        status: 200,
+        body: { mensagem: 'Senha alterada com sucesso! Suas novas credenciais já estão ativas.' },
+      })
+    ).pipe(delay(40));
+  }
+
+  if (cleanUrl === '/api/auth/biometria/autenticar') {
+    const body = req.body as { email?: string };
+    const emailBusca = (body.email || 'admin@ens.org.br').toLowerCase().trim();
+    const usuarios = getStored<UsuarioLogado[]>('usuarios', INITIAL_USUARIOS);
+    const u = usuarios.find((user) => user.email.toLowerCase() === emailBusca) || INITIAL_USUARIOS[0];
+
+    const loginResponse = {
+      token: 'mock-jwt-biometria-' + Date.now(),
+      usuarioId: u ? u.id : 'usr-admin-principal',
+      email: u ? u.email : emailBusca,
+      nome: u ? u.nome : 'Usuário Autenticado',
+      tipoUsuario: u ? u.tipoUsuario : 'INDIVIDUAL',
+      perfis: u ? u.perfis : ['ADMINISTRADOR'],
+      casalId: u?.casalId,
+      sceId: u?.sceId,
+      equipeId: u?.equipeId,
+      setorId: u?.setorId,
+      regiaoId: u?.regiaoId,
+      accessToken: 'mock-jwt-biometria-token-2026',
+      refreshToken: 'mock-refresh-biometria-token-2026',
+      expiresIn: 3600,
+    };
+    return of(new HttpResponse({ status: 200, body: loginResponse })).pipe(delay(30));
+  }
+
+  // 1.1 ADMIN USUARIOS
+  if (cleanUrl === '/api/admin/usuarios') {
+    const usuarios = getStored<UsuarioLogado[]>('usuarios', INITIAL_USUARIOS);
+    if (method === 'GET') {
+      const busca = (req.params.get('busca') || '').toLowerCase().trim();
+      const page = parseInt(req.params.get('page') || '0', 10);
+      const size = parseInt(req.params.get('size') || '20', 10);
+
+      let filtrados = usuarios;
+      if (busca) {
+        filtrados = usuarios.filter(
+          (u) => u.nome.toLowerCase().includes(busca) || u.email.toLowerCase().includes(busca)
+        );
+      }
+
+      const totalElements = filtrados.length;
+      const totalPages = Math.ceil(totalElements / size) || 1;
+      const start = page * size;
+      const content = filtrados.slice(start, start + size);
+
+      return of(
+        new HttpResponse({
+          status: 200,
+          body: {
+            content,
+            totalElements,
+            totalPages,
+            size,
+            number: page,
+          },
+        })
+      ).pipe(delay(30));
+    }
+
+    if (method === 'POST') {
+      const body = req.body as Partial<UsuarioLogado>;
+      const novoUsuario: UsuarioLogado = {
+        id: 'usr-' + Date.now(),
+        nome: body.nome || 'Novo Usuário',
+        email: body.email || `usuario-${Date.now()}@ens.org.br`,
+        tipoUsuario: body.tipoUsuario || 'INDIVIDUAL',
+        perfis: body.perfis && body.perfis.length > 0 ? body.perfis : ['MEMBRO_EQUIPE'],
+        casalId: body.casalId,
+        sceId: body.sceId,
+        equipeId: body.equipeId,
+        setorId: body.setorId,
+        regiaoId: body.regiaoId,
+        status: 'ATIVO',
+        criadoEm: new Date().toISOString(),
+        ultimoAcessoEm: undefined,
+      };
+      usuarios.unshift(novoUsuario);
+      setStored('usuarios', usuarios);
+      return of(new HttpResponse({ status: 201, body: novoUsuario })).pipe(delay(30));
+    }
+  }
+
+  const adminUsuarioPerfisMatch = cleanUrl.match(/^\/api\/admin\/usuarios\/([^/]+)\/perfis$/);
+  if (adminUsuarioPerfisMatch) {
+    const id = adminUsuarioPerfisMatch[1];
+    const usuarios = getStored<UsuarioLogado[]>('usuarios', INITIAL_USUARIOS);
+    const body = req.body as { perfis: any[] };
+    const idx = usuarios.findIndex((u) => u.id === id);
+    if (idx !== -1) {
+      usuarios[idx] = { ...usuarios[idx], perfis: body.perfis };
+      setStored('usuarios', usuarios);
+      return of(new HttpResponse({ status: 200, body: usuarios[idx] })).pipe(delay(30));
+    }
+  }
+
+  const adminUsuarioStatusMatch = cleanUrl.match(/^\/api\/admin\/usuarios\/([^/]+)\/status$/);
+  if (adminUsuarioStatusMatch) {
+    const id = adminUsuarioStatusMatch[1];
+    const usuarios = getStored<UsuarioLogado[]>('usuarios', INITIAL_USUARIOS);
+    const body = req.body as { status: 'ATIVO' | 'BLOQUEADO' };
+    const idx = usuarios.findIndex((u) => u.id === id);
+    if (idx !== -1) {
+      usuarios[idx] = { ...usuarios[idx], status: body.status };
+      setStored('usuarios', usuarios);
+      return of(new HttpResponse({ status: 200, body: usuarios[idx] })).pipe(delay(30));
+    }
+  }
+
+  const adminUsuarioResetMatch = cleanUrl.match(/^\/api\/admin\/usuarios\/([^/]+)\/reset-senha$/);
+  if (adminUsuarioResetMatch) {
+    const novaSenhaTemporaria = 'ENS@' + Math.floor(100000 + Math.random() * 900000);
+    return of(
+      new HttpResponse({
+        status: 200,
+        body: {
+          mensagem: 'Senha temporária gerada com sucesso.',
+          novaSenhaTemporaria,
+        },
+      })
+    ).pipe(delay(30));
+  }
+
+  const adminUsuarioIdMatch = cleanUrl.match(/^\/api\/admin\/usuarios\/([^/]+)$/);
+  if (adminUsuarioIdMatch && method === 'GET') {
+    const id = adminUsuarioIdMatch[1];
+    const usuarios = getStored<UsuarioLogado[]>('usuarios', INITIAL_USUARIOS);
+    const u = usuarios.find((item) => item.id === id);
+    if (u) {
+      return of(new HttpResponse({ status: 200, body: u })).pipe(delay(30));
+    }
+    return of(new HttpResponse({ status: 404, body: { mensagem: 'Usuário não encontrado' } })).pipe(delay(30));
+  }
+
+  // 1.2 GOOGLE INTEGRACAO
+  if (cleanUrl.startsWith('/api/admin/integracoes/google') || cleanUrl.startsWith('/api/admin/integracao/google')) {
+    const googleStatusPadrao = {
+      conectado: true,
+      configurado: true,
+      emailGoogle: 'contato.brasil@ens.org.br',
+      nomeGoogle: 'Equipes de Nossa Senhora - Super-Região Brasil',
+      calendarioEnsId: 'c_ens_brasil_oficial@group.calendar.google.com',
+      grupoContatosResourceName: 'people/c1293848123',
+      drivePastaRaizId: '1ENS-Brasil-Raiz-Drive-2026',
+      ultimaSincronizacaoAgenda: new Date().toISOString(),
+      ultimaSincronizacaoContatos: new Date(Date.now() - 3600000).toISOString(),
+      ultimaSincronizacaoDrive: new Date(Date.now() - 7200000).toISOString(),
+      redirectUri: typeof window !== 'undefined' ? `${window.location.origin}/admin/integracao/callback` : '/admin/integracao/callback',
+    };
+
+    if (cleanUrl.endsWith('/status')) {
+      const statusData = getStored('google_status', googleStatusPadrao);
+      return of(new HttpResponse({ status: 200, body: statusData })).pipe(delay(30));
+    }
+
+    if (cleanUrl.endsWith('/auth-url')) {
+      return of(
+        new HttpResponse({
+          status: 200,
+          body: {
+            url: '/admin/integracao/callback?code=mock_google_oauth_code_2026',
+          },
+        })
+      ).pipe(delay(30));
+    }
+
+    if (cleanUrl.endsWith('/callback')) {
+      const statusData = { ...googleStatusPadrao, conectado: true };
+      setStored('google_status', statusData);
+      return of(new HttpResponse({ status: 200, body: statusData })).pipe(delay(30));
+    }
+
+    if (cleanUrl.endsWith('/desconectar')) {
+      const statusData = {
+        ...googleStatusPadrao,
+        conectado: false,
+        emailGoogle: undefined,
+        nomeGoogle: undefined,
+      };
+      setStored('google_status', statusData);
+      return of(new HttpResponse({ status: 200, body: statusData })).pipe(delay(30));
+    }
+
+    // Sincronizações (agenda, contatos, drive, tudo)
+    if (cleanUrl.includes('/sincronizar') || cleanUrl.includes('/sincronizar-tudo')) {
+      const statusData = getStored('google_status', googleStatusPadrao);
+      const agora = new Date().toISOString();
+      statusData.ultimaSincronizacaoAgenda = agora;
+      statusData.ultimaSincronizacaoContatos = agora;
+      statusData.ultimaSincronizacaoDrive = agora;
+      setStored('google_status', statusData);
+
+      return of(
+        new HttpResponse({
+          status: 200,
+          body: {
+            sucesso: true,
+            mensagem: 'Sincronização com serviços Google concluída com êxito!',
+            itensSincronizados: 48,
+            detalhes: [
+              'Eventos de Reuniões e Liturgia sincronizados na Google Agenda',
+              'Contatos de Casais Responsáveis atualizados no Google People',
+              'Pastas de Equipes verificadas e organizadas no Google Drive',
+            ],
+          },
+        })
+      ).pipe(delay(40));
+    }
+  }
+
+  // 1.3 GMAIL & EMAIL INTEGRACAO
+  if (cleanUrl.startsWith('/api/admin/email')) {
+    const configPadrao = {
+      metodo: 'OAUTH2',
+      remetenteEmail: 'danielrla@gmail.com',
+      remetenteNome: 'Equipes de Nossa Senhora',
+      smtpHost: 'smtp.gmail.com',
+      smtpPorta: 587,
+      smtpUsuario: 'danielrla@gmail.com',
+      senhaAppMascarada: '•••• •••• •••• ••••',
+      usaTls: true,
+      oauthClientId: '405083268429-mock-gmail.apps.googleusercontent.com',
+      oauthClientSecretMascarado: 'GOCSPX-••••••••••••••••••••••••',
+      oauthConectado: true,
+      ativo: true,
+      ultimoTesteEm: agoraCuiaba().toISOString(),
+      ultimoTesteSucesso: true,
+      ultimaMensagemTeste: 'E-mail de teste entregue via Google Workspace OAuth2 com êxito para danielrla@gmail.com!',
+    };
+
+    const logsPadrao = [
+      {
+        id: 'log-oauth-1',
+        destinatario: 'danielrla@gmail.com',
+        assunto: '[ENS] Teste de Autenticação e Envio Google Workspace OAuth2',
+        tipo: 'TESTE',
+        sucesso: true,
+        dataHora: agoraCuiaba().toISOString(),
+        detalhes: 'Mensagem transmitida com sucesso pela API Gmail (Escopo: https://www.googleapis.com/auth/gmail.send). Token OAuth2 validado.',
+      },
+      {
+        id: 'log-2',
+        destinatario: 'danielrla@gmail.com',
+        assunto: '[ENS] Lembrete de Reunião da Equipe 01 - Nossa Senhora Aparecida',
+        tipo: 'AVISO_VESPERA_D1',
+        sucesso: true,
+        dataHora: new Date(Date.now() - 86400000).toISOString(),
+        detalhes: 'Aviso de véspera (D-1) enviado para todos os casais da equipe',
+      },
+    ];
+
+    if (cleanUrl === '/api/admin/email/config') {
+      const config = getStored('email_config', configPadrao);
+      if (method === 'GET') {
+        return of(new HttpResponse({ status: 200, body: config })).pipe(delay(30));
+      }
+      if (method === 'PUT') {
+        const body = req.body as any;
+        const senhaAppMascarada = body.senhaAppReal
+          ? '•••• •••• •••• ' + body.senhaAppReal.slice(-4)
+          : config.senhaAppMascarada || '•••• •••• •••• ••••';
+        const oauthSecretMascarado = body.oauthClientSecretReal
+          ? 'GOCSPX-••••••••' + body.oauthClientSecretReal.slice(-4)
+          : config.oauthClientSecretMascarado || 'GOCSPX-••••••••••••••••••••••••';
+
+        const updated = {
+          ...config,
+          ...body,
+          senhaAppMascarada,
+          oauthClientSecretMascarado: oauthSecretMascarado,
+          senhaAppReal: undefined,
+          oauthClientSecretReal: undefined,
+        };
+        setStored('email_config', updated);
+        if (body.senhaAppReal) {
+          setStored('email_senha_secreta', btoa(body.senhaAppReal));
+        }
+        return of(new HttpResponse({ status: 200, body: updated })).pipe(delay(35));
+      }
+    }
+
+    if (cleanUrl === '/api/admin/email/testar' && method === 'POST') {
+      const body = req.body as { destinatario: string; assunto?: string; mensagem?: string };
+      const config = getStored('email_config', configPadrao);
+      const agora = agoraCuiaba().toISOString();
+      const logs = getStored('email_logs', logsPadrao);
+
+      const novoLog = {
+        id: 'log-' + Date.now(),
+        destinatario: body.destinatario || config.remetenteEmail,
+        assunto: body.assunto || '[ENS] Teste de Envio Google Workspace OAuth2',
+        tipo: 'TESTE',
+        sucesso: true,
+        dataHora: agora,
+        detalhes: `Transmitido via ${config.metodo === 'OAUTH2' ? 'Google Workspace OAuth2 (Gmail API)' : 'SMTP Gmail'} para ${body.destinatario || config.remetenteEmail}. Autenticação conferida.`,
+      };
+      logs.unshift(novoLog);
+      setStored('email_logs', logs);
+
+      config.ultimoTesteEm = agora;
+      config.ultimoTesteSucesso = true;
+      config.ultimaMensagemTeste = `E-mail de teste enviado para ${body.destinatario} às ${formatarDataCuiaba(agora, true)}`;
+      setStored('email_config', config);
+
+      return of(
+        new HttpResponse({
+          status: 200,
+          body: {
+            sucesso: true,
+            mensagem: `E-mail de teste enviado com êxito via Google Workspace OAuth2 para ${body.destinatario}!`,
+            timestamp: agora,
+            detalhes: novoLog.detalhes,
+          },
+        })
+      ).pipe(delay(50));
+    }
+
+    if (cleanUrl === '/api/admin/email/logs' && method === 'GET') {
+      const logs = getStored('email_logs', logsPadrao);
+      return of(new HttpResponse({ status: 200, body: logs })).pipe(delay(25));
+    }
+
+    if (cleanUrl === '/api/admin/email/enviar' && method === 'POST') {
+      const body = req.body as { destinatario: string; assunto: string; corpo: string; tipo: any };
+      const config = getStored('email_config', configPadrao);
+      const agora = new Date().toISOString();
+      const logs = getStored('email_logs', logsPadrao);
+
+      const novoLog = {
+        id: 'log-' + Date.now(),
+        destinatario: body.destinatario,
+        assunto: body.assunto,
+        tipo: body.tipo || 'AVISO_SEMANAL',
+        sucesso: true,
+        dataHora: agora,
+        detalhes: `Disparo automático para a equipe via ${config.metodo}`,
+      };
+      logs.unshift(novoLog);
+      setStored('email_logs', logs);
+
+      return of(
+        new HttpResponse({
+          status: 200,
+          body: {
+            sucesso: true,
+            mensagem: 'E-mail enviado aos membros da equipe com sucesso.',
+            timestamp: agora,
+          },
+        })
+      ).pipe(delay(40));
+    }
   }
 
   // 2. CASAIS
@@ -122,20 +638,50 @@ export const mockApiInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>,
     }
     if (method === 'POST') {
       const body = req.body as Partial<MovimentacaoDto>;
+      const equipes = getStored<EquipeDetalheDto[]>('equipes', INITIAL_EQUIPES);
+      const casais = getStored<CasalDto[]>('casais', INITIAL_CASAIS);
+      const casal = casais.find((c) => c.id === casalId);
+      const equipeOrigem = casal?.equipeId ? equipes.find((e) => e.id === casal.equipeId) : undefined;
+      const equipeDestino = body.equipeDestinoId ? equipes.find((e) => e.id === body.equipeDestinoId) : undefined;
+
       const newMov: MovimentacaoDto = {
         id: 'mov-' + Date.now(),
         casalId,
         tipo: body.tipo ?? 'TRANSFERENCIA',
-        equipeOrigemId: body.equipeOrigemId,
-        nomeEquipeOrigem: body.nomeEquipeOrigem,
+        equipeOrigemId: casal?.equipeId || body.equipeOrigemId,
+        nomeEquipeOrigem: equipeOrigem ? `Equipe ${String(equipeOrigem.numero).padStart(2, '0')} - ${equipeOrigem.nomeDevocao}` : (casal?.nomeEquipe || body.nomeEquipeOrigem),
         equipeDestinoId: body.equipeDestinoId,
-        nomeEquipeDestino: body.nomeEquipeDestino,
-        data: body.data || new Date().toISOString().substring(0, 10),
+        nomeEquipeDestino: equipeDestino ? `Equipe ${String(equipeDestino.numero).padStart(2, '0')} - ${equipeDestino.nomeDevocao}` : body.nomeEquipeDestino,
+        data: body.data || hojeCuiabaStr(),
         motivo: body.motivo || '',
         observacoes: body.observacoes,
       };
       movimentacoes.unshift(newMov);
       setStored('movimentacoes', movimentacoes);
+
+      // Atualiza o casal correspondente na coleção casais
+      const updatedCasais = casais.map((c) => {
+        if (c.id !== casalId) return c;
+        if (newMov.tipo === 'TRANSFERENCIA' && newMov.equipeDestinoId) {
+          return {
+            ...c,
+            equipeId: newMov.equipeDestinoId,
+            nomeEquipe: equipeDestino?.nomeDevocao || newMov.nomeEquipeDestino || c.nomeEquipe,
+            status: 'ATIVO' as const,
+          };
+        } else if (newMov.tipo === 'LICENCA') {
+          return { ...c, status: 'LICENCIADO' as const };
+        } else if (newMov.tipo === 'SAIDA' || newMov.tipo === 'SAIDA_VOLUNTARIA') {
+          return { ...c, status: 'INATIVO' as const, motivoInativacao: newMov.motivo };
+        } else if (newMov.tipo === 'RETORNO') {
+          return { ...c, status: 'ATIVO' as const };
+        } else if (newMov.tipo === 'FALECIMENTO') {
+          return { ...c, status: 'VIUVO' as const };
+        }
+        return c;
+      });
+      setStored('casais', updatedCasais);
+
       return of(new HttpResponse({ status: 201, body: newMov })).pipe(delay(30));
     }
   }
@@ -375,19 +921,25 @@ export const mockApiInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>,
     }
     if (method === 'POST') {
       const body = req.body as Partial<ReuniaoDto>;
+      const casais = getStored<CasalDto[]>('casais', INITIAL_CASAIS);
+      const animador = body.casalAnimadorId ? casais.find((c) => c.id === body.casalAnimadorId) : undefined;
+      const anfitriao = body.casalAnfitriaoId ? casais.find((c) => c.id === body.casalAnfitriaoId) : undefined;
+
       const newReun: ReuniaoDto = {
         id: 'reun-' + Date.now(),
         equipeId,
-        data: body.data || new Date().toISOString().substring(0, 10),
-        horario: body.horario || '14:30',
+        data: body.data || hojeCuiabaStr(),
+        horario: body.horario || '19:30',
         tipo: body.tipo || 'FORMAL',
         casalAnimadorId: body.casalAnimadorId,
-        nomeCasalAnimador: body.nomeCasalAnimador,
+        nomeCasalAnimador: animador ? `${animador.esposo.nomeCompleto} & ${animador.esposa.nomeCompleto}` : body.nomeCasalAnimador,
         tema: body.tema || 'Tema Mensal',
         casalAnfitriaoId: body.casalAnfitriaoId,
-        nomeCasalAnfitriao: body.nomeCasalAnfitriao,
-        enderecoAnfitriao: body.enderecoAnfitriao,
+        nomeCasalAnfitriao: anfitriao ? `${anfitriao.esposo.nomeCompleto} & ${anfitriao.esposa.nomeCompleto}` : body.nomeCasalAnfitriao,
+        enderecoAnfitriao: anfitriao?.endereco || body.enderecoAnfitriao,
         localObservacao: body.localObservacao,
+        googleEventId: 'gevent-' + Date.now(),
+        sincronizadoGoogle: true,
         scePresente: body.scePresente !== undefined ? !!body.scePresente : true,
         presencas: body.presencas || [],
         anotacoesCre: body.anotacoesCre,
@@ -398,6 +950,13 @@ export const mockApiInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>,
       };
       reunioes.push(newReun);
       setStored('reunioes', reunioes);
+
+      const googleStatus = getStored<any>('google_status', { conectado: true, configurado: true });
+      setStored('google_status', {
+        ...googleStatus,
+        ultimaSincronizacaoAgenda: agoraCuiaba().toISOString(),
+      });
+
       return of(new HttpResponse({ status: 201, body: newReun })).pipe(delay(30));
     }
   }
@@ -662,7 +1221,27 @@ export const mockApiInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>,
       const page = Number(req.params.get('page') || 0);
       const size = Number(req.params.get('size') || 20);
 
-      let filtered = mandatos;
+      let filtered = mandatos.map((m) => {
+        if (m.status !== 'VIGENTE') {
+          return { ...m, alerta: 'NENHUM' as const, diasParaTermino: 0 };
+        }
+        if (!m.dataPrevistaTermino) return m;
+        const dias = calcularDiasRestantesCuiaba(m.dataPrevistaTermino);
+        if (dias < 0) {
+          // Se já passou a data de término
+          return {
+            ...m,
+            diasParaTermino: dias,
+            alerta: 'VERMELHO' as const,
+          };
+        }
+        const alerta = dias <= 30 ? ('LARANJA' as const) : dias <= 90 ? ('DOURADO' as const) : ('NENHUM' as const);
+        return {
+          ...m,
+          diasParaTermino: dias,
+          alerta,
+        };
+      });
       if (funcao) filtered = filtered.filter((m) => m.funcao === funcao);
       if (status) filtered = filtered.filter((m) => m.status === status);
       if (alerta) filtered = filtered.filter((m) => m.alerta === alerta);

@@ -27,6 +27,9 @@ O replica set do MongoDB é obrigatório mesmo em desenvolvimento, pois transiç
 | Reuniões e Encontros | Coleção `reunioes` com tipos `FORMAL`, `INFORMAL` e `OUTROS` | Flexibilidade para acolher reuniões de equipe, retiros e encontros livres de setor |
 | Sincronização Google | Sincronização bidirecional em tempo real ao salvar reunião | Notificação automática no Google Calendar com todos os casais ativos e o SCE |
 | Criptografia de Tokens | Credenciais OAuth do Google cifradas com AES-GCM 256 bits | Proteção de tokens de atualização (refresh tokens) em repouso no banco |
+| Envio de E-mails Gmail | Suporte a SMTP com Senha de App mascarada e OAuth2 com escopo `gmail.send` | Envio oficial e seguro com parametrização restrita ao administrador |
+| Notificações de Reunião | Regras temporais (Segunda semanal, D-1 véspera e H-4 no dia) com filtro rígido de equipe | Comunicação assertiva no app e por e-mail estritamente para a equipe do usuário |
+| Governança de Documentação | Política obrigatória em `docs/REGRAS_DOCUMENTACAO.md` atualizada a cada mudança | Garantia de rastreabilidade integral entre código e regras funcionais |
 | Autenticação JWT | Tokens com assinatura HMAC-SHA256 e extração via `AutenticacaoFilter` | Autenticação stateless com dados mínimos de sessão no `UsuarioContext` |
 | Matriz RBAC | Segregação entre perfis individuais (`ADMINISTRADOR`, `SACERDOTE`) e de casal | Fidelidade ao carisma do movimento, no qual o casal atua em unidade |
 | Notificações D-1 | Agendador Spring rodando às 08:00 no fuso de Cuiabá | Envio automático de lembretes na véspera dos encontros por e-mail |
@@ -78,9 +81,56 @@ O serviço `ReuniaoAlertaScheduler` executa diariamente às 08:00 (fuso horário
 * Constrói e envia mensagens personalizadas de lembrete com detalhes de horário, tema, anfitrião e local;
 * Disponibiliza endpoint de disparo manual administrativo via `POST /api/reunioes/disparar-alertas-d1`.
 
-## Progressive Web App (PWA)
+## Fuso Horário Padronizado (Cuiabá - UTC-4)
 
-O frontend dispõe de suporte completo a PWA:
-* **Manifesto Web (`manifest.webmanifest`):** Nome institucional, cor de tema `#1E3A8A`, display `standalone` e orientação retrato;
-* **Ícones Redimensionados:** Gerados a partir do logo oficial `logo-ens.png` nos formatos 192x192, 512x512, maskable e apple-touch-icon;
-* **Service Worker (`sw.js`):** Gerenciamento de cache de recursos estáticos e interceptação de navegação offline, registrado dinamicamente no `index.html`.
+Todo o ecossistema ENS adota o fuso horário oficial `America/Cuiaba` (UTC-4), prevenindo divergências de dias e horários entre o servidor e os dispositivos dos casais:
+* **Módulo Utilitário (`src/app/core/cuiaba-date.util.ts`):** Funções centralizadas `agoraCuiaba()`, `hojeCuiabaStr()`, `formatarDataCuiaba()` e `calcularDiasRestantesCuiaba()`.
+* **Pipe Institucional (`src/app/core/ens-date.pipe.ts`):** Formata todas as datas na interface com exibição consistente `dd/MM/yyyy` ou `dd/MM/yyyy HH:mm` no fuso de Cuiabá.
+* **Agendador e Notificações:** Todos os cálculos de aviso semanal (segunda-feira), véspera (D-1) e mesmo dia (4 horas antes) operam orientados ao relógio de Cuiabá.
+
+## Gestão de Casais e Movimentações
+
+O módulo `/casais` oferece suporte ao ciclo de vida eclesiástico dos casais das Equipes:
+* **Transferência de Equipe:** Transfere o casal para uma nova equipe de destino, atualizando automaticamente os vínculos e exibindo o casal no quadrante da nova equipe.
+* **Licença Temporária:** Altera o status para `LICENCIADO`, preservando o histórico e excluindo o casal dos combos de anfitriões e animadores ativos durante o afastamento.
+* **Saída / Inativação:** Registra o desligamento formal e atualiza o status para `INATIVO` com registro do motivo.
+* **Retorno e Falecimento:** Suporte a retorno de licença (`ATIVO`) e falecimento de cônjuge (`VIUVO`).
+* **Histórico Completo:** Registro cronológico de todas as movimentações com equipe de origem, destino, data e observações.
+
+## Governança de Mandatos Estatutários e Sucessão
+
+O módulo `/mandatos` acompanha os mandatos de serviços das ENS (CRE, CL, CRS, CRR, CRP, CRSR, ERI):
+* **Cálculo Dinâmico de Prazos:** Prazos estatutários calculados segundo o fuso de Cuiabá.
+* **Alertas Visuais de Sucessão:**
+  * 🟢 **Vigente Regular:** Prazos acima de 90 dias restantes.
+  * 🟡 **Fase de Sucessão / Discernimento:** 60 a 90 dias restantes.
+  * 🟠 **Crítico / Iminente:** Menos de 30 dias restantes.
+  * 🚨 **Vencido:** Data prevista de término ultrapassada sem sucessor eleito.
+  * ✓ **Concluído:** Mandatos finalizados (como o casal Robson e Fernanda).
+* **Indicação de Sucessor:** Fluxo rápido com carregamento prévio da instância e função para nova eleição.
+
+## Progressive Web App (PWA) e Ícones Oficiais
+
+O frontend dispõe de suporte completo a PWA e identidade visual oficial das ENS:
+* **Ícone Oficial (`logo-ens.png`):** Integrado como favicon na aba do navegador (`<link rel="icon">`), ícone para tela inicial de dispositivos iOS (`<link rel="apple-touch-icon">`) e ícone de instalação do sistema.
+* **Manifesto Web (`public/manifest.webmanifest`):** Nome institucional "Equipes de Nossa Senhora", nome curto "ENS Brasil", tema `#1e3a8a`, display `standalone` e suporte a ícones normais e maskable (192x192 e 512x512).
+* **Metatags Mobile Web App:** `apple-mobile-web-app-capable="yes"`, `apple-mobile-web-app-status-bar-style="default"`.
+
+## Ergonomia Mobile e Central de Alertas em Bottom Sheet
+
+* **Central de Alertas Adaptativa (`src/app/layout/header/header.ts`):**
+  * Em desktop ($\ge 1024\text{px}$), opera como dropdown ancorado abaixo do sino de notificações.
+  * Em smartphone/mobile ($< 1024\text{px}$), transforma-se em um **Bottom Sheet deslizante** ancorado na parte inferior da tela (`fixed bottom-0 inset-x-0 rounded-t-3xl`), com alça de arrasto central, overlay escurecido (`backdrop-blur-sm`), botão de fechar proeminente e rolagem interna confortável, eliminando qualquer risco de transbordo lateral fora da tela.
+* **Navegação Móvel Híbrida:**
+  * Barra inferior fixa (`app-bottom-nav`) para acesso instantâneo com o polegar (Início, Equipes, Reuniões, Perfil, Mais).
+  * Gaveta lateral retrátil (`app-sidebar`) acionada pelo botão "Mais" ou hambúrguer para rotas administrativas e institucionais.
+  * Contenção estrita de transbordo horizontal (`overflow-x-hidden`) em todo o layout.
+  * Espaçamento inferior seguro (`padding-bottom: 5.5rem`) para assegurar que nenhum conteúdo ou botão de ação fique encoberto pela barra inferior.
+
+## Motor de Envio de E-mails via Google Workspace OAuth2
+
+* **Governança de Comunicação (`/admin/integracoes`):**
+  * Suporte nativo ao envio de mensagens autenticadas pela API do Gmail utilizando o protocolo Google Workspace OAuth2 (escopo `https://www.googleapis.com/auth/gmail.send`).
+  * Parametrização segura do remetente oficial com armazenamento protegido no banco.
+  * Painel de teste imediato com disparo para o e-mail do usuário logado (`danielrla@gmail.com`) e rastreabilidade com logs detalhados de data, hora e status de entrega.
+

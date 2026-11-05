@@ -1,9 +1,11 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CasalDto, CasalRequest, CasalService, Filho } from '../../core/casal.service';
 import { mascararCpf, mascararTelefone, desmascarar } from '../../core/mascara.util';
+import { AuthService } from '../../core/auth.service';
+import { BiometriaService } from '../../core/biometria.service';
 
 @Component({
   selector: 'app-perfil-casal-page',
@@ -464,6 +466,196 @@ import { mascararCpf, mascararTelefone, desmascarar } from '../../core/mascara.u
               </div>
             }
           </fieldset>
+
+          <!-- Seção de Segurança da Conta, Troca de Senha e Biometria -->
+          <section class="cartao secao-seguranca" id="secao-seguranca">
+            <div class="cabecalho-secao-seguranca">
+              <div>
+                <h2 class="titulo-secao">🔐 Segurança da Conta, Senha e Biometria</h2>
+                <p class="texto-suave">
+                  Mantenha sua conta protegida, troque sua senha periodicamente e configure o acesso biométrico no seu smartphone.
+                </p>
+              </div>
+            </div>
+
+            <div class="grade-seguranca">
+              <!-- Bloco 1: Troca de Senha -->
+              <div class="bloco-seguranca-senha">
+                <h3 class="subtitulo-seguranca">Trocar Senha de Acesso</h3>
+
+                @if (mensagemSucessoSenha()) {
+                  <div class="alerta alerta-sucesso">
+                    <span>✓</span>
+                    <p>{{ mensagemSucessoSenha() }}</p>
+                    <button type="button" class="btn-fechar-alerta" (click)="mensagemSucessoSenha.set('')">✕</button>
+                  </div>
+                }
+
+                @if (mensagemErroSenha()) {
+                  <div class="alerta alerta-erro">
+                    <span>⚠</span>
+                    <p>{{ mensagemErroSenha() }}</p>
+                    <button type="button" class="btn-fechar-alerta" (click)="mensagemErroSenha.set('')">✕</button>
+                  </div>
+                }
+
+                <div class="campo">
+                  <label for="senha-atual">Senha Atual <span class="obrigatorio">*</span></label>
+                  <input
+                    id="senha-atual"
+                    [type]="mostrarSenhas() ? 'text' : 'password'"
+                    [ngModel]="senhaAtual()"
+                    (ngModelChange)="senhaAtual.set($event)"
+                    name="inputSenhaAtual"
+                    placeholder="Digite sua senha atual"
+                    autocomplete="current-password"
+                  />
+                </div>
+
+                <div class="linha-dupla">
+                  <div class="campo">
+                    <label for="nova-senha">Nova Senha <span class="obrigatorio">*</span></label>
+                    <input
+                      id="nova-senha"
+                      [type]="mostrarSenhas() ? 'text' : 'password'"
+                      [ngModel]="novaSenha()"
+                      (ngModelChange)="novaSenha.set($event)"
+                      name="inputNovaSenha"
+                      placeholder="Mínimo 8 caracteres"
+                      autocomplete="new-password"
+                    />
+                  </div>
+
+                  <div class="campo">
+                    <label for="confirmar-nova-senha">Confirmar Nova Senha <span class="obrigatorio">*</span></label>
+                    <input
+                      id="confirmar-nova-senha"
+                      [type]="mostrarSenhas() ? 'text' : 'password'"
+                      [ngModel]="confirmarNovaSenha()"
+                      (ngModelChange)="confirmarNovaSenha.set($event)"
+                      name="inputConfirmarNovaSenha"
+                      placeholder="Repita a nova senha"
+                      autocomplete="new-password"
+                    />
+                  </div>
+                </div>
+
+                <!-- Indicador de Força -->
+                @if (novaSenha()) {
+                  <div class="indicador-forca-wrapper">
+                    <div class="forca-barra">
+                      <div
+                        class="forca-preenchimento"
+                        [class.fraca]="calcularNivelForca() === 1"
+                        [class.media]="calcularNivelForca() === 2"
+                        [class.forte]="calcularNivelForca() === 3"
+                      ></div>
+                    </div>
+                    <span class="forca-texto">{{ obterTextoForca() }}</span>
+                  </div>
+                }
+
+                <div class="acoes-senha-bloco">
+                  <button
+                    type="button"
+                    class="btn btn-fantasma btn-sm"
+                    (click)="mostrarSenhas.set(!mostrarSenhas())"
+                  >
+                    {{ mostrarSenhas() ? '🙈 Ocultar Senhas' : '👁️ Visualizar Senhas' }}
+                  </button>
+
+                  <button
+                    type="button"
+                    class="btn btn-primario btn-sm"
+                    [disabled]="salvandoSenha() || !novaSenha() || !senhaAtual()"
+                    (click)="executarTrocaSenha()"
+                  >
+                    {{ salvandoSenha() ? 'Atualizando...' : '🔒 Atualizar Senha' }}
+                  </button>
+                </div>
+              </div>
+
+              <!-- Bloco 2: Biometria Móvel (WebAuthn / Face ID / Touch ID) -->
+              <div class="bloco-seguranca-biometria">
+                <div class="cabecalho-bio">
+                  <div class="icone-bio-destaque">
+                    <span class="simbolo-bio">👆</span>
+                  </div>
+                  <div>
+                    <h3 class="subtitulo-seguranca">Acesso Biométrico</h3>
+                    <p class="texto-suave-sm">Face ID, Touch ID ou Impressão Digital Android</p>
+                  </div>
+                </div>
+
+                @if (mensagemSucessoBio()) {
+                  <div class="alerta alerta-sucesso">
+                    <span>✓</span>
+                    <p>{{ mensagemSucessoBio() }}</p>
+                    <button type="button" class="btn-fechar-alerta" (click)="mensagemSucessoBio.set('')">✕</button>
+                  </div>
+                }
+
+                @if (mensagemErroBio()) {
+                  <div class="alerta alerta-erro">
+                    <span>⚠</span>
+                    <p>{{ mensagemErroBio() }}</p>
+                    <button type="button" class="btn-fechar-alerta" (click)="mensagemErroBio.set('')">✕</button>
+                  </div>
+                }
+
+                <div class="status-bio-cartao" [class.ativo]="biometriaAtiva()">
+                  <div class="info-status-bio">
+                    <strong class="rotulo-status-bio">
+                      {{ biometriaAtiva() ? 'Biometria Ativa neste Aparelho' : 'Biometria Não Configurada' }}
+                    </strong>
+                    <span class="desc-status-bio">
+                      {{ biometriaAtiva()
+                        ? 'Você pode acessar o sistema na tela de login com 1 toque sem digitar senha.'
+                        : 'Ative para entrar instantaneamente pelo leitor biométrico do seu celular.' }}
+                    </span>
+                  </div>
+
+                  <div class="botoes-bio-acoes">
+                    @if (biometriaAtiva()) {
+                      <button
+                        type="button"
+                        class="btn btn-fantasma btn-sm"
+                        (click)="testarBiometria()"
+                        [disabled]="processandoBio()"
+                      >
+                        ⚡ Testar Leitura
+                      </button>
+
+                      <button
+                        type="button"
+                        class="btn btn-perigo-suave btn-sm"
+                        (click)="alternarBiometria()"
+                        [disabled]="processandoBio()"
+                      >
+                        Desativar
+                      </button>
+                    } @else {
+                      <button
+                        type="button"
+                        class="btn btn-primario btn-sm btn-ativar-bio"
+                        (click)="alternarBiometria()"
+                        [disabled]="processandoBio()"
+                      >
+                        {{ processandoBio() ? 'Registrando...' : '📲 Ativar Biometria Móvel' }}
+                      </button>
+                    }
+                  </div>
+                </div>
+
+                <div class="dica-seguranca-box">
+                  <span class="icone-dica">💡</span>
+                  <small>
+                    O registro utiliza criptografia de chave pública (WebAuthn). Seus dados biométricos nunca saem do seu aparelho.
+                  </small>
+                </div>
+              </div>
+            </div>
+          </section>
 
           <!-- Barra Fixa de Ações no Rodapé -->
           <div class="rodape-acoes-perfil cartao">
@@ -928,10 +1120,166 @@ import { mascararCpf, mascararTelefone, desmascarar } from '../../core/mascara.u
         flex-direction: column;
       }
     }
+
+    /* Estilos da Seção de Segurança e Biometria */
+    .secao-seguranca {
+      margin-bottom: 2rem;
+      border: 1px solid rgba(0, 43, 73, 0.12);
+      border-top: 4px solid var(--azul-ens, #002B49);
+      background: #ffffff;
+      padding: 1.5rem;
+    }
+    .cabecalho-secao-seguranca {
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--borda, #e2e8f0);
+    }
+    .grade-seguranca {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    @media (max-width: 840px) {
+      .grade-seguranca {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+    }
+    .subtitulo-seguranca {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--azul-900, #0f172a);
+      margin: 0 0 0.5rem 0;
+    }
+    .indicador-forca-wrapper {
+      margin: 0.5rem 0 1rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .forca-barra {
+      flex: 1;
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .forca-preenchimento {
+      height: 100%;
+      width: 33%;
+      border-radius: 999px;
+      transition: width 0.2s, background-color 0.2s;
+    }
+    .forca-preenchimento.fraca {
+      width: 33%;
+      background-color: #ef4444;
+    }
+    .forca-preenchimento.media {
+      width: 66%;
+      background-color: #f59e0b;
+    }
+    .forca-preenchimento.forte {
+      width: 100%;
+      background-color: #10b981;
+    }
+    .forca-texto {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--texto-suave, #64748b);
+    }
+    .acoes-senha-bloco {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .cabecalho-bio {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .icone-bio-destaque {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #eff6ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    .texto-suave-sm {
+      font-size: 0.8rem;
+      color: var(--texto-suave, #64748b);
+      margin: 0;
+    }
+    .status-bio-cartao {
+      padding: 1.25rem;
+      border-radius: var(--raio-md, 12px);
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .status-bio-cartao.ativo {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+    }
+    .info-status-bio {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .rotulo-status-bio {
+      font-size: 0.95rem;
+      color: var(--azul-900, #0f172a);
+    }
+    .desc-status-bio {
+      font-size: 0.825rem;
+      color: var(--texto-suave, #64748b);
+      line-height: 1.4;
+    }
+    .botoes-bio-acoes {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .btn-perigo-suave {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fca5a5;
+    }
+    .btn-perigo-suave:hover {
+      background: #fecaca;
+    }
+    .btn-ativar-bio {
+      width: 100%;
+      justify-content: center;
+      min-height: 44px;
+    }
+    .dica-seguranca-box {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      background: #f1f5f9;
+      color: #475569;
+      font-size: 0.8rem;
+      line-height: 1.4;
+    }
   `,
 })
 export class PerfilCasalPage implements OnInit {
   private readonly casalService = inject(CasalService);
+  private readonly authService = inject(AuthService);
+  protected readonly biometriaService = inject(BiometriaService);
+  private readonly route = inject(ActivatedRoute);
 
   protected readonly carregando = signal(true);
   protected readonly salvando = signal(false);
@@ -943,6 +1291,21 @@ export class PerfilCasalPage implements OnInit {
   protected readonly fotoCarregando = signal<boolean>(false);
   protected readonly nomeArquivoFoto = signal<string>('');
   protected readonly filhoCarregandoFoto = signal<Record<number, boolean>>({});
+
+  // Troca de Senha
+  protected readonly senhaAtual = signal('');
+  protected readonly novaSenha = signal('');
+  protected readonly confirmarNovaSenha = signal('');
+  protected readonly mostrarSenhas = signal(false);
+  protected readonly salvandoSenha = signal(false);
+  protected readonly mensagemSucessoSenha = signal('');
+  protected readonly mensagemErroSenha = signal('');
+
+  // Biometria
+  protected readonly biometriaAtiva = signal(false);
+  protected readonly processandoBio = signal(false);
+  protected readonly mensagemSucessoBio = signal('');
+  protected readonly mensagemErroBio = signal('');
 
   protected form: CasalRequest = {
     esposo: {
@@ -981,6 +1344,135 @@ export class PerfilCasalPage implements OnInit {
 
   ngOnInit(): void {
     this.carregarDados();
+    this.atualizarStatusBiometria();
+
+    this.route.queryParams.subscribe((params) => {
+      if (params['foco'] === 'seguranca') {
+        setTimeout(() => {
+          const el = document.getElementById('secao-seguranca');
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 300);
+      }
+    });
+  }
+
+  protected calcularNivelForca(): number {
+    const s = this.novaSenha();
+    if (!s || s.length < 6) return 1;
+    const temMaiuscula = /[A-Z]/.test(s);
+    const temNumero = /[0-9]/.test(s);
+    const temEspecial = /[^A-Za-z0-9]/.test(s);
+    const pontos = (s.length >= 8 ? 1 : 0) + (temMaiuscula ? 1 : 0) + (temNumero ? 1 : 0) + (temEspecial ? 1 : 0);
+    if (pontos >= 3) return 3;
+    if (pontos >= 2) return 2;
+    return 1;
+  }
+
+  protected obterTextoForca(): string {
+    const nivel = this.calcularNivelForca();
+    if (nivel === 3) return 'Senha Forte';
+    if (nivel === 2) return 'Senha Moderada';
+    return 'Senha Fraca (mín. 8 caracteres, maiúsculas, números e símbolos)';
+  }
+
+  protected executarTrocaSenha(): void {
+    this.mensagemSucessoSenha.set('');
+    this.mensagemErroSenha.set('');
+
+    const atual = this.senhaAtual();
+    const nova = this.novaSenha();
+    const conf = this.confirmarNovaSenha();
+
+    if (!atual) {
+      this.mensagemErroSenha.set('Por favor, informe sua senha atual.');
+      return;
+    }
+    if (!nova || nova.length < 8) {
+      this.mensagemErroSenha.set('A nova senha deve possuir pelo menos 8 caracteres.');
+      return;
+    }
+    if (nova !== conf) {
+      this.mensagemErroSenha.set('A confirmação da nova senha não confere.');
+      return;
+    }
+
+    this.salvandoSenha.set(true);
+    this.authService.trocarSenha({
+      senhaAtual: atual,
+      novaSenha: nova,
+    }).subscribe({
+      next: (res) => {
+        this.salvandoSenha.set(false);
+        this.mensagemSucessoSenha.set(res.mensagem || 'Senha alterada com sucesso!');
+        this.senhaAtual.set('');
+        this.novaSenha.set('');
+        this.confirmarNovaSenha.set('');
+      },
+      error: (err) => {
+        this.salvandoSenha.set(false);
+        this.mensagemErroSenha.set(err.error?.mensagem || 'Erro ao atualizar senha. Verifique sua senha atual.');
+      },
+    });
+  }
+
+  protected atualizarStatusBiometria(): void {
+    const user = this.authService.usuarioAtual();
+    const email = user?.email || this.form.esposo.email || 'admin@ens.org.br';
+    this.biometriaAtiva.set(this.biometriaService.isBiometriaAtivaPara(email));
+  }
+
+  protected async alternarBiometria(): Promise<void> {
+    this.mensagemSucessoBio.set('');
+    this.mensagemErroBio.set('');
+    this.processandoBio.set(true);
+
+    const user = this.authService.usuarioAtual();
+    const email = user?.email || this.form.esposo.email || 'admin@ens.org.br';
+    const nome = user?.nome || this.form.esposo.nomeCompleto || 'Usuário ENS';
+
+    try {
+      if (this.biometriaAtiva()) {
+        this.biometriaService.desativarBiometria(email);
+        this.biometriaAtiva.set(false);
+        this.mensagemSucessoBio.set('Biometria desativada com sucesso para este dispositivo.');
+      } else {
+        const resultado = await this.biometriaService.ativarBiometria(email, nome);
+        if (resultado.sucesso) {
+          this.biometriaAtiva.set(true);
+          this.mensagemSucessoBio.set(resultado.mensagem);
+        } else {
+          this.mensagemErroBio.set(resultado.mensagem);
+        }
+      }
+    } catch (e: any) {
+      this.mensagemErroBio.set(e.message || 'Falha ao processar biometria.');
+    } finally {
+      this.processandoBio.set(false);
+    }
+  }
+
+  protected async testarBiometria(): Promise<void> {
+    this.mensagemSucessoBio.set('');
+    this.mensagemErroBio.set('');
+    this.processandoBio.set(true);
+
+    const user = this.authService.usuarioAtual();
+    const email = user?.email || this.form.esposo.email || 'admin@ens.org.br';
+
+    try {
+      const res = await this.biometriaService.autenticar(email);
+      if (res.sucesso) {
+        this.mensagemSucessoBio.set('✓ ' + res.mensagem);
+      } else {
+        this.mensagemErroBio.set(res.mensagem);
+      }
+    } catch (e: any) {
+      this.mensagemErroBio.set(e.message || 'Erro ao ler biometria.');
+    } finally {
+      this.processandoBio.set(false);
+    }
   }
 
   carregarDados(): void {

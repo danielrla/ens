@@ -32,6 +32,8 @@ export interface ReuniaoRequest {
   presencas?: PresencaCasal[];
   anotacoesCre?: string;
   fotos?: string[];
+  googleEventId?: string;
+  sincronizadoGoogle?: boolean;
 }
 
 export interface RegistroPresencaRequest {
@@ -58,6 +60,8 @@ export interface ReuniaoDto {
   presencas: PresencaDetalheDto[];
   anotacoesCre?: string;
   fotos?: string[];
+  googleEventId?: string;
+  sincronizadoGoogle?: boolean;
   totalPresentes: number;
   totalFaltas: number;
   totalJustificadas: number;

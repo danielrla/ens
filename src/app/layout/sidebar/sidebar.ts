@@ -1,9 +1,10 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { SidebarItem } from './sidebar-item';
-import { MENU_ITEMS } from './nav-item.model';
+import { MENU_ITEMS, NavItem } from './nav-item.model';
 import { LayoutService } from '../layout.service';
+import { AuthService } from '../../core/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,6 +12,8 @@ import { LayoutService } from '../layout.service';
   host: {
     '[class.expandida]': 'sidebarExpanded()',
     '[class.colapsada]': '!sidebarExpanded()',
+    '[class.drawer-ativo]': 'mobileDrawerOpen()',
+    '(window:keydown.escape)': 'onEscape()',
   },
   template: `
     <!-- Overlay semitransparente escuro para Mobile -->
@@ -45,7 +48,7 @@ import { LayoutService } from '../layout.service';
 
       <!-- Navegação Principal com Nós Recursivos -->
       <nav class="sidebar-nav" role="tree">
-        @for (item of menuItems; track item.id) {
+        @for (item of menuItems(); track item.id) {
           <app-sidebar-item [item]="item" [level]="0" />
         }
       </nav>
@@ -68,81 +71,120 @@ import { LayoutService } from '../layout.service';
   `,
   styles: `
     :host {
-      display: flex;
-      flex-direction: column;
-      flex-shrink: 0;
-      background: #0f172a; /* Fundo contínuo até o rodapé da página */
-      align-self: stretch;
-      min-height: 100%;
-      position: relative;
-      z-index: 50;
+      display: block;
     }
 
-    /* Desktop widths */
+    /* Regras Mobile e Tablet (< 1024px) */
+    @media (max-width: 1023px) {
+      :host {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 0 !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        background: transparent !important;
+        z-index: 1000 !important;
+        pointer-events: none !important;
+        overflow: visible !important;
+      }
+
+      :host.drawer-ativo {
+        width: 100vw !important;
+        height: 100vh !important;
+        pointer-events: auto !important;
+      }
+
+      .backdrop-mobile {
+        position: fixed !important;
+        inset: 0 !important;
+        background: rgba(15, 23, 42, 0.65) !important;
+        backdrop-filter: blur(4px) !important;
+        -webkit-backdrop-filter: blur(4px) !important;
+        z-index: 1001 !important;
+        pointer-events: auto !important;
+        animation: fadeIn 0.2s ease-out;
+      }
+
+      .sidebar-container {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        bottom: 0 !important;
+        width: 85vw !important;
+        max-width: 300px !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        background: #0f172a !important;
+        color: #f8fafc !important;
+        display: flex !important;
+        flex-direction: column !important;
+        z-index: 1002 !important;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4) !important;
+        transform: translateX(-100%) !important;
+        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        pointer-events: auto !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+      }
+
+      .sidebar-container.mobile-aberto {
+        transform: translateX(0) !important;
+      }
+    }
+
+    /* Regras Desktop (>= 1024px) */
     @media (min-width: 1024px) {
       :host {
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        background: #0f172a;
+        align-self: stretch;
+        min-height: 100%;
+        position: relative;
+        z-index: 50;
         width: 280px;
         min-width: 280px;
         transition: width 200ms cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: auto;
       }
-      :host(.colapsada) {
+
+      :host.colapsada {
         width: 72px;
         min-width: 72px;
       }
+
+      .backdrop-mobile {
+        display: none !important;
+      }
+
+      .sidebar-container {
+        background: #0f172a;
+        color: #f8fafc;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        max-height: 100vh;
+        position: sticky;
+        top: 0;
+        width: 100%;
+        z-index: 50;
+        box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
+        transition: width 200ms cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+        transform: none !important;
+      }
+
       .sidebar-container.expandida {
         width: 280px;
         min-width: 280px;
       }
+
       .sidebar-container.colapsada {
         width: 72px;
         min-width: 72px;
       }
-    }
-
-    /* Mobile Drawer */
-    @media (max-width: 1023px) {
-      :host {
-        display: contents;
-      }
-      .sidebar-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        width: 85vw;
-        max-width: 320px;
-        transform: translateX(-100%);
-      }
-      .sidebar-container.mobile-aberto {
-        transform: translateX(0);
-      }
-    }
-
-    /* Backdrop para telas mobile/tablet */
-    .backdrop-mobile {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(4px);
-      z-index: 40;
-      animation: fadeIn 0.2s ease-out;
-    }
-
-    /* Sidebar Base */
-    .sidebar-container {
-      background: #0f172a; /* Navy escuro elegante */
-      color: #f8fafc;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      max-height: 100vh;
-      position: sticky;
-      top: 0;
-      width: 100%;
-      z-index: 50;
-      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
-      transition: width 200ms cubic-bezier(0.4, 0, 0.2, 1), transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
-      overflow: hidden;
     }
 
     /* Cabeçalho da Sidebar */
@@ -234,10 +276,34 @@ import { LayoutService } from '../layout.service';
 })
 export class Sidebar {
   private readonly layoutService = inject(LayoutService);
+  private readonly authService = inject(AuthService);
 
   protected readonly sidebarExpanded = this.layoutService.sidebarExpanded;
   protected readonly mobileDrawerOpen = this.layoutService.mobileDrawerOpen;
-  protected readonly menuItems = MENU_ITEMS;
+
+  protected readonly menuItems = computed(() => {
+    // Re-evaluate when current user changes
+    const user = this.authService.usuarioAtual();
+    if (!user) return [];
+
+    return MENU_ITEMS.map((item) => {
+      if (item.children && item.children.length > 0) {
+        const allowedChildren = item.children.filter((child) =>
+          child.route ? this.authService.podeAcessarRota(child.route) : true
+        );
+        return { ...item, children: allowedChildren };
+      }
+      return item;
+    }).filter((item) => {
+      if (item.route) {
+        return this.authService.podeAcessarRota(item.route);
+      }
+      if (item.children) {
+        return item.children.length > 0;
+      }
+      return true;
+    });
+  });
 
   toggle(): void {
     this.layoutService.toggleSidebar();
@@ -247,7 +313,6 @@ export class Sidebar {
     this.layoutService.closeMobileDrawer();
   }
 
-  @HostListener('window:keydown.escape')
   onEscape(): void {
     if (this.mobileDrawerOpen()) {
       this.closeMobile();

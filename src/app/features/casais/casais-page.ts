@@ -16,6 +16,7 @@ import { EquipeResumoDto, EquipeService } from '../../core/equipe.service';
 import { mascararCpf, mascararTelefone, desmascarar } from '../../core/mascara.util';
 import { EnsDatePipe } from '../../core/ens-date.pipe';
 import { SearchableOption, SearchableSelect } from '../../shared/searchable-select';
+import { hojeCuiabaStr } from '../../core/cuiaba-date.util';
 
 @Component({
   selector: 'app-casais-page',
@@ -544,7 +545,8 @@ import { SearchableOption, SearchableSelect } from '../../shared/searchable-sele
                 <label>Equipe de Destino <span class="obrigatorio">*</span></label>
                 <app-searchable-select
                   [options]="opcoesEquipes()"
-                  [(value)]="formMovimentacao.equipeDestinoId"
+                  [value]="formMovimentacao.equipeDestinoId || ''"
+                  (valueChange)="formMovimentacao.equipeDestinoId = $event"
                   placeholder="Selecione a nova equipe..."
                   clearLabel="Selecione a equipe de destino"
                   searchPlaceholder="Buscar equipe..."
@@ -1303,7 +1305,7 @@ export class CasaisPage {
     this.formMovimentacao = {
       tipo: 'TRANSFERENCIA',
       motivo: '',
-      data: new Date().toISOString().substring(0, 10),
+      data: hojeCuiabaStr(),
       equipeDestinoId: '',
       observacoes: '',
     };
@@ -1323,6 +1325,11 @@ export class CasaisPage {
     e.preventDefault();
     const c = this.casalSelecionado();
     if (!c) return;
+
+    if (this.formMovimentacao.tipo === 'TRANSFERENCIA' && !this.formMovimentacao.equipeDestinoId) {
+      alert('Por favor, selecione a equipe de destino.');
+      return;
+    }
 
     if (!this.formMovimentacao.motivo.trim()) {
       alert('O motivo da movimentação é obrigatório.');

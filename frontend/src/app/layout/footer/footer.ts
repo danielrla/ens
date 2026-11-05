@@ -5,16 +5,7 @@ import { Component } from '@angular/core';
   template: `
     <footer class="app-footer">
       <div class="footer-esquerda">
-        <span>Equipes de Nossa Senhora, Super-Região Brasil</span>
-        <span class="separador">•</span>
         <span class="versao">v0.1.0</span>
-      </div>
-      <div class="footer-direita">
-        <a href="#privacidade" (click)="$event.preventDefault()" class="footer-link">Política de Privacidade (LGPD)</a>
-        <span class="separador">•</span>
-        <a href="#termos" (click)="$event.preventDefault()" class="footer-link">Termos de Uso</a>
-        <span class="separador">•</span>
-        <span class="status-online"><span class="ponto-verde">●</span> Online</span>
       </div>
     </footer>
   `,
@@ -74,4 +65,4 @@ import { Component } from '@angular/core';
     }
   `,
 })
-export class Footer {}
+export class Footer { }

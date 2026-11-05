@@ -717,7 +717,7 @@ import { BiometriaService } from '../../core/biometria.service';
     }
     .cabecalho-perfil h1 {
       color: var(--azul-900);
-      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-size: clamp(1.2rem, 2.5vw, 1.45rem);
       margin: 0 0 0.4rem 0;
     }
     .subtitulo {

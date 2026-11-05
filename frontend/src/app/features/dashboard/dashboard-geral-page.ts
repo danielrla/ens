@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
 import { ReuniaoDto, ReuniaoService } from '../../core/reuniao.service';
 import { EquipeDetalheDto, EquipeResumoDto, EquipeService } from '../../core/equipe.service';
 import { CasalDto, CasalService } from '../../core/casal.service';
-import { EnsDatePipe } from '../../core/ens-date.pipe';
+import { LayoutService } from '../../layout/layout.service';
 
 interface EstatisticaCasal {
   casalId: string;
@@ -19,7 +19,7 @@ interface EstatisticaCasal {
 
 @Component({
   selector: 'app-dashboard-geral-page',
-  imports: [CommonModule, FormsModule, RouterLink, EnsDatePipe],
+  imports: [CommonModule, FormsModule, RouterLink],
   template: `
     <header class="cabecalho">
       <div>
@@ -29,12 +29,6 @@ interface EstatisticaCasal {
           <span class="atual">Dashboard Geral</span>
         </nav>
         <h1>📊 Dashboard Geral das Equipes</h1>
-        <p class="serifa">Visão consolidada de assiduidade, faltas e frequência das equipes por estado e município.</p>
-      </div>
-      <div class="acoes-cabecalho">
-        <a routerLink="/equipes" class="btn btn-secundario">
-          🏛️ Ver Equipes de Base
-        </a>
       </div>
     </header>
 
@@ -179,36 +173,15 @@ interface EstatisticaCasal {
               <span class="icone-secao">👥</span>
               <h2>Assiduidade e Faltas por Casal</h2>
             </div>
-            <p class="texto-suave">Acompanhamento individual de presenças e faltas acumuladas nas reuniões realizadas da equipe selecionada.</p>
           </div>
           <div class="secao-acoes-topo">
             <span class="badge badge-dourado">{{ estatisticasCasais().length }} casais avaliados</span>
-            <div class="seletor-visao-segmentado">
-              <button
-                type="button"
-                class="btn-segmento"
-                [class.ativo]="modoVisaoCasais() === 'cards'"
-                (click)="alternarVisaoCasais('cards')"
-                title="Visualização em Cards"
-              >
-                📇 Cards
-              </button>
-              <button
-                type="button"
-                class="btn-segmento"
-                [class.ativo]="modoVisaoCasais() === 'tabela'"
-                (click)="alternarVisaoCasais('tabela')"
-                title="Visualização em Tabela"
-              >
-                📑 Tabela
-              </button>
-            </div>
           </div>
         </div>
 
         @if (estatisticasCasais().length === 0) {
           <p class="texto-suave texto-centro py-8">Nenhuma reunião com chamada de presença registrada até o momento para esta equipe.</p>
-        } @else if (modoVisaoCasais() === 'cards') {
+        } @else {
           <!-- Grade Moderna de Cards de Casais -->
           <div class="grade-cards-casais">
             @for (c of estatisticasCasais(); track c.casalId) {
@@ -271,73 +244,6 @@ interface EstatisticaCasal {
               </div>
             }
           </div>
-        } @else {
-          <div class="tabela-responsiva">
-            <table class="tabela-ens">
-              <thead>
-                <tr>
-                  <th>Casal</th>
-                  <th>Reuniões Realizadas</th>
-                  <th>Presenças</th>
-                  <th>Faltas</th>
-                  <th>Justificadas</th>
-                  <th>% Assiduidade</th>
-                  <th>Situação</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (c of estatisticasCasais(); track c.casalId) {
-                  <tr>
-                    <td>
-                      <div class="casal-tabela-item">
-                        <span class="avatar-min">👥</span>
-                        <strong>{{ c.nomeCasal }}</strong>
-                      </div>
-                    </td>
-                    <td>{{ c.totalConvocacoes }}</td>
-                    <td><span class="badge badge-sucesso">{{ c.presencas }}</span></td>
-                    <td>
-                      @if (c.faltas > 0) {
-                        <span class="badge badge-falta">{{ c.faltas }} falta(s)</span>
-                      } @else {
-                        <span class="texto-suave">0</span>
-                      }
-                    </td>
-                    <td>
-                      @if (c.justificadas > 0) {
-                        <span class="badge badge-justificada">{{ c.justificadas }} just.</span>
-                      } @else {
-                        <span class="texto-suave">0</span>
-                      }
-                    </td>
-                    <td>
-                      <div class="col-percentual">
-                        <strong>{{ c.percentualPresenca | number:'1.0-0' }}%</strong>
-                        <div class="barra-fundo">
-                          <div
-                            class="barra-progresso"
-                            [style.width.%]="c.percentualPresenca"
-                            [class.barra-verde]="c.percentualPresenca >= 80"
-                            [class.barra-amarela]="c.percentualPresenca >= 60 && c.percentualPresenca < 80"
-                            [class.barra-vermelha]="c.percentualPresenca < 60"
-                          ></div>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      @if (c.percentualPresenca >= 80) {
-                        <span class="tag-status tag-assiduo">✓ Assíduo</span>
-                      } @else if (c.percentualPresenca >= 60) {
-                        <span class="tag-status tag-atencao">⚠️ Atenção</span>
-                      } @else {
-                        <span class="tag-status tag-alerta">🚨 Alerta</span>
-                      }
-                    </td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
         }
       </section>
 
@@ -349,39 +255,18 @@ interface EstatisticaCasal {
               <span class="icone-secao">📅</span>
               <h2>Percentual de Presença por Reunião</h2>
             </div>
-            <p class="texto-suave">Histórico de cada reunião mensal com taxa de presença dos casais e presença do conselheiro.</p>
           </div>
           <div class="secao-acoes-topo">
-            <span class="badge">{{ reunioes().length }} reunião(ões) na agenda</span>
-            <div class="seletor-visao-segmentado">
-              <button
-                type="button"
-                class="btn-segmento"
-                [class.ativo]="modoVisaoReunioes() === 'cards'"
-                (click)="alternarVisaoReunioes('cards')"
-                title="Visualização em Linha do Tempo"
-              >
-                🗓️ Linha do Tempo
-              </button>
-              <button
-                type="button"
-                class="btn-segmento"
-                [class.ativo]="modoVisaoReunioes() === 'tabela'"
-                (click)="alternarVisaoReunioes('tabela')"
-                title="Visualização em Tabela"
-              >
-                📑 Tabela
-              </button>
-            </div>
+            <span class="badge">{{ reunioesDoAno().length }} reunião(ões) em {{ anoPastoral() }}</span>
           </div>
         </div>
 
-        @if (reunioes().length === 0) {
-          <p class="texto-suave texto-centro py-8">Nenhuma reunião cadastrada para esta equipe.</p>
-        } @else if (modoVisaoReunioes() === 'cards') {
+        @if (reunioesDoAno().length === 0) {
+          <p class="texto-suave texto-centro py-8">Nenhuma reunião cadastrada para esta equipe em {{ anoPastoral() }}.</p>
+        } @else {
           <!-- Timeline de Cards de Reunião com Quórum e Presença -->
           <div class="timeline-reunioes-cards">
-            @for (r of reunioes(); track r.id) {
+            @for (r of reunioesDoAno(); track r.id) {
               <div class="card-reuniao-timeline" [class.card-realizada]="r.presencas && r.presencas.length > 0">
                 <!-- Bloco Data -->
                 <div class="reuniao-data-box">
@@ -439,7 +324,7 @@ interface EstatisticaCasal {
                         ></div>
                       </div>
                       <span class="detalhe-quorum-presencas">
-                        👥 <strong>{{ r.totalPresentes }}</strong> presentes • <strong>{{ r.totalFaltas }}</strong> falta(s)
+                        👥 <strong>{{ contarPresentesAtivos(r) }}</strong> presentes • <strong>{{ contarFaltasAtivos(r) }}</strong> falta(s)
                       </span>
                     </div>
                   } @else {
@@ -451,91 +336,6 @@ interface EstatisticaCasal {
                 </div>
               </div>
             }
-          </div>
-        } @else {
-          <div class="tabela-responsiva">
-            <table class="tabela-ens">
-              <thead>
-                <tr>
-                  <th>Data e Horário</th>
-                  <th>Tipo</th>
-                  <th>Tema da Reunião</th>
-                  <th>Casal Anfitrião</th>
-                  <th>SCE</th>
-                  <th>Presentes</th>
-                  <th>Faltas</th>
-                  <th>Taxa de Presença</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (r of reunioes(); track r.id) {
-                  <tr>
-                    <td>
-                      <div class="data-col">
-                        <strong>{{ r.data | ensDate }}</strong>
-                        <small class="texto-suave">⏰ {{ r.horario || '19:30' }}</small>
-                      </div>
-                    </td>
-                    <td>
-                      @if (r.tipo === 'INFORMAL') {
-                        <span class="badge badge-informal">Informal</span>
-                      } @else {
-                        <span class="badge badge-formal">Formal</span>
-                      }
-                    </td>
-                    <td>
-                      <strong class="texto-tema-reuniao">{{ r.tema || 'Tema não informado' }}</strong>
-                    </td>
-                    <td>
-                      <span>{{ r.nomeCasalAnfitriao || 'Não definido' }}</span>
-                    </td>
-                    <td>
-                      @if (r.scePresente) {
-                        <span class="tag-sce-sim">✝️ Presente</span>
-                      } @else {
-                        <span class="tag-sce-nao">Ausente</span>
-                      }
-                    </td>
-                    <td>
-                      <strong>{{ r.totalPresentes }}</strong>
-                    </td>
-                    <td>
-                      @if (r.totalFaltas > 0) {
-                        <span class="badge badge-falta">{{ r.totalFaltas }}</span>
-                      } @else {
-                        <span class="texto-suave">0</span>
-                      }
-                    </td>
-                    <td>
-                      @if (r.presencas && r.presencas.length > 0) {
-                        <div class="col-percentual">
-                          <strong>{{ calcularPercentualReuniao(r) | number:'1.0-0' }}%</strong>
-                          <div class="barra-fundo">
-                            <div
-                              class="barra-progresso"
-                              [style.width.%]="calcularPercentualReuniao(r)"
-                              [class.barra-verde]="calcularPercentualReuniao(r) >= 80"
-                              [class.barra-amarela]="calcularPercentualReuniao(r) >= 60 && calcularPercentualReuniao(r) < 80"
-                              [class.barra-vermelha]="calcularPercentualReuniao(r) < 60"
-                            ></div>
-                          </div>
-                        </div>
-                      } @else {
-                        <span class="texto-suave">Aguardando ata</span>
-                      }
-                    </td>
-                    <td>
-                      @if (r.presencas && r.presencas.length > 0) {
-                        <span class="badge badge-sucesso">Realizada</span>
-                      } @else {
-                        <span class="badge badge-agendada">Agendada</span>
-                      }
-                    </td>
-                  </tr>
-                }
-              </tbody>
-            </table>
           </div>
         }
       </section>
@@ -1296,6 +1096,9 @@ export class DashboardGeralPage {
   private readonly reuniaoService = inject(ReuniaoService);
   private readonly equipeService = inject(EquipeService);
   private readonly casalService = inject(CasalService);
+  private readonly layoutService = inject(LayoutService);
+
+  protected readonly anoPastoral = this.layoutService.anoPastoral;
 
   protected equipes = signal<EquipeResumoDto[]>([]);
   protected equipeIdSelecionada = '';
@@ -1303,17 +1106,6 @@ export class DashboardGeralPage {
   protected casaisAtivos = signal<CasalDto[]>([]);
   protected reunioes = signal<ReuniaoDto[]>([]);
   protected carregando = signal(false);
-
-  protected modoVisaoCasais = signal<'cards' | 'tabela'>('cards');
-  protected modoVisaoReunioes = signal<'cards' | 'tabela'>('cards');
-
-  alternarVisaoCasais(modo: 'cards' | 'tabela'): void {
-    this.modoVisaoCasais.set(modo);
-  }
-
-  alternarVisaoReunioes(modo: 'cards' | 'tabela'): void {
-    this.modoVisaoReunioes.set(modo);
-  }
 
   // Filtros Territoriais
   protected estadoSelecionado = signal<string>('');
@@ -1356,67 +1148,38 @@ export class DashboardGeralPage {
   protected temaAnoAtual = computed(() => {
     const detalhe = this.detalheEquipe();
     if (!detalhe) return 'Não cadastrado';
-    const anoAtual = new Date().getFullYear();
+    const ano = this.anoPastoral();
     if (detalhe.temasAnuais && detalhe.temasAnuais.length > 0) {
-      const temaDoAno = detalhe.temasAnuais.find((t) => t.ano === anoAtual);
-      if (temaDoAno) return `${anoAtual}: ${temaDoAno.tema}`;
+      const temaDoAno = detalhe.temasAnuais.find((t) => t.ano === ano);
+      if (temaDoAno) return `${ano}: ${temaDoAno.tema}`;
       return `${detalhe.temasAnuais[0].ano}: ${detalhe.temasAnuais[0].tema}`;
     }
     return detalhe.temaEstudoAno || 'Não cadastrado';
   });
 
-  // Reuniões Realizadas vs Agendadas
+  // Reuniões Filtradas pelo Ano Pastoral Ativo
+  protected reunioesDoAno = computed(() => {
+    const ano = this.anoPastoral();
+    return this.reunioes().filter((r) => {
+      if (!r.data) return false;
+      const dataIso = typeof r.data === 'string' ? r.data : String(r.data);
+      const anoReuniao = parseInt(dataIso.substring(0, 4), 10);
+      return isNaN(anoReuniao) || anoReuniao === ano;
+    });
+  });
+
+  // Reuniões Realizadas vs Agendadas do Ano
   protected reunioesRealizadas = computed(() =>
-    this.reunioes().filter((r) => r.presencas && r.presencas.length > 0)
+    this.reunioesDoAno().filter((r) => r.presencas && r.presencas.length > 0)
   );
 
   protected reunioesAgendadas = computed(() =>
-    this.reunioes().filter((r) => !r.presencas || r.presencas.length === 0)
+    this.reunioesDoAno().filter((r) => !r.presencas || r.presencas.length === 0)
   );
 
-  protected totalReunioes = computed(() => this.reunioes().length);
+  protected totalReunioes = computed(() => this.reunioesDoAno().length);
 
-  protected totalFaltasNaoJustificadas = computed(() =>
-    this.reunioesRealizadas().reduce((acc, r) => acc + (r.totalFaltas || 0), 0)
-  );
-
-  protected totalFaltasJustificadas = computed(() =>
-    this.reunioesRealizadas().reduce((acc, r) => acc + (r.totalJustificadas || 0), 0)
-  );
-
-  protected totalFaltasGeral = computed(() =>
-    this.totalFaltasNaoJustificadas() + this.totalFaltasJustificadas()
-  );
-
-  protected totalReunioesComSce = computed(() =>
-    this.reunioesRealizadas().filter((r) => r.scePresente).length
-  );
-
-  protected percentualPresencaSce = computed(() => {
-    const total = this.reunioesRealizadas().length;
-    if (total === 0) return 100;
-    return (this.totalReunioesComSce() / total) * 100;
-  });
-
-  protected percentualGeralPresenca = computed(() => {
-    const realizadas = this.reunioesRealizadas();
-    if (realizadas.length === 0) return 100;
-    let somaPercentuais = 0;
-    for (const r of realizadas) {
-      somaPercentuais += this.calcularPercentualReuniao(r);
-    }
-    return somaPercentuais / realizadas.length;
-  });
-
-  protected casalComMaisFaltas = computed(() => {
-    const lista = this.estatisticasCasais();
-    if (lista.length === 0) return null;
-    const ordenados = [...lista].sort((a, b) => b.faltas - a.faltas || b.justificadas - a.justificadas);
-    const pior = ordenados[0];
-    return pior && (pior.faltas > 0 || pior.justificadas > 0) ? pior : null;
-  });
-
-  // Estatísticas e Faltas Agrupadas por Casal
+  // Estatísticas e Faltas Agrupadas Exclusivamente por Casal Ativo no Ano
   protected estatisticasCasais = computed<EstatisticaCasal[]>(() => {
     const casais = this.casaisAtivos();
     const realizadas = this.reunioesRealizadas();
@@ -1462,6 +1225,47 @@ export class DashboardGeralPage {
     });
 
     return resultado.sort((a, b) => b.faltas - a.faltas || a.percentualPresenca - b.percentualPresenca);
+  });
+
+  // Faltas Restritas aos Casais Ativos no Ano
+  protected totalFaltasNaoJustificadas = computed(() =>
+    this.estatisticasCasais().reduce((acc, c) => acc + c.faltas, 0)
+  );
+
+  protected totalFaltasJustificadas = computed(() =>
+    this.estatisticasCasais().reduce((acc, c) => acc + c.justificadas, 0)
+  );
+
+  protected totalFaltasGeral = computed(() =>
+    this.totalFaltasNaoJustificadas() + this.totalFaltasJustificadas()
+  );
+
+  protected totalReunioesComSce = computed(() =>
+    this.reunioesRealizadas().filter((r) => r.scePresente).length
+  );
+
+  protected percentualPresencaSce = computed(() => {
+    const total = this.reunioesRealizadas().length;
+    if (total === 0) return 100;
+    return (this.totalReunioesComSce() / total) * 100;
+  });
+
+  // Assiduidade Geral Ponderada dos Casais Ativos no Ano
+  protected percentualGeralPresenca = computed(() => {
+    const casais = this.estatisticasCasais();
+    if (casais.length === 0) return 100;
+    const totalConvocacoes = casais.reduce((acc, c) => acc + c.totalConvocacoes, 0);
+    if (totalConvocacoes === 0) return 100;
+    const totalPresencas = casais.reduce((acc, c) => acc + c.presencas, 0);
+    return (totalPresencas / totalConvocacoes) * 100;
+  });
+
+  protected casalComMaisFaltas = computed(() => {
+    const lista = this.estatisticasCasais();
+    if (lista.length === 0) return null;
+    const ordenados = [...lista].sort((a, b) => b.faltas - a.faltas || b.justificadas - a.justificadas);
+    const pior = ordenados[0];
+    return pior && (pior.faltas > 0 || pior.justificadas > 0) ? pior : null;
   });
 
   constructor() {
@@ -1531,9 +1335,24 @@ export class DashboardGeralPage {
   }
 
   calcularPercentualReuniao(r: ReuniaoDto): number {
-    const total = (r.totalPresentes || 0) + (r.totalFaltas || 0) + (r.totalJustificadas || 0);
-    if (total === 0) return 100;
-    return ((r.totalPresentes || 0) / total) * 100;
+    if (!r.presencas || r.presencas.length === 0) return 100;
+    const casaisAtivosIds = new Set(this.casaisAtivos().map((c) => c.id));
+    const chamadasAtivos = r.presencas.filter((p) => casaisAtivosIds.has(p.casalId));
+    if (chamadasAtivos.length === 0) return 100;
+    const presentes = chamadasAtivos.filter((p) => p.status === 'PRESENTE').length;
+    return (presentes / chamadasAtivos.length) * 100;
+  }
+
+  contarPresentesAtivos(r: ReuniaoDto): number {
+    if (!r.presencas || r.presencas.length === 0) return 0;
+    const casaisAtivosIds = new Set(this.casaisAtivos().map((c) => c.id));
+    return r.presencas.filter((p) => casaisAtivosIds.has(p.casalId) && p.status === 'PRESENTE').length;
+  }
+
+  contarFaltasAtivos(r: ReuniaoDto): number {
+    if (!r.presencas || r.presencas.length === 0) return 0;
+    const casaisAtivosIds = new Set(this.casaisAtivos().map((c) => c.id));
+    return r.presencas.filter((p) => casaisAtivosIds.has(p.casalId) && (p.status === 'FALTOU' || p.status === 'JUSTIFICOU')).length;
   }
 
   abrirModalTema(): void {

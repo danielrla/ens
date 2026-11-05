@@ -88,13 +88,16 @@ Implementar o layout base (App Shell) do sistema de gestão das Equipes de Nossa
 - **Altura:** 48px a 56px.
 - **Estilo:** Discreto, fixo na parte inferior do fluxo de página, com linha superior fina `#E2E8F0`.
 - **Conteúdo:**
-  - Lado esquerdo: Nome institucional: *Equipes de Nossa Senhora — Super-Região Brasil* e identificação da versão do sistema.
+  - Lado esquerdo: Nome institucional: *Equipes de Nossa Senhora: Super-Região Brasil* e identificação da versão do sistema.
   - Lado direito: Links para termos de uso, política de privacidade (LGPD) e status da conexão/versão.
 
 ---
 
-## 3. Diretrizes Técnicas de Implementação
+## 3. Diretrizes Técnicas de Implementação e Biblioteca de Componentes
 
+- **Hierarquia Mandatória de Componentes UI:**
+  - **Prioridade 1 (Primária):** Material Design 3 Oficial (https://m3.material.io/). Utilizar prioritariamente componentes e tokens do Material Web (`@material/web` e CSS tokens M3) para botões, campos de texto, caixas de seleção, diálogos, abas, chips, menus e listas.
+  - **Prioridade 2 (Fallback Técnico):** Angular Material (https://material.angular.dev/components). Utilizado exclusivamente para componentes complexos ausentes no Material Web ou que necessitem de recursos avançados do ecossistema Angular (tabelas com paginação e ordenação integradas, seletores de data regionais, árvores hierárquicas profundas e CDK overlays). Toda adoção de Angular Material deve adotar obrigatoriamente estilização sob tema M3.
 - **Acessibilidade (a11y):**
   - Suporte completo à navegação por teclado (`Tab`, `Enter`, `Espaço`, `Esc` para fechar a sidebar móvel).
   - Atributos `aria-expanded`, `aria-haspopup` e `aria-controls` nos nós expansíveis do menu recursivo.

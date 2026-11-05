@@ -7,6 +7,7 @@ import br.org.ens.casal.CasalService;
 import br.org.ens.casal.Endereco;
 import br.org.ens.casal.StatusCasal;
 import br.org.ens.equipe.EquipeRepository;
+import br.org.ens.integracao.google.GoogleCalendarService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,15 +26,18 @@ public class ReuniaoService {
     private final EquipeRepository equipeRepository;
     private final CasalRepository casalRepository;
     private final CasalService casalService;
+    private final GoogleCalendarService googleCalendarService;
 
     public ReuniaoService(ReuniaoRepository reuniaoRepository,
                           EquipeRepository equipeRepository,
                           CasalRepository casalRepository,
-                          CasalService casalService) {
+                          CasalService casalService,
+                          GoogleCalendarService googleCalendarService) {
         this.reuniaoRepository = reuniaoRepository;
         this.equipeRepository = equipeRepository;
         this.casalRepository = casalRepository;
         this.casalService = casalService;
+        this.googleCalendarService = googleCalendarService;
     }
 
     public ReuniaoDto registrar(String equipeId, ReuniaoRequest request) {
@@ -64,6 +68,7 @@ public class ReuniaoService {
         reuniao.setFotos(request.fotos() != null ? request.fotos() : new ArrayList<>());
 
         Reuniao salva = reuniaoRepository.save(reuniao);
+        googleCalendarService.sincronizarEventoReuniao(salva, equipeId);
         return mapearDetalhe(salva);
     }
 
@@ -104,6 +109,7 @@ public class ReuniaoService {
         }
 
         Reuniao salva = reuniaoRepository.save(r);
+        googleCalendarService.sincronizarEventoReuniao(salva, salva.getEquipeId());
         return mapearDetalhe(salva);
     }
 
@@ -125,6 +131,7 @@ public class ReuniaoService {
         }
 
         Reuniao salva = reuniaoRepository.save(r);
+        googleCalendarService.sincronizarEventoReuniao(salva, salva.getEquipeId());
         return mapearDetalhe(salva);
     }
 
@@ -169,9 +176,9 @@ public class ReuniaoService {
     }
 
     public void excluir(String id) {
-        if (!reuniaoRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reunião não encontrada: " + id);
-        }
+        Reuniao r = reuniaoRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reunião não encontrada: " + id));
+        googleCalendarService.excluirEventoReuniao(r, r.getEquipeId());
         reuniaoRepository.deleteById(id);
     }
 

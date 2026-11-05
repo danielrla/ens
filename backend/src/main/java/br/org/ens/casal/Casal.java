@@ -31,6 +31,9 @@ public class Casal {
 
     private List<Filho> filhos = new ArrayList<>();
 
+    private String googleContactIdEsposo;
+    private String googleContactIdEsposa;
+
     public Casal() {
     }
 
@@ -146,5 +149,21 @@ public class Casal {
 
     public void setFilhos(List<Filho> filhos) {
         this.filhos = filhos != null ? filhos : new ArrayList<>();
+    }
+
+    public String getGoogleContactIdEsposo() {
+        return googleContactIdEsposo;
+    }
+
+    public void setGoogleContactIdEsposo(String googleContactIdEsposo) {
+        this.googleContactIdEsposo = googleContactIdEsposo;
+    }
+
+    public String getGoogleContactIdEsposa() {
+        return googleContactIdEsposa;
+    }
+
+    public void setGoogleContactIdEsposa(String googleContactIdEsposa) {
+        this.googleContactIdEsposa = googleContactIdEsposa;
     }
 }

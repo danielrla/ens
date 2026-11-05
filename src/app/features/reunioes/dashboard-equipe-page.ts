@@ -6,6 +6,7 @@ import { ReuniaoDto, ReuniaoService } from '../../core/reuniao.service';
 import { EquipeDetalheDto, EquipeService } from '../../core/equipe.service';
 import { CasalDto, CasalService } from '../../core/casal.service';
 import { EnsDatePipe } from '../../core/ens-date.pipe';
+import { LayoutService } from '../../layout/layout.service';
 
 interface EstatisticaCasal {
   casalId: string;
@@ -31,12 +32,6 @@ interface EstatisticaCasal {
           <span class="atual">Dashboard Equipe</span>
         </nav>
         <h1>🕊️ Dashboard da Nossa Equipe</h1>
-        <p class="serifa">Indicadores exclusivos de assiduidade, presenças e histórico de reuniões mensais da nossa equipe.</p>
-      </div>
-      <div class="acoes-cabecalho">
-        <a routerLink="/reunioes" class="btn btn-primario">
-          📅 Ir para Agenda e Reuniões
-        </a>
       </div>
     </header>
 
@@ -175,7 +170,6 @@ interface EstatisticaCasal {
                 <span class="icone-secao">👥</span>
                 <h2>Assiduidade e Faltas por Casal</h2>
               </div>
-              <p class="texto-suave">Acompanhamento fraterno das presenças individuais dos casais da nossa equipe.</p>
             </div>
             <div class="secao-acoes-topo">
               <span class="badge badge-dourado">{{ estatisticasCasais().length }} casais membros</span>
@@ -345,10 +339,9 @@ interface EstatisticaCasal {
                 <span class="icone-secao">📅</span>
                 <h2>Percentual de Presença por Reunião</h2>
               </div>
-              <p class="texto-suave">Presença, vivência litúrgica e quórum de cada reunião mensal da equipe.</p>
             </div>
             <div class="secao-acoes-topo">
-              <span class="badge">{{ reunioes().length }} reunião(ões) na agenda</span>
+              <span class="badge">{{ reunioesDoAno().length }} reunião(ões) em {{ anoPastoral() }}</span>
               <div class="seletor-visao-segmentado">
                 <button
                   type="button"
@@ -372,12 +365,12 @@ interface EstatisticaCasal {
             </div>
           </div>
 
-          @if (reunioes().length === 0) {
-            <p class="texto-suave texto-centro py-8">Nenhuma reunião cadastrada para a equipe.</p>
+          @if (reunioesDoAno().length === 0) {
+            <p class="texto-suave texto-centro py-8">Nenhuma reunião cadastrada para a equipe em {{ anoPastoral() }}.</p>
           } @else if (modoVisaoReunioes() === 'cards') {
             <!-- Timeline de Cards de Reunião com Quórum e Presença -->
             <div class="timeline-reunioes-cards">
-              @for (r of reunioes(); track r.id) {
+              @for (r of reunioesDoAno(); track r.id) {
                 <div class="card-reuniao-timeline" [class.card-realizada]="r.presencas && r.presencas.length > 0">
                   <!-- Bloco Data -->
                   <div class="reuniao-data-box">
@@ -435,7 +428,7 @@ interface EstatisticaCasal {
                           ></div>
                         </div>
                         <span class="detalhe-quorum-presencas">
-                          👥 <strong>{{ r.totalPresentes }}</strong> presentes • <strong>{{ r.totalFaltas }}</strong> falta(s)
+                          👥 <strong>{{ contarPresentesAtivos(r) }}</strong> presentes • <strong>{{ contarFaltasAtivos(r) }}</strong> falta(s)
                         </span>
                       </div>
                     } @else {
@@ -465,7 +458,7 @@ interface EstatisticaCasal {
                   </tr>
                 </thead>
                 <tbody>
-                  @for (r of reunioes(); track r.id) {
+                  @for (r of reunioesDoAno(); track r.id) {
                     <tr>
                       <td>
                         <div class="data-col">
@@ -494,11 +487,11 @@ interface EstatisticaCasal {
                         }
                       </td>
                       <td>
-                        <strong>{{ r.totalPresentes }}</strong>
+                        <strong>{{ contarPresentesAtivos(r) }}</strong>
                       </td>
                       <td>
-                        @if (r.totalFaltas > 0) {
-                          <span class="badge badge-falta">{{ r.totalFaltas }}</span>
+                        @if (contarFaltasAtivos(r) > 0) {
+                          <span class="badge badge-falta">{{ contarFaltasAtivos(r) }}</span>
                         } @else {
                           <span class="texto-suave">0</span>
                         }
@@ -1320,6 +1313,9 @@ export class DashboardEquipePage implements OnInit {
   private readonly reuniaoService = inject(ReuniaoService);
   private readonly equipeService = inject(EquipeService);
   private readonly casalService = inject(CasalService);
+  private readonly layoutService = inject(LayoutService);
+
+  protected readonly anoPastoral = this.layoutService.anoPastoral;
 
   protected readonly carregandoPerfil = signal(true);
   protected readonly carregandoDados = signal(false);
@@ -1350,67 +1346,38 @@ export class DashboardEquipePage implements OnInit {
   protected temaAnoAtual = computed(() => {
     const detalhe = this.detalheEquipe();
     if (!detalhe) return 'Não cadastrado';
-    const anoAtual = new Date().getFullYear();
+    const ano = this.anoPastoral();
     if (detalhe.temasAnuais && detalhe.temasAnuais.length > 0) {
-      const temaDoAno = detalhe.temasAnuais.find((t) => t.ano === anoAtual);
-      if (temaDoAno) return `${anoAtual}: ${temaDoAno.tema}`;
+      const temaDoAno = detalhe.temasAnuais.find((t) => t.ano === ano);
+      if (temaDoAno) return `${ano}: ${temaDoAno.tema}`;
       return `${detalhe.temasAnuais[0].ano}: ${detalhe.temasAnuais[0].tema}`;
     }
     return detalhe.temaEstudoAno || 'Não cadastrado';
   });
 
-  // Reuniões Realizadas vs Agendadas
+  // Reuniões Filtradas pelo Ano Pastoral Ativo
+  protected reunioesDoAno = computed(() => {
+    const ano = this.anoPastoral();
+    return this.reunioes().filter((r) => {
+      if (!r.data) return false;
+      const dataIso = typeof r.data === 'string' ? r.data : String(r.data);
+      const anoReuniao = parseInt(dataIso.substring(0, 4), 10);
+      return isNaN(anoReuniao) || anoReuniao === ano;
+    });
+  });
+
+  // Reuniões Realizadas vs Agendadas do Ano
   protected reunioesRealizadas = computed(() =>
-    this.reunioes().filter((r) => r.presencas && r.presencas.length > 0)
+    this.reunioesDoAno().filter((r) => r.presencas && r.presencas.length > 0)
   );
 
   protected reunioesAgendadas = computed(() =>
-    this.reunioes().filter((r) => !r.presencas || r.presencas.length === 0)
+    this.reunioesDoAno().filter((r) => !r.presencas || r.presencas.length === 0)
   );
 
-  protected totalReunioes = computed(() => this.reunioes().length);
+  protected totalReunioes = computed(() => this.reunioesDoAno().length);
 
-  protected totalFaltasNaoJustificadas = computed(() =>
-    this.reunioesRealizadas().reduce((acc, r) => acc + (r.totalFaltas || 0), 0)
-  );
-
-  protected totalFaltasJustificadas = computed(() =>
-    this.reunioesRealizadas().reduce((acc, r) => acc + (r.totalJustificadas || 0), 0)
-  );
-
-  protected totalFaltasGeral = computed(() =>
-    this.totalFaltasNaoJustificadas() + this.totalFaltasJustificadas()
-  );
-
-  protected totalReunioesComSce = computed(() =>
-    this.reunioesRealizadas().filter((r) => r.scePresente).length
-  );
-
-  protected percentualPresencaSce = computed(() => {
-    const total = this.reunioesRealizadas().length;
-    if (total === 0) return 100;
-    return (this.totalReunioesComSce() / total) * 100;
-  });
-
-  protected percentualGeralPresenca = computed(() => {
-    const realizadas = this.reunioesRealizadas();
-    if (realizadas.length === 0) return 100;
-    let somaPercentuais = 0;
-    for (const r of realizadas) {
-      somaPercentuais += this.calcularPercentualReuniao(r);
-    }
-    return somaPercentuais / realizadas.length;
-  });
-
-  protected casalComMaisFaltas = computed(() => {
-    const lista = this.estatisticasCasais();
-    if (lista.length === 0) return null;
-    const ordenados = [...lista].sort((a, b) => b.faltas - a.faltas || b.justificadas - a.justificadas);
-    const pior = ordenados[0];
-    return pior && (pior.faltas > 0 || pior.justificadas > 0) ? pior : null;
-  });
-
-  // Estatísticas e Faltas Agrupadas por Casal da Equipe
+  // Estatísticas e Faltas Agrupadas Exclusivamente por Casal Ativo no Ano
   protected estatisticasCasais = computed<EstatisticaCasal[]>(() => {
     const casais = this.casaisAtivos();
     const realizadas = this.reunioesRealizadas();
@@ -1456,6 +1423,47 @@ export class DashboardEquipePage implements OnInit {
     });
 
     return resultado.sort((a, b) => b.faltas - a.faltas || a.percentualPresenca - b.percentualPresenca);
+  });
+
+  // Faltas Restritas aos Casais Ativos no Ano
+  protected totalFaltasNaoJustificadas = computed(() =>
+    this.estatisticasCasais().reduce((acc, c) => acc + c.faltas, 0)
+  );
+
+  protected totalFaltasJustificadas = computed(() =>
+    this.estatisticasCasais().reduce((acc, c) => acc + c.justificadas, 0)
+  );
+
+  protected totalFaltasGeral = computed(() =>
+    this.totalFaltasNaoJustificadas() + this.totalFaltasJustificadas()
+  );
+
+  protected totalReunioesComSce = computed(() =>
+    this.reunioesRealizadas().filter((r) => r.scePresente).length
+  );
+
+  protected percentualPresencaSce = computed(() => {
+    const total = this.reunioesRealizadas().length;
+    if (total === 0) return 100;
+    return (this.totalReunioesComSce() / total) * 100;
+  });
+
+  // Assiduidade Geral Ponderada dos Casais Ativos no Ano
+  protected percentualGeralPresenca = computed(() => {
+    const casais = this.estatisticasCasais();
+    if (casais.length === 0) return 100;
+    const totalConvocacoes = casais.reduce((acc, c) => acc + c.totalConvocacoes, 0);
+    if (totalConvocacoes === 0) return 100;
+    const totalPresencas = casais.reduce((acc, c) => acc + c.presencas, 0);
+    return (totalPresencas / totalConvocacoes) * 100;
+  });
+
+  protected casalComMaisFaltas = computed(() => {
+    const lista = this.estatisticasCasais();
+    if (lista.length === 0) return null;
+    const ordenados = [...lista].sort((a, b) => b.faltas - a.faltas || b.justificadas - a.justificadas);
+    const pior = ordenados[0];
+    return pior && (pior.faltas > 0 || pior.justificadas > 0) ? pior : null;
   });
 
   ngOnInit(): void {
@@ -1508,9 +1516,24 @@ export class DashboardEquipePage implements OnInit {
   }
 
   calcularPercentualReuniao(r: ReuniaoDto): number {
-    const total = (r.totalPresentes || 0) + (r.totalFaltas || 0) + (r.totalJustificadas || 0);
-    if (total === 0) return 100;
-    return ((r.totalPresentes || 0) / total) * 100;
+    if (!r.presencas || r.presencas.length === 0) return 100;
+    const casaisAtivosIds = new Set(this.casaisAtivos().map((c) => c.id));
+    const chamadasAtivos = r.presencas.filter((p) => casaisAtivosIds.has(p.casalId));
+    if (chamadasAtivos.length === 0) return 100;
+    const presentes = chamadasAtivos.filter((p) => p.status === 'PRESENTE').length;
+    return (presentes / chamadasAtivos.length) * 100;
+  }
+
+  contarPresentesAtivos(r: ReuniaoDto): number {
+    if (!r.presencas || r.presencas.length === 0) return 0;
+    const casaisAtivosIds = new Set(this.casaisAtivos().map((c) => c.id));
+    return r.presencas.filter((p) => casaisAtivosIds.has(p.casalId) && p.status === 'PRESENTE').length;
+  }
+
+  contarFaltasAtivos(r: ReuniaoDto): number {
+    if (!r.presencas || r.presencas.length === 0) return 0;
+    const casaisAtivosIds = new Set(this.casaisAtivos().map((c) => c.id));
+    return r.presencas.filter((p) => casaisAtivosIds.has(p.casalId) && (p.status === 'FALTOU' || p.status === 'JUSTIFICOU')).length;
   }
 
   abrirModalTema(): void {

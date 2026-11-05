@@ -29,6 +29,7 @@ Antes de finalizar qualquer tarefa, verifique:
 - [ ] **Novos Serviços e Endpoints**: Documentados em `docs/arquitetura.md` e `docs/openapi.yaml` (quando aplicável).
 - [ ] **Regras de Negócio e Notificações**: Descritas com clareza em `docs/regras_negocio_notificacoes.md` ou arquivo específico de negócio.
 - [ ] **Segurança e Credenciais**: Detalhado o método de proteção, criptografia e mascaramento adotado.
+- [ ] **Componentes de Interface (UI)**: Validação da precedência prioritária do Material Design 3 (m3.material.io) e uso justificado de Angular Material (material.angular.dev) apenas para fallbacks técnicos.
 - [ ] **Layout e Acessibilidade**: Registradas as decisões ergonômicas (ex: escala tipográfica para idosos e alvos mínimos de toque no mobile).
 
 ---

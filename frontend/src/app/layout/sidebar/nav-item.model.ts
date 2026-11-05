@@ -46,8 +46,16 @@ export const MENU_ITEMS: NavItem[] = [
     children: [
       { id: 've-dashboard', label: 'Dashboard Equipe', route: '/reunioes/dashboard' },
       { id: 've-agenda', label: 'Agenda e Reuniões', route: '/reunioes' },
-      { id: 've-avisos', label: 'Quadro de Avisos', route: '/equipes' },
       { id: 've-mural', label: 'Mural de Bordo', route: '/mural' },
+    ],
+  },
+  {
+    id: 'administracao',
+    label: 'Administração',
+    icon: '⚙️',
+    children: [
+      { id: 'adm-usuarios', label: 'Gestão de Usuários', route: '/admin/usuarios' },
+      { id: 'adm-integracao', label: 'Integrações', route: '/admin/integracao' },
     ],
   },
 ];

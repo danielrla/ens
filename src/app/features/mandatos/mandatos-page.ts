@@ -517,7 +517,7 @@ import { hojeCuiabaStr, calcularDiasRestantesCuiaba } from '../../core/cuiaba-da
 
       .header-titles h1 {
         font-family: 'Lora', Georgia, serif;
-        font-size: 1.75rem;
+        font-size: clamp(1.2rem, 2.5vw, 1.45rem);
         color: #1e3a8a;
         margin: 0 0 0.25rem 0;
       }

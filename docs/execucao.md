@@ -34,12 +34,17 @@ Recomenda-se a alteração da senha após o primeiro acesso através da área de
 
 ## Inicialização via Docker Compose
 
+Os arquivos de configuração possuem o projeto fixado como `name: ens`, permitindo a inicialização a partir da raiz do repositório ou pela subpasta `docker/`:
+
 ```bash
-# Iniciar MongoDB replica set e backend
+# Iniciar MongoDB replica set, backend e frontend a partir da raiz
+docker compose up --build -d
+
+# Ou utilizando explicitamente o arquivo do diretório docker
 docker compose -f docker/docker-compose.yml up --build -d
 
 # Acompanhar logs do backend
-docker compose -f docker/docker-compose.yml logs backend --tail 50 -f
+docker compose logs backend --tail 50 -f
 
 # Verificar status da saúde da API
 curl http://localhost:8080/api/actuator/health
@@ -47,7 +52,7 @@ curl http://localhost:8080/api/actuator/health
 
 Para reiniciar a base de dados do zero, eliminando os volumes:
 ```bash
-docker compose -f docker/docker-compose.yml down -v
+docker compose down -v
 ```
 
 ## Inicialização do Backend Local

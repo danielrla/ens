@@ -24,9 +24,6 @@ import { EnsDatePipe } from '../../core/ens-date.pipe';
       <header class="page-header">
         <div class="header-titles">
           <h1>Mandatos e Alertas de Sucessão</h1>
-          <p class="subtitulo">
-            Acompanhamento dos ciclos estatutários dos serviços e casais responsáveis nas Equipes de Nossa Senhora.
-          </p>
         </div>
         <div class="header-actions">
           <button type="button" class="btn btn-primary" (click)="abrirModalNovo()">
@@ -512,7 +509,7 @@ import { EnsDatePipe } from '../../core/ens-date.pipe';
 
       .header-titles h1 {
         font-family: 'Lora', Georgia, serif;
-        font-size: 1.75rem;
+        font-size: clamp(1.2rem, 2.5vw, 1.45rem);
         color: #1e3a8a;
         margin: 0 0 0.25rem 0;
       }

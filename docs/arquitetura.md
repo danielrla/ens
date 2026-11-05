@@ -134,3 +134,27 @@ O frontend dispõe de suporte completo a PWA e identidade visual oficial das ENS
   * Parametrização segura do remetente oficial com armazenamento protegido no banco.
   * Painel de teste imediato com disparo para o e-mail do usuário logado (`danielrla@gmail.com`) e rastreabilidade com logs detalhados de data, hora e status de entrega.
 
+## Padrão de Interface e Governança de Componentes UI (M3 e Angular Material)
+
+A interface do sistema adota uma política clara de precedência e padronização visual para componentes e controles interativos:
+
+### 1. Prioridade Primária: Material Design 3 Oficial (https://m3.material.io/)
+Todos os elementos de tela devem ser implementados prioritariamente utilizando as especificações, tokens e componentes do Material Design 3 oficial (Material Web / `@material/web` e tokens CSS M3):
+* **Botões e Ações:** `md-filled-button`, `md-outlined-button`, `md-text-button`, `md-elevated-button`, `md-tonal-button`, `md-icon-button`;
+* **Entradas e Controles:** `md-outlined-text-field`, `md-filled-text-field`, `md-outlined-select`, `md-checkbox`, `md-radio`, `md-switch`, `md-slider`;
+* **Diálogos e Modais:** `md-dialog`;
+* **Navegação e Menus:** `md-tabs`, `md-primary-tab`, `md-secondary-tab`, `md-navigation-bar`, `md-menu`, `md-list`, `md-list-item`, `md-divider`;
+* **Feedback e Indicadores:** `md-circular-progress`, `md-linear-progress`, `md-filter-chip`.
+
+### 2. Prioridade Secundária (Fallback): Angular Material (https://material.angular.dev/components)
+Caso um componente não esteja disponível em Material Web ou exija recursos avançados do ecossistema Angular, é mandatório o uso de componentes do Angular Material:
+* **Critérios Formais de Fallback:**
+  * Tabelas de dados com paginação, filtros e ordenação atômica (`MatTable`, `MatPaginator`, `MatSort`);
+  * Seleção de datas com suporte regional e navegação de calendário (`MatDatepicker`);
+  * Autocomplete integrado a `ReactiveFormsModule` e `ControlValueAccessor` (`MatAutocomplete`);
+  * Navegação hierárquica recursiva profunda (`MatTree`);
+  * Notificações flutuantes transitórias (`MatSnackBar`) e painéis deslizantes gerenciados (`MatBottomSheet`);
+  * Tooltips acessíveis conectados ao CDK Overlay (`MatTooltip`).
+* **Conformidade Cromática:** Todo componente do Angular Material adotado deve ser estilizado exclusivamente sob o tema M3 (`@use '@angular/material' as mat; @include mat.theme(...)`), alinhado às cores institucionais das ENS (Azul Institucional `#1e3a8a`, Dourado Mariano `#d97706` e fundos suaves `#f8fafc`).
+
+

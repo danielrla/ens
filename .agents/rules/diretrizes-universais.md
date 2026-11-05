@@ -82,26 +82,21 @@ Este documento estabelece as diretrizes arquiteturais, operacionais e de seguran
 
 ---
 
-## 6. Especificações Deste Projeto (Preencher ao Iniciar)
+## 6. Especificações Deste Projeto (ENS - Equipes de Nossa Senhora)
 
-> **Instruções:** Ao iniciar um novo projeto, preencha os campos abaixo com as definições específicas da stack e das regras de negócio.
-
-- **Nome do Projeto:** Sistema de Gestão de Frotas e Condutores (FMS)
-- **Stack Backend:** Java 25, Spring Boot 4.1.0, Spring Data MongoDB, Apache Kafka 3.9 (KRaft), Redis 7.4, Maven
-- **Stack Frontend:** Angular 21 (Standalone Components, Signals, Router, Vanilla CSS, TypeScript 5.7+)
-- **Banco de Dados & Migrações:** MongoDB 8.3.13 (`frotas_db`), Redis 7.4, Apache Kafka 3.9
-- **Diretório das Regras de Negócio:** `docs/`
+- **Nome do Projeto:** Sistema de Gestão das Equipes de Nossa Senhora (ENS)
+- **Stack Backend:** Java 25, Spring Boot 4.1.1, Spring Data MongoDB, Spring Security Crypto, JJWT 0.12.6, Google API Client (Calendar, People, Drive), Maven
+- **Stack Frontend:** Angular 21 (Standalone Components, Signals, Router, Zoneless, TypeScript 5.9+, Tailwind CSS / Vanilla CSS)
+- **Banco de Dados & Transações:** MongoDB 8.3.13 em replica set `rs0` obrigatório para transações multi-documento
+- **Diretório das Regras de Negócio e Documentação:** `docs/` (`regras-de-negocio.md`, `arquitetura.md`, `regras_negocio_notificacoes.md`, `openapi.yaml`)
+- **Containers e Redes:** Rede `containers`, timezone compulsório `America/Cuiaba`
 - **Variáveis Chave de Integração:**
-  - URL Base BFF Unificado: `API_BFF_URL` (padrão local: `http://localhost:8000`)
-  - URL Base Driver Service: `DRIVER_SERVICE_URL` (padrão local: `http://localhost:8085`)
-  - URL Base Frontend Unificado: `FRONTEND_URL` (padrão local: `http://localhost:4200`)
-- **Regra Geral de Paginação:**
-  - Todas as consultas, listagens e tabelas de dados do sistema devem, obrigatoriamente, ser paginadas de 10 em 10 registros, dispondo de controles navegáveis padronizados (anterior, próxima, indicador de página atual e total de páginas e registros).
-- **Regra Geral de Seleção de Unidades Organizacionais (Combobox Pesquisável):**
-  - Todo formulário cadastral ou operacional que envolva seleção de Unidade Organizacional, Órgão de Lotação ou entidade governamental de alta densidade deve, obrigatoriamente, utilizar o componente compartilhado `app-combobox-unidade` (`ComponenteComboboxUnidade`). É vedado o uso de `<select>` nativo ou campos de texto livre não validados para esse fim.
+  - URL Base Backend API: `http://localhost:8080/api`
+  - URL Base Frontend: `http://localhost:4200`
+- **Hierarquia de Componentes de Interface (UI):**
+  - **Prioridade 1:** Componentes e tokens do Material Design 3 oficial (https://m3.material.io/ via Material Web `@material/web`);
+  - **Prioridade 2 (Fallback):** Componentes do Angular Material (https://material.angular.dev/components) sob o tema M3, restritos a componentes não disponíveis em Material Web puro ou que exijam integração avançada com o ecossistema Angular (tabelas complexas com paginação e ordenação, datepicker regional, árvore de navegação e overlays CDK).
+- **Regra Geral de Fuso Horário:**
+  - Todas as datas e horários operacionais do sistema devem seguir estritamente o fuso de Cuiabá (`America/Cuiaba`, UTC-4), sem conversões arbitrárias para UTC na exibição para os usuários.
 - **Regra Geral de Máscaras Cadastrais (Apenas Frontend):**
-  - Todas as máscaras de campos padronizados (CPF, CNPJ, telefone, CEP e datas) devem ser aplicadas estritamente na interface de usuário (frontend). Os dados enviados ao backend e persistidos nos bancos de dados devem ser armazenados exclusivamente em formato cru (apenas números/dígitos), sem caracteres de pontuação.
-- **Regra Geral de Disponibilidade de Veículos e Frotas Multimodais:**
-  - O sistema atende frotas terrestres, aquáticas e aéreas (carros, motos, camionetes, ônibus, caminhões, tratores/maquinários, barcos, lanchas, helicópteros e aviões).
-  - Um veículo só pode estar apto e assumir a situação operacional de `DISPONIVEL` se estiver expressamente vinculado a uma Unidade Organizacional ativa (`unidadeId`). Caso esteja sem lotação, seu status compulsório no banco e na interface é `AGUARDANDO_LOTACAO`, bloqueando emissão de termos de custódia e liberação em portaria.
-- **Massa de Dados / Telefones para Teste:** Números fictícios autorizados (`11999990001`, `11999990002`, `11999990003`) e CPFs cadastrais mockados para validação das travas TRV-04-01 a TRV-04-08.
+  - As máscaras de campos padronizados (telefones, CEP e datas) devem ser aplicadas estritamente na interface de usuário. Os dados enviados ao backend e persistidos nos bancos de dados devem ser armazenados exclusivamente em formato cru (apenas dígitos), sem caracteres de pontuação.

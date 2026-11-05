@@ -29,7 +29,6 @@ interface ItemChamadaPresenca {
     <header class="cabecalho">
       <div>
         <h1>Agenda e Reuniões da Equipe</h1>
-        <p class="serifa">Planejamento, agendamento de reuniões mensais e registro de presenças pelo CRE.</p>
       </div>
       <div class="botoes-topo">
         <button type="button" class="btn btn-primario" [disabled]="!equipeIdSelecionada" (click)="abrirModalAgendamento()">
@@ -722,7 +721,7 @@ interface ItemChamadaPresenca {
     }
     .cabecalho h1 {
       color: var(--azul-900);
-      font-size: clamp(1.4rem, 3vw, 1.8rem);
+      font-size: clamp(1.2rem, 2.5vw, 1.45rem);
       margin: 0;
     }
     .cabecalho p {

@@ -739,7 +739,7 @@ export interface ItemChamadaPresenca {
     }
     .cabecalho h1 {
       color: var(--azul-900);
-      font-size: clamp(1.4rem, 3vw, 1.8rem);
+      font-size: clamp(1.2rem, 2.5vw, 1.45rem);
       margin: 0;
     }
     .cabecalho p {

@@ -15,23 +15,12 @@ import { mascararCpf, mascararTelefone, desmascarar } from '../../core/mascara.u
           <nav class="breadcrumb-perfil">
             <a routerLink="/equipes">Início</a>
             <span class="separador">/</span>
-            <span class="atual">Meu Perfil e Dados do Casal</span>
+            <span class="atual">Dados do Casal</span>
           </nav>
-          <h1>Meu Perfil e Dados do Casal</h1>
-          <p class="subtitulo serifa">
-            Mantenha as informações pessoais, contatos, endereço e família sempre atualizados no Quadrante.
-          </p>
+          <h1>Dados do Casal</h1>
         </div>
         <div class="acoes-topo">
           <a routerLink="/equipes" class="btn btn-fantasma">← Voltar</a>
-          <button
-            type="button"
-            class="btn btn-primario"
-            (click)="salvar()"
-            [disabled]="salvando() || carregando()"
-          >
-            {{ salvando() ? 'Salvando...' : '💾 Salvar Alterações' }}
-          </button>
         </div>
       </header>
 
@@ -102,9 +91,6 @@ import { mascararCpf, mascararTelefone, desmascarar } from '../../core/mascara.u
                 <span class="badge badge-dourado">Equipe: {{ nomeEquipe() || 'Equipe Aparecida' }}</span>
                 <span class="badge badge-sucesso">Status: {{ form.status || 'ATIVO' }}</span>
               </div>
-              <p class="texto-suave">
-                A foto adicionada aqui será exibida no topo de navegação do sistema e nos relatórios de equipe.
-              </p>
             </div>
           </section>
 
@@ -525,7 +511,7 @@ import { mascararCpf, mascararTelefone, desmascarar } from '../../core/mascara.u
     }
     .cabecalho-perfil h1 {
       color: var(--azul-900);
-      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-size: clamp(1.2rem, 2.5vw, 1.45rem);
       margin: 0 0 0.4rem 0;
     }
     .subtitulo {

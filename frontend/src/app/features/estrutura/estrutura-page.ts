@@ -348,7 +348,7 @@ type AbaVisualizacao = 'PROVINCIA' | 'REGIAO' | 'SETOR' | 'SUPER_REGIAO' | 'ARVO
     .cabecalho h1 {
       margin: 0 0 0.25rem 0;
       color: var(--azul-900);
-      font-size: 1.75rem;
+      font-size: clamp(1.2rem, 2.5vw, 1.45rem);
     }
 
     .serifa {

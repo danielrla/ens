@@ -425,7 +425,7 @@ import { SearchableOption, SearchableSelect } from '../../shared/searchable-sele
     }
     .cabecalho h1 {
       color: var(--azul-900);
-      font-size: clamp(1.4rem, 3vw, 1.8rem);
+      font-size: clamp(1.2rem, 2.5vw, 1.45rem);
     }
     .cabecalho p {
       margin: 0.35rem 0 0;
